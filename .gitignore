@@ -2,5 +2,6 @@
 *
 
 # Files to track
-!*.p10k.zsh
 !.gitignore
+!*.p10k.zsh
+!*.zshrc
