@@ -1,0 +1,6 @@
+# Ignore every file by default
+*
+
+# Files to track
+!*.p10k.zsh
+!.gitignore
