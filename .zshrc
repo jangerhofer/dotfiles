@@ -15,6 +15,7 @@ source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 ########################################
 
 source ~/.zsh/zsh-z/zsh-z.plugin.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source <(kubectl completion zsh)
 zstyle ':completion:*' menu select
 
