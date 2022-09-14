@@ -2,6 +2,7 @@
 *
 
 # Files to track
+!.gitconfig
 !.gitignore
 !*.p10k.zsh
 !*.zshrc

@@ -1,0 +1,91 @@
+[alias]
+  a = add
+  aa = add --all
+  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort
+  ap = add -p
+  b = branch
+  c = checkout
+  ca = commit --amend
+  cach = commit --amend -C HEAD
+  cam = commit -a -m
+  cem = commit --amend -m
+  cm = commit -m
+  cp = checkout -p
+  d = diff
+  dc = diff-tree --no-commit-id --name-status -r
+  dcsv = diff --word-diff-regex="[^[:space:],]+"
+  dnc = diff --no-color
+  ds = diff --staged
+  dsw = diff --staged -w
+  dswd = diff --staged --word-diff
+  dw = diff -w
+  dwd = diff --word-diff
+  f = fetch
+  fa = fetch --all
+  fgi = rm -r --cached .
+  fu = fetch upstream
+  l = log
+  lc = log --graph --pretty=format:\"%an: %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset\" --date=relative
+  lch = rev-parse HEAD
+  lcm = show -s --format=%s
+  lm = "!me=$(git config --get user.name); git log --oneline --author \"$me\""
+  lo = log --oneline
+  lodg = log --oneline --decorate --graph
+  ls = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order
+  m = merge
+  mm = merge master
+  mum = merge upstream/master
+  noc = rev-list HEAD --count
+  p = cherry-pick
+  ph = push
+  phf = push --force-with-lease
+  pho = push origin
+  phoa = push origin --all
+  phom = push origin master
+  phomt = push origin master --tags
+  phou = push origin -u
+  phoum = push origin -u master
+  r = reset
+  ra = remote add
+  rao = remote add origin
+  rau = remote add upstream
+  rba = rebase --abort
+  rbc = rebase --continue
+  rbi = rebase -i
+  rbih1 = rebase -i HEAD~1
+  rbiom = rebase -i origin/master
+  rbm = rebase master
+  rbs = rebase --skip
+  rc = mergetool # Resolve conflicts.
+  rh = reset --hard
+  rha = reset HEAD .
+  rhom = reset --hard origin/master
+  rlc = reset --soft HEAD~1
+  rpo = remote prune origin
+  rpu = remote prune upstream
+  rro = remote remove origin
+  rru = remote remove upstream
+  rs = reset --soft
+  s = status
+  si = status --ignored
+  sp = stash -p
+  ft = "!f(){ git tag --contains ${1}; };f"
+  squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+  st = stash
+  sta = stash apply
+  trm = ls-tree -r master --name-only
+  unwatch = update-index --assume-unchanged
+  up = pull --rebase --autostash
+  watch = update-index --no-assume-unchanged
+  t = tag
+[commit]
+	gpgsign = true
+[core]
+	editor = code --wait
+
+[tag]
+	forceSignAnnotated = true
+[user]
+	email = jd.angerhofer@gmail.com
+	name = JD Angerhofer
+	signingkey = 1363487E26E5A9C773A8E8C1506934F2B50DB887
