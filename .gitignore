@@ -5,3 +5,4 @@
 !.gitignore
 !*.p10k.zsh
 !*.zshrc
+!*.zsh/*
