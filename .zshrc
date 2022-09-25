@@ -37,10 +37,13 @@ export PATH=/Users/jdangerhofer/go/bin:$PATH
 export PNPM_HOME="/Users/jdangerhofer/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
 eval $(/opt/homebrew/bin/brew shellenv)
+
 
 ########################################
 
