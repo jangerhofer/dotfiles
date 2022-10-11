@@ -1,5 +1,6 @@
 # Ignore every file by default
 /*
+/*/.DS_Store
 
 # Files to track
 !.Brewfile
