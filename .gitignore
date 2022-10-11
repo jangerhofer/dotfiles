@@ -1,5 +1,5 @@
 # Ignore every file by default
-*
+/*
 
 # Files to track
 !.Brewfile
@@ -7,4 +7,4 @@
 !.gitignore
 !*.p10k.zsh
 !*.zshrc
-!*.zsh/*
+!/.zsh/
