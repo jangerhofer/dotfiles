@@ -44,9 +44,9 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 
 eval $(/opt/homebrew/bin/brew shellenv)
 
-
 ########################################
 
+alias b='brew'
 alias g=git
 alias k='kubectl'
 
