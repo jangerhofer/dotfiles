@@ -2,6 +2,7 @@
 *
 
 # Files to track
+!.Brewfile
 !.gitconfig
 !.gitignore
 !*.p10k.zsh
