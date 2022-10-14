@@ -70,6 +70,8 @@ brew "graphicsmagick"
 brew "graphviz"
 # Cross-platform program for developing Haskell projects
 brew "haskell-stack"
+# Post-modern modal text editor
+brew "helix"
 # Kubernetes package manager
 brew "helm"
 # Improved top (interactive process viewer)
@@ -137,8 +139,6 @@ brew "cue-lang/tap/cue"
 # Terraform
 brew "hashicorp/tap/terraform", link: false
 brew "superfly/tap/flyctl", link: false
-# Collection of apps and services for photography, design, video, web, and UX
-cask "adobe-creative-cloud"
 # Professional desktop publishing software
 cask "affinity-publisher"
 # Two-factor authentication software
@@ -157,8 +157,6 @@ cask "elgato-control-center"
 cask "figma"
 # Web browser
 cask "firefox"
-# Tool to measure the computer system's performance
-cask "geekbench"
 # Web browser
 cask "google-chrome"
 # Tools to protect your files
@@ -167,20 +165,14 @@ cask "gpg-suite-no-mail"
 cask "iconset"
 # Free and open-source media player
 cask "iina"
-# Multiplayer online battle arena game
-cask "league-of-legends"
 # Kubernetes IDE
 cask "lens"
 # App to manage software development and track bugs
 cask "linear-linear"
 # Open-source firewall to block unknown outgoing connections
 cask "lulu"
-# Native app email client for Gmail
-cask "mimestream"
 # Minimal installer for conda
 cask "miniconda"
-# Reverse proxy, secure introspectable tunnels to localhost
-cask "ngrok"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Home media server
@@ -205,8 +197,6 @@ cask "transmission"
 cask "tunnelblick"
 # Open-source code editor
 cask "visual-studio-code"
-# Web Archiving Integration Layer: One-Click User Instigated Preservation
-cask "wail"
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
