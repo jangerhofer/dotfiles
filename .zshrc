@@ -42,13 +42,23 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-eval $($(which brew) shellenv)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ########################################
 
 alias b='brew'
 alias g=git
 alias k='kubectl'
+
+########################################
+
+brew_backup() {
+  brew bundle dump --force --describe --file .Brewfile
+}
+
+brew_restore() {
+  brew bundle --file .Brewfile
+}
 
 ########################################
 
