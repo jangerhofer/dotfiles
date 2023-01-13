@@ -12,10 +12,12 @@ tap "supabase/tap"
 tap "superfly/tap"
 # Run your GitHub Actions locally 🚀
 brew "act"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.10"
 # Official Amazon AWS command-line interface
 brew "awscli"
+# C/C++ and Java libraries for Unicode and globalization
+brew "icu4c"
+# GNU internationalization (i18n) and localization (l10n) library
+brew "gettext"
 # Core application library for C
 brew "glib"
 # Interpreted, interactive, object-oriented programming language
@@ -25,7 +27,7 @@ brew "cmake"
 # Secure runtime for JavaScript and TypeScript
 brew "deno"
 # Pack, ship and run any application as a lightweight container
-brew "docker", link: false
+brew "docker"
 # Collection of reusable C++ library artifacts developed at Facebook
 brew "folly"
 # C++14 implementation of the TLS-1.3 standard
@@ -33,7 +35,7 @@ brew "fizz"
 # Modular, composable client/server abstractions framework
 brew "wangle"
 # Facebook's branch of Apache Thrift, including a new C++ server
-brew "fbthrift", link: false
+brew "fbthrift"
 # Thrift functions for querying information from a service
 brew "fb303"
 # Low-level cryptographic library
@@ -42,8 +44,6 @@ brew "nettle"
 brew "gnutls"
 # OpenType text shaping engine
 brew "harfbuzz"
-# Generate introspection data for GObject libraries
-brew "gobject-introspection"
 # Subtitle renderer for the ASS/SSA subtitle format
 brew "libass"
 # Play, record, convert, and stream audio and video
@@ -64,6 +64,10 @@ brew "gnupg"
 brew "gnuplot"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.10"
+# Generate introspection data for GObject libraries
+brew "gobject-introspection"
 # Image processing tools collection
 brew "graphicsmagick"
 # Graph visualization software from AT&T and Bell Labs
@@ -80,6 +84,8 @@ brew "htop"
 brew "hyperfine"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
+# String tool
+brew "intltool"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Little helper to run CNCF's k3s in Docker
@@ -106,6 +112,8 @@ brew "neon"
 brew "oci-cli"
 # Kubernetes introspection tool for developers
 brew "octant"
+# OCaml package manager
+brew "opam"
 # Shell command parallelization utility
 brew "parallel"
 # Pinentry for GPG on Mac
@@ -114,12 +122,16 @@ brew "pinentry-mac"
 brew "postgresql@14"
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
+# Python version management
+brew "pyenv"
 # Persistent key-value database, with built-in net interface
 brew "redis"
+# Experimental Rust compiler front-end for IDEs
+brew "rust-analyzer"
 # Rust toolchain installer
 brew "rustup-init"
-# Simple tool to count source lines of code
-brew "sloc"
+# Cross-shell prompt for astronauts
+brew "starship"
 # System performance benchmark tool
 brew "sysbench"
 # Terminal multiplexer
@@ -133,12 +145,14 @@ brew "wget"
 # Fork of youtube-dl with additional features and fixes
 brew "yt-dlp"
 # Cloudflare Tunnel
-brew "cloudflare/cloudflare/cloudflared", link: false
+brew "cloudflare/cloudflare/cloudflared"
 # CUE is an open source data constraint language which aims to simplify tasks involving defining and using data.
 brew "cue-lang/tap/cue"
 # Terraform
-brew "hashicorp/tap/terraform", link: false
-brew "superfly/tap/flyctl", link: false
+brew "hashicorp/tap/terraform"
+brew "superfly/tap/flyctl"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
 # Professional desktop publishing software
 cask "affinity-publisher"
 # Two-factor authentication software
@@ -169,10 +183,10 @@ cask "iina"
 cask "lens"
 # App to manage software development and track bugs
 cask "linear-linear"
-# Open-source firewall to block unknown outgoing connections
-cask "lulu"
-# Minimal installer for conda
-cask "miniconda"
+# Free and open-source RSS reader
+cask "netnewswire"
+# Cloud gaming platform
+cask "nvidia-geforce-now"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Home media server
@@ -197,11 +211,15 @@ cask "transmission"
 cask "tunnelblick"
 # Open-source code editor
 cask "visual-studio-code"
+mas "1Password for Safari", id: 1569813296
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
+mas "Grammarly for Safari", id: 1462114288
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Spark", id: 1176895641
+mas "Speedtest", id: 1153157709
 mas "Tailscale", id: 1475387142
+mas "Xcode", id: 497799835
