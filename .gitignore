@@ -6,6 +6,7 @@
 !.Brewfile
 !.config
 .config/*
+!.config/starship.toml
 !.config/tmux/
 !.gitconfig
 !.gitignore
