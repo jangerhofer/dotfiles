@@ -1,4 +1,5 @@
-export PATH=/Users/jdangerhofer/go/bin:$PATH
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
 
 export PNPM_HOME="/Users/jdangerhofer/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
