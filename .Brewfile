@@ -10,8 +10,6 @@ tap "homebrew/core"
 tap "louisbrunner/valgrind"
 tap "supabase/tap"
 tap "superfly/tap"
-# Run your GitHub Actions locally 🚀
-brew "act"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # C/C++ and Java libraries for Unicode and globalization
@@ -24,10 +22,8 @@ brew "glib"
 brew "python@3.9"
 # Cross-platform make
 brew "cmake"
-# Secure runtime for JavaScript and TypeScript
-brew "deno"
 # Pack, ship and run any application as a lightweight container
-brew "docker"
+brew "docker", link: false
 # Collection of reusable C++ library artifacts developed at Facebook
 brew "folly"
 # C++14 implementation of the TLS-1.3 standard
@@ -38,56 +34,40 @@ brew "wangle"
 brew "fbthrift"
 # Thrift functions for querying information from a service
 brew "fb303"
-# Low-level cryptographic library
-brew "nettle"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
-# OpenType text shaping engine
-brew "harfbuzz"
-# Subtitle renderer for the ASS/SSA subtitle format
-brew "libass"
-# Play, record, convert, and stream audio and video
-brew "ffmpeg"
 # Library for encoding and decoding .avif files
 brew "libavif"
 # Graphics library to dynamically manipulate images
 brew "gd"
 # GitHub command-line tool
 brew "gh"
-# Glorious Glasgow Haskell Compilation System
-brew "ghc"
 # Distributed revision control system
 brew "git"
+# Low-level cryptographic library
+brew "nettle"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
 # GNU Pretty Good Privacy (PGP) package
 brew "gnupg"
+# OpenType text shaping engine
+brew "harfbuzz"
 # Command-driven, interactive function plotting
 brew "gnuplot"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.10"
-# Generate introspection data for GObject libraries
-brew "gobject-introspection"
 # Image processing tools collection
 brew "graphicsmagick"
 # Graph visualization software from AT&T and Bell Labs
 brew "graphviz"
-# Cross-platform program for developing Haskell projects
-brew "haskell-stack"
 # Post-modern modal text editor
 brew "helix"
 # Kubernetes package manager
 brew "helm"
 # Improved top (interactive process viewer)
 brew "htop"
-# Command-line benchmarking tool
-brew "hyperfine"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
 brew "intltool"
-# Lightweight and flexible command-line JSON processor
-brew "jq"
 # Little helper to run CNCF's k3s in Docker
 brew "k3d"
 # Utility to create k3s clusters on any local or remote VM
@@ -102,59 +82,39 @@ brew "kubernetes-cli"
 brew "kubie"
 # Template-free customization of Kubernetes YAML manifests
 brew "kustomize"
-# Text-based web browser
-brew "lynx"
+# Subtitle renderer for the ASS/SSA subtitle format
+brew "libass"
 # Mac App Store command-line interface
 brew "mas"
-# HTTP and WebDAV client library with a C interface
-brew "neon"
 # Oracle Cloud Infrastructure CLI
 brew "oci-cli"
 # Kubernetes introspection tool for developers
 brew "octant"
-# OCaml package manager
-brew "opam"
-# Shell command parallelization utility
-brew "parallel"
 # Pinentry for GPG on Mac
 brew "pinentry-mac"
 # Object-relational database system
 brew "postgresql@14"
-# Protocol buffers (Google's data interchange format)
-brew "protobuf"
-# Python version management
-brew "pyenv"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.10"
 # Persistent key-value database, with built-in net interface
 brew "redis"
 # Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
 # Rust toolchain installer
 brew "rustup-init"
-# Cross-shell prompt for astronauts
-brew "starship"
-# System performance benchmark tool
-brew "sysbench"
 # Terminal multiplexer
 brew "tmux"
-# JavaScript toolchain manager for reproducible environments
-brew "volta"
 # Watch files and take action when they change
 brew "watchman"
 # Internet file retriever
 brew "wget"
-# Fork of youtube-dl with additional features and fixes
-brew "yt-dlp"
 # Cloudflare Tunnel
 brew "cloudflare/cloudflare/cloudflared"
-# CUE is an open source data constraint language which aims to simplify tasks involving defining and using data.
-brew "cue-lang/tap/cue"
 # Terraform
 brew "hashicorp/tap/terraform"
 brew "superfly/tap/flyctl"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
-# Professional desktop publishing software
-cask "affinity-publisher"
 # Two-factor authentication software
 cask "authy"
 # Server and cloud storage browser
@@ -175,10 +135,12 @@ cask "firefox"
 cask "google-chrome"
 # Tools to protect your files
 cask "gpg-suite-no-mail"
-# Organize icon sets and packs in one place
-cask "iconset"
 # Free and open-source media player
 cask "iina"
+# Vector graphics editor
+cask "inkscape"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
 # Kubernetes IDE
 cask "lens"
 # App to manage software development and track bugs
@@ -207,8 +169,6 @@ cask "steam"
 cask "tor-browser"
 # Open-source BitTorrent client
 cask "transmission"
-# Free and open-source OpenVPN client
-cask "tunnelblick"
 # Open-source code editor
 cask "visual-studio-code"
 mas "1Password for Safari", id: 1569813296
