@@ -1,3 +1,9 @@
+# tea -- https://github.com/teaxyz/cli
+export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
+test -d "$HOME/.tea" && source <("$HOME/.tea/tea.xyz/v*/bin/tea" --magic --silent)
+
+########################################
+
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
 
@@ -6,8 +12,7 @@ export PATH="$PNPM_HOME:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+########################################
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
