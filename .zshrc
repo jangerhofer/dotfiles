@@ -49,9 +49,6 @@ brew_restore() {
 
 ########################################
 
-# opam configuration
-[[ ! -r /Users/jdangerhofer/.opam/opam-init/init.zsh ]] || source /Users/jdangerhofer/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
 # `pyenv` config
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
