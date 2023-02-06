@@ -36,6 +36,7 @@ export GPG_TTY=$(tty)
 alias b='brew'
 alias g=git
 alias k='kubectl'
+alias yt='yt-dlp'
 
 ########################################
 
@@ -46,13 +47,6 @@ brew_backup() {
 brew_restore() {
   brew bundle --file .Brewfile
 }
-
-########################################
-
-# `pyenv` config
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
 ########################################
 
