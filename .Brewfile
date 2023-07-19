@@ -55,16 +55,14 @@ brew "gh"
 brew "git"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
-# Low-level cryptographic library
-brew "nettle"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
-# GNU Pretty Good Privacy (PGP) package
-brew "gnupg"
 # OpenType text shaping engine
 brew "harfbuzz"
 # Command-driven, interactive function plotting
 brew "gnuplot"
+# Low-level cryptographic library
+brew "nettle"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Image processing tools collection
@@ -103,8 +101,6 @@ brew "lazygit"
 brew "libass"
 # Mac App Store command-line interface
 brew "mas"
-# Ambitious Vim-fork focused on extensibility and agility
-brew "neovim"
 # Platform built on V8 to build network applications
 brew "node@18"
 # Oracle Cloud Infrastructure CLI
@@ -113,8 +109,6 @@ brew "oci-cli"
 brew "octant"
 # Development kit for the Java programming language
 brew "openjdk"
-# Pinentry for GPG on Mac
-brew "pinentry-mac"
 # Object-relational database system
 brew "postgresql@14", restart_service: true
 # Interpreted, interactive, object-oriented programming language
