@@ -79,7 +79,7 @@
   watch = update-index --no-assume-unchanged
   t = tag
 [commit]
-	gpgsign = true
+	gpgSign = true
 [core]
 	editor = code --wait
 [tag]
@@ -88,9 +88,12 @@
 [user]
 	email = jd.angerhofer@gmail.com
 	name = JD Angerhofer
+	signingkey = A8CB97B71123AA13
 [rebase]
 	updateRefs = true
 [help]
 	autocorrect = immediate
 [push]
 	gpgSign = if-asked
+	default = current
+	autoSetupRemote = true

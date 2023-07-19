@@ -49,10 +49,16 @@ brew_restore() {
 
 ########################################
 
-# `pyenv` config
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# bun completions
+[ -s "/Users/jdangerhofer/.bun/_bun" ] && source "/Users/jdangerhofer/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+########################################
+
+source /Users/jdangerhofer/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 ########################################
 
