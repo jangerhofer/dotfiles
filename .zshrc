@@ -35,6 +35,7 @@ export GPG_TTY=$(tty)
 alias b='brew'
 alias g=git
 alias k='kubectl'
+alias lg='lazygit'
 
 ########################################
 
