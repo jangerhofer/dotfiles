@@ -1,6 +1,4 @@
-# tea -- https://github.com/teaxyz/cli
-export PATH="$HOME/.tea/tea.xyz/v*/bin:$PATH"
-test -d "$HOME/.tea" && source <("$HOME/.tea/tea.xyz/v*/bin/tea" --magic --silent)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ########################################
 
@@ -14,7 +12,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 ########################################
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# tea -- https://github.com/teaxyz/cli
+source <(tea --magic)
 
 ########################################
 
@@ -36,6 +35,7 @@ export GPG_TTY=$(tty)
 alias b='brew'
 alias g=git
 alias k='kubectl'
+alias lg='lazygit'
 alias yt='yt-dlp'
 
 ########################################
@@ -47,6 +47,19 @@ brew_backup() {
 brew_restore() {
   brew bundle --file .Brewfile
 }
+
+########################################
+
+# bun completions
+[ -s "/Users/jdangerhofer/.bun/_bun" ] && source "/Users/jdangerhofer/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+########################################
+
+source /Users/jdangerhofer/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 ########################################
 

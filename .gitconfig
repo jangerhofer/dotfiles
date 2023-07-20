@@ -88,9 +88,16 @@
 [user]
 	email = jd.angerhofer@gmail.com
 	name = JD Angerhofer
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUy3gdzKIGR7Euq21r4O8hScZBj4wg9hJp9gXcOB00n
 [rebase]
 	updateRefs = true
 [help]
 	autocorrect = immediate
 [push]
 	gpgSign = if-asked
+	default = current
+	autoSetupRemote = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
