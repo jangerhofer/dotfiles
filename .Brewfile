@@ -55,6 +55,8 @@ brew "gh"
 brew "git"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
+# Blazing fast terminal-ui for git written in rust
+brew "gitui"
 # OpenType text shaping engine
 brew "harfbuzz"
 # Command-driven, interactive function plotting
@@ -101,6 +103,8 @@ brew "lazygit"
 brew "libass"
 # Mac App Store command-line interface
 brew "mas"
+# Remote terminal application
+brew "mosh"
 # Platform built on V8 to build network applications
 brew "node@18"
 # Oracle Cloud Infrastructure CLI
@@ -119,6 +123,8 @@ brew "redis", restart_service: true
 brew "rust-analyzer"
 # Rust toolchain installer
 brew "rustup-init"
+# Cross-shell prompt for astronauts
+brew "starship"
 # Tool to build, change, and version infrastructure
 brew "terraform"
 # Terminal multiplexer
@@ -134,6 +140,8 @@ brew "cloudflare/cloudflare/cloudflared"
 # A kubectl plugin for Kubernetes OpenID Connect authentication
 brew "int128/kubelogin/kubelogin"
 brew "superfly/tap/flyctl"
+# Unified package manager
+brew "teaxyz/pkgs/tea-cli"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line helper for the 1Password password manager
