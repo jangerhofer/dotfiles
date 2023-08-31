@@ -10,6 +10,10 @@ export PATH="$PNPM_HOME:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
+export PATH="/Users/jdangerhofer/.tea/nodejs.org/v*/bin:$PATH"
+export PATH="/Users/jdangerhofer/.tea/nodejs.org/v*/bin:$PATH"
+export PATH="/Users/jdangerhofer/.tea/postgresql.org/v*/bin:$PATH"
+
 ########################################
 
 # tea -- https://github.com/teaxyz/cli
@@ -35,6 +39,7 @@ export GPG_TTY=$(tty)
 alias b='brew'
 alias g=git
 alias k='kubectl'
+alias d='lazydocker'
 alias lg='lazygit'
 alias yt='yt-dlp'
 
@@ -59,10 +64,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 ########################################
 
-source /Users/jdangerhofer/.docker/init-zsh.sh || true # Added by Docker Desktop
-
-########################################
-
 # Shell autocompletions
 autoload -Uz compinit
 compinit
@@ -70,3 +71,12 @@ compinit
 source <(kubectl completion zsh)
 source ~/.zsh/zsh-z/zsh-z.plugin.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+test -e /Users/jdangerhofer/.iterm2_shell_integration.zsh && source /Users/jdangerhofer/.iterm2_shell_integration.zsh || true
+
+########################################
+
+# Syntax highlighting
+source ~/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# WarpStream
+export PATH="/Users/jdangerhofer/.warpstream:$PATH"
