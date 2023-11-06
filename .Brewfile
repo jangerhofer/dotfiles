@@ -9,15 +9,18 @@ tap "homebrew/cask-fonts"
 tap "homebrew/services"
 tap "int128/kubelogin"
 tap "louisbrunner/valgrind"
+tap "oven-sh/bun"
 tap "supabase/tap"
 tap "superfly/tap"
 tap "teaxyz/pkgs"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
 # Text processing system for reStructuredText
 brew "docutils"
+# Command-line interface for SQLite
+brew "sqlite"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.11"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Interpreted, interactive, object-oriented programming language
@@ -30,8 +33,8 @@ brew "icu4c"
 brew "gettext"
 # Core application library for C
 brew "glib"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
+# Binary installation for rust projects
+brew "cargo-binstall"
 # Cross-platform make
 brew "cmake"
 # Collection of reusable C++ library artifacts developed at Facebook
@@ -76,6 +79,8 @@ brew "go"
 brew "graphicsmagick"
 # Image manipulation
 brew "netpbm"
+# GNU triangulated surface library
+brew "gts"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Graph visualization software from AT&T and Bell Labs
@@ -86,6 +91,8 @@ brew "helix"
 brew "helm"
 # Improved top (interactive process viewer)
 brew "htop"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -98,8 +105,6 @@ brew "k3d"
 brew "k3sup"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
-# Network authentication protocol
-brew "krb5"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
 # Much more powerful alternative to kubectx and kubens
@@ -112,8 +117,6 @@ brew "lazydocker"
 brew "lazygit"
 # Image processing and image analysis library
 brew "leptonica"
-# Multi-format archive and compression library
-brew "libarchive"
 # Subtitle renderer for the ASS/SSA subtitle format
 brew "libass"
 # Mac App Store command-line interface
@@ -132,6 +135,12 @@ brew "octant"
 brew "openapi-generator"
 # Development kit for the Java programming language
 brew "openjdk"
+# Fast, disk space efficient package manager
+brew "pnpm"
+# Object-relational database system
+brew "postgresql@15"
+# Emulator for x86 and PowerPC
+brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
@@ -144,6 +153,8 @@ brew "rustup-init"
 brew "starship"
 # Tool to build, change, and version infrastructure
 brew "terraform"
+# OCR (Optical Character Recognition) engine
+brew "tesseract"
 # Terminal multiplexer
 brew "tmux"
 # Display directories as trees (with optional color/HTML output)
@@ -152,19 +163,23 @@ brew "tree"
 brew "watchman"
 # Internet file retriever
 brew "wget"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
 # Cloudflare Tunnel
-brew "cloudflare/cloudflare/cloudflared"
+brew "cloudflare/cloudflare/cloudflared", link: false
 # A kubectl plugin for Kubernetes OpenID Connect authentication
 brew "int128/kubelogin/kubelogin"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
-# builders ❤️ tea
-brew "teaxyz/pkgs/tea-cli"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
-# Command-line helper for the 1Password password manager
+# Command-line interface for 1Password
 cask "1password-cli"
 # GPU-accelerated terminal emulator
 cask "alacritty"
+# Memory training application
+cask "anki"
 # Two-factor authentication software
 cask "authy"
 # Server and cloud storage browser
@@ -202,6 +217,8 @@ cask "iina"
 cask "inkscape"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Multiplayer online battle arena game
+cask "league-of-legends"
 # Kubernetes IDE
 cask "lens"
 # App to manage software development and track bugs
@@ -218,10 +235,14 @@ cask "obsidian"
 cask "orbstack"
 # Home media server
 cask "plex-media-server"
+# App wrapper for Postgres
+cask "postgres-unofficial"
 # Collaboration platform for API development
 cask "postman"
 # HTTP debugging proxy
 cask "proxyman"
+# IDE for professional Python development
+cask "pycharm"
 # Control your tools with a few keystrokes
 cask "raycast"
 # Move and resize windows using keyboard shortcuts or snap areas
@@ -243,6 +264,7 @@ cask "visual-studio-code"
 # Wine wrapper built with SwiftUI
 cask "whisky"
 mas "1Password for Safari", id: 1569813296
+mas "Capital One Shopping", id: 1477110326
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
 mas "Grammarly for Safari", id: 1462114288
@@ -254,6 +276,7 @@ mas "Spark", id: 1176895641
 mas "Speedtest", id: 1153157709
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
+mas "Xcode", id: 497799835
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
@@ -277,14 +300,19 @@ vscode "GraphQL.vscode-graphql"
 vscode "GraphQL.vscode-graphql-execution"
 vscode "GraphQL.vscode-graphql-syntax"
 vscode "hashicorp.terraform"
+vscode "humao.rest-client"
 vscode "inercia.vscode-k3d"
 vscode "ipedrazas.kubernetes-snippets"
 vscode "jpoissonnier.vscode-styled-components"
 vscode "marp-team.marp-vscode"
+vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
+vscode "moonrepo.moon-console"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
+vscode "ms-python.black-formatter"
 vscode "ms-python.isort"
+vscode "ms-python.mypy-type-checker"
 vscode "ms-python.python"
 vscode "ms-python.vscode-pylance"
 vscode "ms-toolsai.jupyter"
@@ -310,15 +338,18 @@ vscode "nrwl.angular-console"
 vscode "ocamllabs.ocaml-platform"
 vscode "Orta.vscode-jest"
 vscode "Orta.vscode-twoslash-queries"
+vscode "panicbit.cargo"
 vscode "PKief.material-icon-theme"
 vscode "planbcoding.vscode-react-refactor"
 vscode "Prisma.prisma"
+vscode "redhat.vscode-xml"
 vscode "redhat.vscode-yaml"
 vscode "ria.elastic"
 vscode "rust-lang.rust-analyzer"
 vscode "spikespaz.vscode-smoothtype"
 vscode "statelyai.stately-vscode"
 vscode "svelte.svelte-vscode"
+vscode "tamasfe.even-better-toml"
 vscode "unifiedjs.vscode-mdx"
 vscode "vadimcn.vscode-lldb"
 vscode "viktorqvarfordt.vscode-pitch-black-theme"

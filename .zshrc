@@ -80,3 +80,4 @@ source ~/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # WarpStream
 export PATH="/Users/jdangerhofer/.warpstream:$PATH"
+export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
