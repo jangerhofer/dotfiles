@@ -64,20 +64,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 ########################################
 
-# Shell autocompletions
-autoload -Uz compinit
-compinit
-
-source <(kubectl completion zsh)
-source ~/.zsh/zsh-z/zsh-z.plugin.zsh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-test -e /Users/jdangerhofer/.iterm2_shell_integration.zsh && source /Users/jdangerhofer/.iterm2_shell_integration.zsh || true
-
-########################################
-
-# Syntax highlighting
-source ~/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # WarpStream
 export PATH="/Users/jdangerhofer/.warpstream:$PATH"
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
