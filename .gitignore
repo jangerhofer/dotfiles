@@ -6,6 +6,8 @@
 !.Brewfile
 !.config
 .config/*
+!.config/fish/
+!.config/fish/*
 !.config/starship.toml
 !.config/tmux/
 !.gitconfig
