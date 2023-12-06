@@ -4,6 +4,7 @@
 
 # Files to track
 !.Brewfile
+!.bootstrap.sh
 !.config
 .config/*
 !.config/fish/
@@ -14,5 +15,3 @@
 !.gitignore
 !.iterm
 !*.p10k.zsh
-!*.zshrc
-!/.zsh/
