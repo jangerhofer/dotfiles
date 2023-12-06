@@ -3,6 +3,10 @@ if status is-interactive
     starship init fish | source
 end
 
+########################################
+# Aliases
+########################################
+
 alias b='brew'
 alias g='git'
 alias k='kubectl'
@@ -10,6 +14,12 @@ alias d='lazydocker'
 alias lg='lazygit'
 alias yt='yt-dlp'
 
+########################################
+# Fish
+########################################
+
+# Clear shell greeting
+set -g fish_greeting
 
 ########################################
 # Golang
