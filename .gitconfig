@@ -67,8 +67,13 @@
   rru = remote remove upstream
   rs = reset --soft
   s = status
+  # Switch/Create
+  sc = "!f() { git switch $1 2>/dev/null || git switch -c $1; }; f"
   si = status --ignored
   sp = stash -p
+  sw = switch
+  # Switch-create
+  swc = switch -c
   ft = "!f(){ git tag --contains ${1}; };f"
   squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
   st = stash
