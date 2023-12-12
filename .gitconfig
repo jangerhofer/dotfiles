@@ -45,6 +45,7 @@
   phomt = push origin master --tags
   phou = push origin -u
   phoum = push origin -u master
+  pl = pull
   r = reset
   ra = remote add
   rao = remote add origin
