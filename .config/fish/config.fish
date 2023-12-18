@@ -46,7 +46,10 @@ end
 # Jetbrains
 ########################################
 
-set -gx PATH $PATH '/Applications/IntelliJ IDEA.app/Contents/MacOS'
+function idea
+    /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea > /dev/null 2>&1 &
+end
+
 
 ########################################
 # Node
