@@ -47,9 +47,8 @@ end
 ########################################
 
 function idea
-    /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea > /dev/null 2>&1 &
+    /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea $argv > /dev/null 2>&1 &
 end
-
 
 ########################################
 # Node
