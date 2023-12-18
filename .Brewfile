@@ -121,7 +121,7 @@ brew "mosh"
 # Tiny, lightning fast, feature-packed file manager
 brew "nnn"
 # Platform built on V8 to build network applications
-brew "node@18"
+brew "node@20"
 # Oracle Cloud Infrastructure CLI
 brew "oci-cli"
 # Kubernetes introspection tool for developers
@@ -150,6 +150,8 @@ brew "rustup-init"
 brew "starship"
 # Tool to build, change, and version infrastructure
 brew "terraform"
+# Programmatically correct mistyped console commands
+brew "thefuck"
 # Terminal multiplexer
 brew "tmux"
 # Display directories as trees (with optional color/HTML output)
@@ -160,6 +162,8 @@ brew "watchman"
 brew "wget"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# Fork of youtube-dl with additional features and fixes
+brew "yt-dlp"
 # Cloudflare Tunnel
 brew "cloudflare/cloudflare/cloudflared"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
@@ -214,6 +218,8 @@ cask "iterm2"
 cask "league-of-legends"
 # App to manage software development and track bugs
 cask "linear-linear"
+# Discover, download, and run local LLMs
+cask "lm-studio"
 # VPN client
 cask "mullvadvpn"
 # Free and open-source RSS reader
