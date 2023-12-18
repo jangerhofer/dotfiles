@@ -14,6 +14,8 @@ alias d='lazydocker'
 alias lg='lazygit'
 alias yt='yt-dlp'
 
+thefuck --alias | source
+
 ########################################
 # Fish
 ########################################
@@ -52,4 +54,3 @@ set -gx PATH $PATH '/Applications/IntelliJ IDEA.app/Contents/MacOS'
 
 set -gx PNPM_HOME "/Users/jdangerhofer/Library/pnpm"
 set -gx PATH $PNPM_HOME $PATH
-
