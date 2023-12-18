@@ -86,8 +86,6 @@
   t = tag
 [commit]
 	gpgsign = true
-[core]
-	editor = code --wait
 [tag]
 	forceSignAnnotated = true
 	gpgSign = true
