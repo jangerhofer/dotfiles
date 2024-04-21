@@ -83,6 +83,9 @@
   unwatch = update-index --assume-unchanged
   up = pull --rebase --autostash
   watch = update-index --no-assume-unchanged
+  # git wta <path> <branch>
+  wta = worktree add
+  wtl = worktree list
   t = tag
 [commit]
 	gpgsign = true
