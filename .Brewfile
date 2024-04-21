@@ -16,10 +16,10 @@ tap "teaxyz/pkgs"
 tap "withgraphite/tap"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
-# Text processing system for reStructuredText
-brew "docutils"
 # Command-line interface for SQLite
 brew "sqlite"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.11"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # GNU internationalization (i18n) and localization (l10n) library
@@ -28,24 +28,28 @@ brew "gettext"
 brew "glib"
 # Binary installation for rust projects
 brew "cargo-binstall"
+# Platform built on V8 to build network applications
+brew "node"
+# CLI tool for Cloudflare Workers
+brew "cloudflare-wrangler2"
 # Cross-platform make
 brew "cmake"
 # Load/unload environment variables based on $PWD
 brew "direnv"
+# Text processing system for reStructuredText
+brew "docutils"
 # Collection of reusable C++ library artifacts developed at Facebook
 brew "folly"
-# Shared library for Watchman and Eden projects
-brew "edencommon"
-# Simple command-line tool for creating clusters on Amazon EKS
-brew "eksctl"
 # C++14 implementation of the TLS-1.3 standard
 brew "fizz"
 # Modular, composable client/server abstractions framework
 brew "wangle"
-# Thrift functions for querying information from a service
-brew "fb303"
 # Facebook's branch of Apache Thrift, including a new C++ server
 brew "fbthrift"
+# Thrift functions for querying information from a service
+brew "fb303"
+# Shared library for Watchman and Eden projects
+brew "edencommon"
 # User-friendly command-line shell for UNIX-like operating systems
 brew "fish"
 # Command-line fuzzy finder written in Go
@@ -58,26 +62,28 @@ brew "gd"
 brew "gh"
 # Distributed revision control system
 brew "git"
-# Syntax-highlighting pager for git and diff output
-brew "git-delta"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
+# Low-level cryptographic library
+brew "nettle"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
+# GNU Pretty Good Privacy (PGP) package
+brew "gnupg"
 # OpenType text shaping engine
 brew "harfbuzz"
 # Cross-platform application and UI framework
 brew "qt"
 # Command-driven, interactive function plotting
 brew "gnuplot"
-# Low-level cryptographic library
-brew "nettle"
-# Validating, recursive, caching DNS resolver
-brew "unbound"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Image processing tools collection
 brew "graphicsmagick"
+# Image manipulation
+brew "netpbm"
+# GNU triangulated surface library
+brew "gts"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Graph visualization software from AT&T and Bell Labs
@@ -88,34 +94,28 @@ brew "helix"
 brew "helm"
 # Improved top (interactive process viewer)
 brew "htop"
-# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
-brew "libheif"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
 brew "intltool"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
-# Little helper to run CNCF's k3s in Docker
-brew "k3d"
-# Utility to create k3s clusters on any local or remote VM
-brew "k3sup"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
-# Network authentication protocol
-brew "krb5"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
-# Much more powerful alternative to kubectx and kubens
-brew "kubie"
-# Template-free customization of Kubernetes YAML manifests
-brew "kustomize"
 # Lazier way to manage everything docker
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
+# Image processing and image analysis library
+brew "leptonica"
 # Subtitle renderer for the ASS/SSA subtitle format
 brew "libass"
+# Postgres C API library
+brew "libpq"
 # Mac App Store command-line interface
 brew "mas"
 # Remote terminal application
@@ -132,24 +132,16 @@ brew "octant"
 brew "openapi-generator"
 # Development kit for the Java programming language
 brew "openjdk"
-# Swiss-army knife of markup format conversion
-brew "pandoc"
 # Fast, disk space efficient package manager
 brew "pnpm"
-# Object-relational database system
-brew "postgresql@15"
-# Python version management
-brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
-# Emulator for x86 and PowerPC
+# Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
-brew "redis", restart_service: true
+brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Experimental Rust compiler front-end for IDEs
@@ -172,45 +164,35 @@ brew "watchman"
 brew "wget"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
-# Fork of youtube-dl with additional features and fixes
+# Feature-rich command-line audio/video downloader
 brew "yt-dlp"
 # Cloudflare Tunnel
-brew "cloudflare/cloudflare/cloudflared"
-# The easiest way to access your cloud.
-brew "common-fate/granted/granted"
-# A kubectl plugin for Kubernetes OpenID Connect authentication
-brew "int128/kubelogin/kubelogin"
+brew "cloudflare/cloudflare/cloudflared", link: false
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
-# Allows you to manage your stacked changes and submit them for review on GitHub
-brew "withgraphite/tap/graphite"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
-# GPU-accelerated terminal emulator
-cask "alacritty"
 # Memory training application
 cask "anki"
 # Two-factor authentication software
 cask "authy"
-# Compact TeX distribution as alternative to the full TeX Live / MacTeX
-cask "basictex"
+# Downloads scientific computing jobs and runs them invisibly in the background
+cask "boinc"
 # Server and cloud storage browser
 cask "cyberduck"
 # Databases and SQL IDE
 cask "datagrip"
 # Voice and text chat software
 cask "discord"
+# App to build and share containerised applications and microservices
+cask "docker"
 # Emulator to play GameCube and Wii games
 cask "dolphin"
-# Remote desktop and second display tool
-cask "duet"
 # Single-player fantasy game
 cask "dwarf-fortress"
-# Control your Elgato key lights
-cask "elgato-control-center"
 # Collaborative team software
 cask "figma"
 # Web browser
@@ -228,18 +210,10 @@ cask "google-cloud-sdk"
 cask "gpg-suite-no-mail"
 # Free and open-source media player
 cask "iina"
-# Vector graphics editor
-cask "inkscape"
 # Java IDE by JetBrains
 cask "intellij-idea"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
-# Open source code editor written in Rust
-cask "lapce"
-# Multiplayer online battle arena game
-cask "league-of-legends"
-# Kubernetes IDE
-cask "lens"
 # App to manage software development and track bugs
 cask "linear-linear"
 # Discover, download, and run local LLMs
@@ -258,8 +232,6 @@ cask "orbstack"
 cask "plex-media-server"
 # App wrapper for Postgres
 cask "postgres-unofficial"
-# Collaboration platform for API development
-cask "postman"
 # HTTP debugging proxy
 cask "proxyman"
 # IDE for professional Python development
@@ -270,35 +242,32 @@ cask "raycast"
 cask "rectangle"
 # GUI for streamlined Redis application development
 cask "redisinsight"
-# Rust IDE
-cask "rustrover"
 # Remote desktop software
 cask "screens-connect"
 # App that enables mouse-free UI interaction
 cask "shortcat"
 # Video game digital distribution service
 cask "steam"
+# Data visualization software
+cask "tableau"
+# Automatic time and productivity tracking app
+cask "timing"
 # Web browser focusing on security
 cask "tor-browser"
 # Open-source BitTorrent client
 cask "transmission"
 # Open-source code editor
 cask "visual-studio-code"
-# Rust-based terminal
-cask "warp"
-# JavaScript IDE
-cask "webstorm"
-mas "Capital One Shopping", id: 1477110326
-mas "Chessvision.ai Browser Scanner", id: 1635826532
+mas "1Password for Safari", id: 1569813296
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
-mas "Grammarly for Safari", id: 1462114288
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Spark", id: 1176895641
 mas "Speedtest", id: 1153157709
+mas "Streak for Safari", id: 1482708290
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
 mas "Xcode", id: 497799835
@@ -306,11 +275,10 @@ vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
 vscode "bradlc.vscode-tailwindcss"
-vscode "bungcip.better-toml"
 vscode "christian-kohler.npm-intellisense"
 vscode "dbaeumer.vscode-eslint"
 vscode "denoland.vscode-deno"
-vscode "DigitalBrainstem.javascript-ejs-support"
+vscode "digitalbrainstem.javascript-ejs-support"
 vscode "dkundel.vscode-new-file"
 vscode "donjayamanne.python-environment-manager"
 vscode "eamodio.gitlens"
@@ -319,16 +287,17 @@ vscode "esbenp.prettier-vscode"
 vscode "firsttris.vscode-jest-runner"
 vscode "forbeslindesay.vscode-sql-template-literal"
 vscode "ghmcadams.lintlens"
-vscode "GitHub.codespaces"
-vscode "GitHub.vscode-pull-request-github"
+vscode "github.codespaces"
+vscode "github.vscode-pull-request-github"
 vscode "golang.go"
-vscode "GraphQL.vscode-graphql"
-vscode "GraphQL.vscode-graphql-execution"
-vscode "GraphQL.vscode-graphql-syntax"
+vscode "graphql.vscode-graphql"
+vscode "graphql.vscode-graphql-execution"
+vscode "graphql.vscode-graphql-syntax"
 vscode "hashicorp.terraform"
 vscode "humao.rest-client"
 vscode "inercia.vscode-k3d"
 vscode "ipedrazas.kubernetes-snippets"
+vscode "jpoissonnier.vscode-styled-components"
 vscode "marp-team.marp-vscode"
 vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
@@ -336,6 +305,7 @@ vscode "moonrepo.moon-console"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
 vscode "ms-python.black-formatter"
+vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.mypy-type-checker"
 vscode "ms-python.python"
@@ -355,18 +325,19 @@ vscode "ms-vscode.remote-explorer"
 vscode "ms-vscode.remote-server"
 vscode "ms-vscode.test-adapter-converter"
 vscode "ms-vsliveshare.vsliveshare"
+vscode "ms-vsliveshare.vsliveshare-pack"
 vscode "mtxr.sqltools"
 vscode "mtxr.sqltools-driver-sqlite"
 vscode "nicoespeon.abracadabra"
 vscode "nrwl.angular-console"
 vscode "ocamllabs.ocaml-platform"
-vscode "Orta.vscode-jest"
-vscode "Orta.vscode-twoslash-queries"
+vscode "orta.vscode-jest"
+vscode "orta.vscode-twoslash-queries"
 vscode "oven.bun-vscode"
 vscode "panicbit.cargo"
-vscode "PKief.material-icon-theme"
+vscode "pkief.material-icon-theme"
 vscode "planbcoding.vscode-react-refactor"
-vscode "Prisma.prisma"
+vscode "prisma.prisma"
 vscode "redhat.vscode-xml"
 vscode "redhat.vscode-yaml"
 vscode "ria.elastic"
@@ -379,7 +350,6 @@ vscode "unifiedjs.vscode-mdx"
 vscode "vadimcn.vscode-lldb"
 vscode "viktorqvarfordt.vscode-pitch-black-theme"
 vscode "vincaslt.highlight-matching-tag"
-vscode "vscodevim.vim"
 vscode "yoavbls.pretty-ts-errors"
 vscode "yzhang.markdown-all-in-one"
-vscode "ZixuanChen.vitest-explorer"
+vscode "zixuanchen.vitest-explorer"
