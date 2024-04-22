@@ -18,8 +18,6 @@ tap "withgraphite/tap"
 brew "aom"
 # Command-line interface for SQLite
 brew "sqlite"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # GNU internationalization (i18n) and localization (l10n) library
@@ -62,10 +60,14 @@ brew "gd"
 brew "gh"
 # Distributed revision control system
 brew "git"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
 # Low-level cryptographic library
 brew "nettle"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
 # GNU Transport Layer Security (TLS) Library
 brew "gnutls"
 # GNU Pretty Good Privacy (PGP) package
@@ -82,8 +84,6 @@ brew "go"
 brew "graphicsmagick"
 # Image manipulation
 brew "netpbm"
-# GNU triangulated surface library
-brew "gts"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Graph visualization software from AT&T and Bell Labs
@@ -94,8 +94,8 @@ brew "helix"
 brew "helm"
 # Improved top (interactive process viewer)
 brew "htop"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
+# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew "libheif"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -104,14 +104,18 @@ brew "intltool"
 brew "jq"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
+# Network authentication protocol
+brew "krb5"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
+# Much more powerful alternative to kubectx and kubens
+brew "kubie"
+# Template-free customization of Kubernetes YAML manifests
+brew "kustomize"
 # Lazier way to manage everything docker
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Image processing and image analysis library
-brew "leptonica"
 # Subtitle renderer for the ASS/SSA subtitle format
 brew "libass"
 # Postgres C API library
@@ -128,20 +132,26 @@ brew "node@20"
 brew "oci-cli"
 # Kubernetes introspection tool for developers
 brew "octant"
+# Development kit for the Java programming language
+brew "openjdk@11"
 # Generate clients, server & docs from an OpenAPI spec (v2, v3)
 brew "openapi-generator"
 # Development kit for the Java programming language
 brew "openjdk"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
 # Fast, disk space efficient package manager
 brew "pnpm"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.10"
+# Object-relational database system
+brew "postgresql@15"
+# Python version management
+brew "pyenv"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
-brew "redis"
+brew "redis", restart_service: true
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Experimental Rust compiler front-end for IDEs
@@ -152,6 +162,8 @@ brew "rustup-init"
 brew "starship"
 # Tool to build, change, and version infrastructure
 brew "terraform"
+# OCR (Optical Character Recognition) engine
+brew "tesseract"
 # Programmatically correct mistyped console commands
 brew "thefuck"
 # Terminal multiplexer
@@ -168,6 +180,8 @@ brew "yq"
 brew "yt-dlp"
 # Cloudflare Tunnel
 brew "cloudflare/cloudflare/cloudflared", link: false
+# The easiest way to access your cloud.
+brew "common-fate/granted/granted"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
@@ -187,10 +201,10 @@ cask "cyberduck"
 cask "datagrip"
 # Voice and text chat software
 cask "discord"
-# App to build and share containerised applications and microservices
-cask "docker"
 # Emulator to play GameCube and Wii games
 cask "dolphin"
+# Remote desktop and second display tool
+cask "duet"
 # Single-player fantasy game
 cask "dwarf-fortress"
 # Collaborative team software
@@ -210,14 +224,26 @@ cask "google-cloud-sdk"
 cask "gpg-suite-no-mail"
 # Free and open-source media player
 cask "iina"
+# Vector graphics editor
+cask "inkscape"
 # Java IDE by JetBrains
 cask "intellij-idea"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Open source code editor written in Rust
+cask "lapce"
+# Multiplayer online battle arena game
+cask "league-of-legends"
+# Kubernetes IDE
+cask "lens"
 # App to manage software development and track bugs
 cask "linear-linear"
 # Discover, download, and run local LLMs
 cask "lm-studio"
+# Software for Logitech devices
+cask "logitech-options"
+# Mounts servers and cloud storages as a disk on the desktop
+cask "mountain-duck"
 # VPN client
 cask "mullvadvpn"
 # Free and open-source RSS reader
@@ -258,9 +284,13 @@ cask "tor-browser"
 cask "transmission"
 # Open-source code editor
 cask "visual-studio-code"
+# Rust-based terminal
+cask "warp"
 mas "1Password for Safari", id: 1569813296
+mas "Capital One Shopping", id: 1477110326
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
+mas "Grammarly for Safari", id: 1462114288
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
@@ -275,6 +305,7 @@ vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
 vscode "bradlc.vscode-tailwindcss"
+vscode "bungcip.better-toml"
 vscode "christian-kohler.npm-intellisense"
 vscode "dbaeumer.vscode-eslint"
 vscode "denoland.vscode-deno"
@@ -297,7 +328,6 @@ vscode "hashicorp.terraform"
 vscode "humao.rest-client"
 vscode "inercia.vscode-k3d"
 vscode "ipedrazas.kubernetes-snippets"
-vscode "jpoissonnier.vscode-styled-components"
 vscode "marp-team.marp-vscode"
 vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
@@ -325,7 +355,6 @@ vscode "ms-vscode.remote-explorer"
 vscode "ms-vscode.remote-server"
 vscode "ms-vscode.test-adapter-converter"
 vscode "ms-vsliveshare.vsliveshare"
-vscode "ms-vsliveshare.vsliveshare-pack"
 vscode "mtxr.sqltools"
 vscode "mtxr.sqltools-driver-sqlite"
 vscode "nicoespeon.abracadabra"
@@ -350,6 +379,7 @@ vscode "unifiedjs.vscode-mdx"
 vscode "vadimcn.vscode-lldb"
 vscode "viktorqvarfordt.vscode-pitch-black-theme"
 vscode "vincaslt.highlight-matching-tag"
+vscode "vscodevim.vim"
 vscode "yoavbls.pretty-ts-errors"
 vscode "yzhang.markdown-all-in-one"
 vscode "zixuanchen.vitest-explorer"
