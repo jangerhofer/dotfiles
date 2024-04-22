@@ -297,7 +297,6 @@ mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Spark", id: 1176895641
 mas "Speedtest", id: 1153157709
-mas "Streak for Safari", id: 1482708290
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
 mas "Xcode", id: 497799835
