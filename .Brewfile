@@ -143,7 +143,7 @@ brew "pandoc"
 # Fast, disk space efficient package manager
 brew "pnpm"
 # Object-relational database system
-brew "postgresql@15"
+brew "postgresql@16"
 # Python version management
 brew "pyenv"
 # Generic machine emulator and virtualizer
