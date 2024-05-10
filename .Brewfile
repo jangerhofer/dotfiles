@@ -180,8 +180,6 @@ brew "yq"
 brew "yt-dlp"
 # Cloudflare Tunnel
 brew "cloudflare/cloudflare/cloudflared", link: false
-# The easiest way to access your cloud.
-brew "common-fate/granted/granted"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
