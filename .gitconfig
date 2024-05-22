@@ -10,6 +10,7 @@
   cam = commit -a -m
   cem = commit --amend -m
   cm = commit -m
+  cmph = "!f() { git commit -m \"$1\" && git push; }; f"
   cp = checkout -p
   d = diff
   dc = diff-tree --no-commit-id --name-status -r
