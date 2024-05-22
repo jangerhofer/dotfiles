@@ -87,6 +87,7 @@
   # git wta <path> <branch>
   wta = worktree add
   wtl = worktree list
+  wtrm = worktree remove
   t = tag
 [commit]
 	gpgsign = true
