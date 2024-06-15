@@ -13,6 +13,7 @@ alias k='kubectl'
 alias d='lazydocker'
 alias lg='lazygit'
 alias yt='yt-dlp'
+alias zj="zellij"
 
 thefuck --alias | source
 
@@ -53,12 +54,12 @@ end
 ########################################
 
 function idea
-    /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea $argv > /dev/null 2>&1 &
+    /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea $argv >/dev/null 2>&1 &
 end
 
 ########################################
 # Node
 ########################################
 
-set -gx PNPM_HOME "/Users/jdangerhofer/Library/pnpm"
+set -gx PNPM_HOME /Users/jdangerhofer/Library/pnpm
 set -gx PATH $PNPM_HOME $PATH
