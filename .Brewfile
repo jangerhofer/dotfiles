@@ -9,6 +9,7 @@ tap "homebrew/cask-fonts"
 tap "homebrew/services"
 tap "int128/kubelogin"
 tap "louisbrunner/valgrind"
+tap "mrkai77/cask"
 tap "oven-sh/bun"
 tap "supabase/tap"
 tap "superfly/tap"
@@ -142,6 +143,8 @@ brew "qt@5"
 brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
 # Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
 # Rust toolchain installer
@@ -215,6 +218,8 @@ cask "iterm2"
 cask "linear-linear"
 # Discover, download, and run local LLMs
 cask "lm-studio"
+# Window manager
+cask "loop"
 # VPN client
 cask "mullvadvpn"
 # Free and open-source RSS reader
@@ -235,8 +240,6 @@ cask "proxyman"
 cask "pycharm"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Move and resize windows using keyboard shortcuts or snap areas
-cask "rectangle"
 # GUI for streamlined Redis application development
 cask "redisinsight"
 # Rust IDE
@@ -269,7 +272,6 @@ mas "Spark", id: 1176895641
 mas "Speedtest", id: 1153157709
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
-mas "Xcode", id: 497799835
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
