@@ -23,6 +23,8 @@ brew "sqlite"
 brew "python@3.11"
 # Official Amazon AWS command-line interface
 brew "awscli"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
 # GNU internationalization (i18n) and localization (l10n) library
 brew "gettext"
 # Core application library for C
@@ -93,8 +95,6 @@ brew "graphviz"
 brew "helix"
 # Kubernetes package manager
 brew "helm"
-# Improved top (interactive process viewer)
-brew "htop"
 # Website copier/offline browser
 brew "httrack"
 # Interpreted, interactive, object-oriented programming language
