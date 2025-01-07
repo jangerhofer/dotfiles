@@ -5,22 +5,24 @@ tap "dagger/tap"
 tap "earthly/earthly"
 tap "hashicorp/tap"
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
 tap "homebrew/services"
 tap "int128/kubelogin"
 tap "louisbrunner/valgrind"
-tap "mrkai77/cask"
 tap "oven-sh/bun"
 tap "supabase/tap"
 tap "superfly/tap"
 tap "teaxyz/pkgs"
 tap "withgraphite/tap"
+# TIFF library and utilities
+brew "libtiff"
+# New file format for still image compression
+brew "jpeg-xl"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
-# Command-line interface for SQLite
-brew "sqlite"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
+# Arduino command-line interface
+brew "arduino-cli"
+# Cryptographic recipes and primitives for Python
+brew "cryptography"
 # Official Amazon AWS command-line interface
 brew "awscli"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -53,6 +55,22 @@ brew "fbthrift"
 brew "fb303"
 # Shared library for Watchman and Eden projects
 brew "edencommon"
+# Low-level cryptographic library
+brew "nettle"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
+# OpenType text shaping engine
+brew "harfbuzz"
+# Image processing and image analysis library
+brew "leptonica"
+# Subtitle renderer for the ASS/SSA subtitle format
+brew "libass"
+# OCR (Optical Character Recognition) engine
+brew "tesseract"
+# Play, record, convert, and stream audio and video
+brew "ffmpeg"
 # User-friendly command-line shell for UNIX-like operating systems
 brew "fish"
 # Command-line fuzzy finder written in Go
@@ -63,30 +81,28 @@ brew "libavif"
 brew "gd"
 # GitHub command-line tool
 brew "gh"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
 # Distributed revision control system
 brew "git"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
-# Low-level cryptographic library
-brew "nettle"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
 # GNU Pretty Good Privacy (PGP) package
 brew "gnupg"
-# OpenType text shaping engine
-brew "harfbuzz"
 # Cross-platform application and UI framework
 brew "qt"
 # Command-driven, interactive function plotting
 brew "gnuplot"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
+# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew "libheif"
 # Image processing tools collection
 brew "graphicsmagick"
 # Image manipulation
 brew "netpbm"
-# GNU triangulated surface library
-brew "gts"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Graph visualization software from AT&T and Bell Labs
@@ -95,10 +111,12 @@ brew "graphviz"
 brew "helix"
 # Kubernetes package manager
 brew "helm"
-# Website copier/offline browser
-brew "httrack"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
+# Improved top (interactive process viewer)
+brew "htop"
+# LLVM's OpenMP runtime library
+brew "libomp"
+# Library for reading RAW files from digital photo cameras
+brew "libraw"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -107,56 +125,78 @@ brew "intltool"
 brew "jq"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
+# Network authentication protocol
+brew "krb5"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
+# Much more powerful alternative to kubectx and kubens
+brew "kubie"
+# Template-free customization of Kubernetes YAML manifests
+brew "kustomize"
 # Lazier way to manage everything docker
 brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Image processing and image analysis library
-brew "leptonica"
-# Subtitle renderer for the ASS/SSA subtitle format
-brew "libass"
 # Postgres C API library
 brew "libpq"
 # Mac App Store command-line interface
 brew "mas"
+# Menu-driven communications program
+brew "minicom"
 # Remote terminal application
 brew "mosh"
+# QUIC transport protocol implementation
+brew "mvfst"
+# Tiny, lightning fast, feature-packed file manager
+brew "nnn"
+# Platform built on V8 to build network applications
+brew "node@20"
 # Oracle Cloud Infrastructure CLI
 brew "oci-cli"
 # Kubernetes introspection tool for developers
 brew "octant"
+# On-chip debugging, in-system programming and boundary-scan testing
+brew "open-ocd"
+# Development kit for the Java programming language
+brew "openjdk@11"
 # Generate clients, server & docs from an OpenAPI spec (v2, v3)
 brew "openapi-generator"
 # Development kit for the Java programming language
 brew "openjdk"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
 # Fast, disk space efficient package manager
 brew "pnpm"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Object-relational database system
+brew "postgresql@16"
+# Python version management
+brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
-brew "python@3.10"
+brew "python@3.11"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
-brew "redis"
+brew "redis", restart_service: true
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
-# Utility that provides fast incremental file transfer
-brew "rsync"
 # Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
 # Rust toolchain installer
-brew "rustup-init"
+brew "rustup"
+# Sigrok command-line interface to use logic analyzers and more
+brew "sigrok-cli"
 # Cross-shell prompt for astronauts
 brew "starship"
-# Tool to impose load on and stress test a computer system
-brew "stress"
-# Tool to build, change, and version infrastructure
-brew "terraform"
+# User interface to the TELNET protocol
+brew "telnet"
 # Programmatically correct mistyped console commands
 brew "thefuck"
+# Terminal multiplexer
+brew "tmux"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 # Watch files and take action when they change
@@ -167,20 +207,21 @@ brew "wget"
 brew "yq"
 # Feature-rich command-line audio/video downloader
 brew "yt-dlp"
-# Pluggable terminal workspace, with terminal multiplexer as the base feature
-brew "zellij"
-# Cloudflare Tunnel
-brew "cloudflare/cloudflare/cloudflared", link: false
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
+brew "superfly/tap/flyctl"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
 # Memory training application
 cask "anki"
-# Two-factor authentication software
-cask "authy"
+# Application uninstaller
+cask "appcleaner"
+# Electronics prototyping platform
+cask "arduino-ide"
+# 3D model slicing software for 3D printers, maintained by Bambu Lab
+cask "bambu-studio"
 # Downloads scientific computing jobs and runs them invisibly in the background
 cask "boinc"
 # Server and cloud storage browser
@@ -189,12 +230,10 @@ cask "cyberduck"
 cask "datagrip"
 # Voice and text chat software
 cask "discord"
-# App to build and share containerised applications and microservices
-cask "docker"
 # Emulator to play GameCube and Wii games
 cask "dolphin"
-# Single-player fantasy game
-cask "dwarf-fortress"
+# Remote desktop and second display tool
+cask "duet"
 # Collaborative team software
 cask "figma"
 # Web browser
@@ -202,24 +241,36 @@ cask "firefox"
 cask "font-inconsolata"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
+# Pre-built GNU bare-metal toolchain for 32-bit Arm processors
+cask "gcc-arm-embedded"
+# Software reverse engineering (SRE) suite of tools
+cask "ghidra"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
 # Web browser
 cask "google-chrome"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "google-cloud-sdk"
 # Tools to protect your files
 cask "gpg-suite-no-mail"
+# Hex editor focussing on speed
+cask "hex-fiend"
 # Free and open-source media player
 cask "iina"
 # Java IDE by JetBrains
 cask "intellij-idea"
-# Terminal emulator as alternative to Apple's Terminal app
-cask "iterm2"
+# Open source code editor written in Rust
+cask "lapce"
+# Kubernetes IDE
+cask "lens"
 # App to manage software development and track bugs
 cask "linear-linear"
 # Discover, download, and run local LLMs
 cask "lm-studio"
 # Window manager
 cask "loop"
+# Mounts servers and cloud storages as a disk on the desktop
+cask "mountain-duck"
 # VPN client
 cask "mullvadvpn"
 # Free and open-source RSS reader
@@ -236,22 +287,22 @@ cask "plex-media-server"
 cask "postgres-unofficial"
 # HTTP debugging proxy
 cask "proxyman"
-# IDE for professional Python development
-cask "pycharm"
+# Geographic Information System
+cask "qgis"
 # Control your tools with a few keystrokes
 cask "raycast"
+# Move and resize windows using keyboard shortcuts or snap areas
+cask "rectangle"
 # GUI for streamlined Redis application development
-cask "redisinsight"
-# Rust IDE
-cask "rustrover"
+cask "redis-insight"
+# Signal analysis for Saleae's devices
+cask "saleae-logic"
 # Remote desktop software
 cask "screens-connect"
 # App that enables mouse-free UI interaction
 cask "shortcat"
 # Video game digital distribution service
 cask "steam"
-# Data visualization software
-cask "tableau"
 # Automatic time and productivity tracking app
 cask "timing"
 # Web browser focusing on security
@@ -260,7 +311,9 @@ cask "tor-browser"
 cask "transmission"
 # Open-source code editor
 cask "visual-studio-code"
-mas "1Password for Safari", id: 1569813296
+# Network protocol analyzer
+cask "wireshark"
+mas "Balatro+", id: 6502451661
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
@@ -268,14 +321,15 @@ mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Sink It for Reddit", id: 6449873635
-mas "Spark", id: 1176895641
 mas "Speedtest", id: 1153157709
+mas "Surfshark", id: 1437809329
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
 vscode "bradlc.vscode-tailwindcss"
+vscode "bungcip.better-toml"
 vscode "christian-kohler.npm-intellisense"
 vscode "dbaeumer.vscode-eslint"
 vscode "denoland.vscode-deno"
@@ -298,7 +352,6 @@ vscode "hashicorp.terraform"
 vscode "humao.rest-client"
 vscode "inercia.vscode-k3d"
 vscode "ipedrazas.kubernetes-snippets"
-vscode "jpoissonnier.vscode-styled-components"
 vscode "marp-team.marp-vscode"
 vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
@@ -326,7 +379,6 @@ vscode "ms-vscode.remote-explorer"
 vscode "ms-vscode.remote-server"
 vscode "ms-vscode.test-adapter-converter"
 vscode "ms-vsliveshare.vsliveshare"
-vscode "ms-vsliveshare.vsliveshare-pack"
 vscode "mtxr.sqltools"
 vscode "mtxr.sqltools-driver-sqlite"
 vscode "nicoespeon.abracadabra"
@@ -351,6 +403,7 @@ vscode "unifiedjs.vscode-mdx"
 vscode "vadimcn.vscode-lldb"
 vscode "viktorqvarfordt.vscode-pitch-black-theme"
 vscode "vincaslt.highlight-matching-tag"
+vscode "vscodevim.vim"
 vscode "yoavbls.pretty-ts-errors"
 vscode "yzhang.markdown-all-in-one"
 vscode "zixuanchen.vitest-explorer"
