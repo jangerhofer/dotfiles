@@ -10,6 +10,7 @@
   cam = commit -a -m
   cem = commit --amend -m
   cm = commit -m
+  cwip = commit -m "WIP"
   cmph = "!f() { git commit -m \"$1\" && git push; }; f"
   cp = checkout -p
   d = diff
@@ -74,6 +75,7 @@
   si = status --ignored
   sp = stash -p
   sw = switch
+  swip = stash -m "WIP"
   # Switch-create
   swc = switch -c
   ft = "!f(){ git tag --contains ${1}; };f"
