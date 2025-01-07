@@ -1,1 +1,1 @@
-source "$HOME/.cargo/env.fish"
+set -gx PATH $HOME/.cargo/bin $PATH
