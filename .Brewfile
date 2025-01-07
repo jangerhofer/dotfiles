@@ -259,8 +259,6 @@ cask "hex-fiend"
 cask "iina"
 # Java IDE by JetBrains
 cask "intellij-idea"
-# Open source code editor written in Rust
-cask "lapce"
 # Kubernetes IDE
 cask "lens"
 # App to manage software development and track bugs
@@ -291,8 +289,6 @@ cask "proxyman"
 cask "qgis"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Move and resize windows using keyboard shortcuts or snap areas
-cask "rectangle"
 # GUI for streamlined Redis application development
 cask "redis-insight"
 # Signal analysis for Saleae's devices
