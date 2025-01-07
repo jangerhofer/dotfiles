@@ -153,8 +153,6 @@ brew "nnn"
 brew "node@20"
 # Oracle Cloud Infrastructure CLI
 brew "oci-cli"
-# Kubernetes introspection tool for developers
-brew "octant"
 # On-chip debugging, in-system programming and boundary-scan testing
 brew "open-ocd"
 # Development kit for the Java programming language
@@ -180,7 +178,7 @@ brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
-brew "redis", restart_service: true
+brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Experimental Rust compiler front-end for IDEs
