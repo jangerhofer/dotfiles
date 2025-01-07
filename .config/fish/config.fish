@@ -55,6 +55,7 @@ end
 
 function idea
     /Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea $argv >/dev/null 2>&1 &
+    disown
 end
 
 ########################################
@@ -64,5 +65,4 @@ end
 set -gx PNPM_HOME /Users/jdangerhofer/Library/pnpm
 set -gx PATH $PNPM_HOME $PATH
 
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-
+test -e {$HOME}/.iterm2_shell_integration.fish; and source {$HOME}/.iterm2_shell_integration.fish
