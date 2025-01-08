@@ -9,6 +9,8 @@
 .config/*
 !.config/fish/
 !.config/fish/*
+!.config/ghostty
+!.config/ghostty/*
 !.config/starship.toml
 !.config/tmux/
 !.gitconfig
