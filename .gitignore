@@ -11,6 +11,8 @@
 !.config/fish/*
 !.config/ghostty
 !.config/ghostty/*
+!.config/helix
+!.config/helix/*
 !.config/starship.toml
 !.config/tmux/
 !.gitconfig
