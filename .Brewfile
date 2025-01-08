@@ -8,23 +8,22 @@ tap "homebrew/bundle"
 tap "homebrew/services"
 tap "int128/kubelogin"
 tap "louisbrunner/valgrind"
+tap "mrkai77/cask"
 tap "oven-sh/bun"
 tap "supabase/tap"
 tap "superfly/tap"
 tap "teaxyz/pkgs"
 tap "withgraphite/tap"
-# TIFF library and utilities
-brew "libtiff"
-# New file format for still image compression
-brew "jpeg-xl"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
 # Arduino command-line interface
 brew "arduino-cli"
-# Cryptographic recipes and primitives for Python
-brew "cryptography"
+# GNU compiler collection for arm-none-eabi
+brew "arm-none-eabi-gcc"
 # Official Amazon AWS command-line interface
 brew "awscli"
+# C/C++ and Java libraries for Unicode and globalization
+brew "icu4c@76"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
 # GNU internationalization (i18n) and localization (l10n) library
@@ -37,6 +36,8 @@ brew "cargo-binstall"
 brew "node"
 # CLI tool for Cloudflare Workers
 brew "cloudflare-wrangler2"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
 # Cross-platform make
 brew "cmake"
 # Load/unload environment variables based on $PWD
@@ -57,8 +58,6 @@ brew "fb303"
 brew "edencommon"
 # Low-level cryptographic library
 brew "nettle"
-# Validating, recursive, caching DNS resolver
-brew "unbound"
 # GNU Transport Layer Security (TLS) Library
 brew "gnutls"
 # OpenType text shaping engine
@@ -67,8 +66,6 @@ brew "harfbuzz"
 brew "leptonica"
 # Subtitle renderer for the ASS/SSA subtitle format
 brew "libass"
-# OCR (Optical Character Recognition) engine
-brew "tesseract"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
 # User-friendly command-line shell for UNIX-like operating systems
@@ -81,8 +78,6 @@ brew "libavif"
 brew "gd"
 # GitHub command-line tool
 brew "gh"
-# Interpreter for PostScript and PDF
-brew "ghostscript"
 # Distributed revision control system
 brew "git"
 # Syntax-highlighting pager for git and diff output
@@ -97,12 +92,12 @@ brew "qt"
 brew "gnuplot"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
-brew "libheif"
 # Image processing tools collection
 brew "graphicsmagick"
 # Image manipulation
 brew "netpbm"
+# GNU triangulated surface library
+brew "gts"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Graph visualization software from AT&T and Bell Labs
@@ -113,10 +108,6 @@ brew "helix"
 brew "helm"
 # Improved top (interactive process viewer)
 brew "htop"
-# LLVM's OpenMP runtime library
-brew "libomp"
-# Library for reading RAW files from digital photo cameras
-brew "libraw"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -125,8 +116,6 @@ brew "intltool"
 brew "jq"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
-# Network authentication protocol
-brew "krb5"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
 # Much more powerful alternative to kubectx and kubens
@@ -172,7 +161,11 @@ brew "postgresql@16"
 # Python version management
 brew "pyenv"
 # Interpreted, interactive, object-oriented programming language
+brew "python@3.10"
+# Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
@@ -181,6 +174,8 @@ brew "qt@5"
 brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
 # Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
 # Rust toolchain installer
@@ -205,6 +200,8 @@ brew "wget"
 brew "yq"
 # Feature-rich command-line audio/video downloader
 brew "yt-dlp"
+# Pluggable terminal workspace, with terminal multiplexer as the base feature
+brew "zellij"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
@@ -222,12 +219,16 @@ cask "arduino-ide"
 cask "bambu-studio"
 # Downloads scientific computing jobs and runs them invisibly in the background
 cask "boinc"
+# Write, edit, and chat about your code with AI
+cask "cursor"
 # Server and cloud storage browser
 cask "cyberduck"
 # Databases and SQL IDE
 cask "datagrip"
 # Voice and text chat software
 cask "discord"
+# App to build and share containerised applications and microservices
+cask "docker"
 # Emulator to play GameCube and Wii games
 cask "dolphin"
 # Remote desktop and second display tool
@@ -239,8 +240,6 @@ cask "firefox"
 cask "font-inconsolata"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
-# Pre-built GNU bare-metal toolchain for 32-bit Arm processors
-cask "gcc-arm-embedded"
 # Software reverse engineering (SRE) suite of tools
 cask "ghidra"
 # Terminal emulator that uses platform-native UI and GPU acceleration
@@ -265,6 +264,8 @@ cask "linear-linear"
 cask "lm-studio"
 # Window manager
 cask "loop"
+# Adaptive brightness for external displays
+cask "lunar"
 # Mounts servers and cloud storages as a disk on the desktop
 cask "mountain-duck"
 # VPN client
@@ -307,6 +308,7 @@ cask "transmission"
 cask "visual-studio-code"
 # Network protocol analyzer
 cask "wireshark"
+mas "1Password for Safari", id: 1569813296
 mas "Balatro+", id: 6502451661
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
@@ -346,6 +348,7 @@ vscode "hashicorp.terraform"
 vscode "humao.rest-client"
 vscode "inercia.vscode-k3d"
 vscode "ipedrazas.kubernetes-snippets"
+vscode "jpoissonnier.vscode-styled-components"
 vscode "marp-team.marp-vscode"
 vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
@@ -373,6 +376,7 @@ vscode "ms-vscode.remote-explorer"
 vscode "ms-vscode.remote-server"
 vscode "ms-vscode.test-adapter-converter"
 vscode "ms-vsliveshare.vsliveshare"
+vscode "ms-vsliveshare.vsliveshare-pack"
 vscode "mtxr.sqltools"
 vscode "mtxr.sqltools-driver-sqlite"
 vscode "nicoespeon.abracadabra"
