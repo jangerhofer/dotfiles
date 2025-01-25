@@ -308,6 +308,8 @@ cask "transmission"
 cask "visual-studio-code"
 # Network protocol analyzer
 cask "wireshark"
+# Indoor cycling game
+cask "zwift"
 mas "1Password for Safari", id: 1569813296
 mas "Balatro+", id: 6502451661
 mas "Core Tunnel", id: 1354318707
