@@ -17,6 +17,27 @@ alias zj="zellij"
 
 thefuck --alias | source
 
+
+########################################
+# Cursor
+########################################
+
+function c
+    if test (count $argv) -eq 1
+        # Use `z` to resolve the directory
+        set dir (z -e $argv[1])
+        if test -n "$dir"
+            /Applications/Cursor.app/Contents/MacOS/Cursor "$dir" >/dev/null 2>&1 &
+            disown
+        else
+            echo "No match found for '$argv[1]'"
+        end
+    else
+        echo "Usage: c <directory>"
+    end
+end
+
+
 ########################################
 # Fish
 ########################################
