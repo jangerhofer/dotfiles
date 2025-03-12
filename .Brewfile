@@ -84,6 +84,8 @@ brew "gh"
 brew "git"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
+# Git extension for versioning large files
+brew "git-lfs"
 # Compute various size metrics for a Git repository
 brew "git-sizer"
 # GNU Pretty Good Privacy (PGP) package
@@ -108,8 +110,6 @@ brew "graphviz"
 brew "helix"
 # Kubernetes package manager
 brew "helm"
-# Improved top (interactive process viewer)
-brew "htop"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -171,7 +171,6 @@ brew "python@3.10"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
 # Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
@@ -246,6 +245,8 @@ cask "firefox"
 cask "font-inconsolata"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
+cask "font-monaspace"
+cask "font-monaspace-nerd-font"
 # Software reverse engineering (SRE) suite of tools
 cask "ghidra"
 # Terminal emulator that uses platform-native UI and GPU acceleration
