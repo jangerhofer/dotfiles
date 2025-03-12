@@ -56,6 +56,8 @@ brew "fbthrift"
 brew "fb303"
 # Shared library for Watchman and Eden projects
 brew "edencommon"
+# C++ template library for linear algebra
+brew "eigen"
 # Low-level cryptographic library
 brew "nettle"
 # GNU Transport Layer Security (TLS) Library
@@ -134,10 +136,14 @@ brew "mas"
 brew "minicom"
 # Remote terminal application
 brew "mosh"
+# 'traceroute' and 'ping' in a single tool
+brew "mtr"
 # QUIC transport protocol implementation
 brew "mvfst"
 # Tiny, lightning fast, feature-packed file manager
 brew "nnn"
+# Platform built on V8 to build network applications
+brew "node"
 # Platform built on V8 to build network applications
 brew "node@20"
 # Oracle Cloud Infrastructure CLI
