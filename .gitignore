@@ -8,7 +8,8 @@
 !.config
 .config/*
 !.config/btop/
-!.config/btop/*
+!.config/btop/btop.conf
+.config/btop/*
 !.config/fish/
 !.config/fish/*
 !.config/ghostty
