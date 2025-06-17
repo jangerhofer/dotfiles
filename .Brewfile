@@ -1,18 +1,8 @@
-tap "cloudflare/cloudflare"
 tap "common-fate/granted"
-tap "cue-lang/tap"
-tap "dagger/tap"
-tap "earthly/earthly"
-tap "hashicorp/tap"
-tap "homebrew/bundle"
-tap "homebrew/services"
-tap "int128/kubelogin"
-tap "louisbrunner/valgrind"
 tap "mrkai77/cask"
 tap "oven-sh/bun"
 tap "supabase/tap"
 tap "superfly/tap"
-tap "teaxyz/pkgs"
 tap "withgraphite/tap"
 # Codec library for encoding and decoding AV1 video streams
 brew "aom"
@@ -22,8 +12,6 @@ brew "arduino-cli"
 brew "arm-none-eabi-gcc"
 # Official Amazon AWS command-line interface
 brew "awscli"
-# C/C++ and Java libraries for Unicode and globalization
-brew "icu4c@76"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
 # GNU internationalization (i18n) and localization (l10n) library
@@ -32,16 +20,12 @@ brew "gettext"
 brew "glib"
 # Binary installation for rust projects
 brew "cargo-binstall"
-# Platform built on V8 to build network applications
-brew "node"
-# CLI tool for Cloudflare Workers
-brew "cloudflare-wrangler2"
 # Cloudflare Tunnel client (formerly Argo Tunnel)
 brew "cloudflared"
 # Cross-platform make
 brew "cmake"
-# Load/unload environment variables based on $PWD
-brew "direnv"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
 # Text processing system for reStructuredText
 brew "docutils"
 # Collection of reusable C++ library artifacts developed at Facebook
@@ -140,6 +124,8 @@ brew "mosh"
 brew "mtr"
 # QUIC transport protocol implementation
 brew "mvfst"
+# Port scanning utility for large networks
+brew "nmap"
 # Tiny, lightning fast, feature-packed file manager
 brew "nnn"
 # Platform built on V8 to build network applications
@@ -150,12 +136,6 @@ brew "node@20"
 brew "oci-cli"
 # On-chip debugging, in-system programming and boundary-scan testing
 brew "open-ocd"
-# Development kit for the Java programming language
-brew "openjdk@11"
-# Generate clients, server & docs from an OpenAPI spec (v2, v3)
-brew "openapi-generator"
-# Development kit for the Java programming language
-brew "openjdk"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Fast, disk space efficient package manager
@@ -189,6 +169,8 @@ brew "rustup"
 brew "sigrok-cli"
 # Cross-shell prompt for astronauts
 brew "starship"
+# Tool to impose load on and stress test a computer system
+brew "stress"
 # User interface to the TELNET protocol
 brew "telnet"
 # Programmatically correct mistyped console commands
@@ -197,6 +179,8 @@ brew "thefuck"
 brew "tmux"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
 # Watch files and take action when they change
 brew "watchman"
 # Internet file retriever
@@ -207,6 +191,8 @@ brew "yq"
 brew "yt-dlp"
 # Pluggable terminal workspace, with terminal multiplexer as the base feature
 brew "zellij"
+# Programming language designed for robustness, optimality, and clarity
+brew "zig"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
 brew "superfly/tap/flyctl"
@@ -214,6 +200,8 @@ brew "superfly/tap/flyctl"
 cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
+# Tools for building Android applications
+cask "android-studio"
 # Memory training application
 cask "anki"
 # Application uninstaller
@@ -224,8 +212,6 @@ cask "arduino-ide"
 cask "bambu-studio"
 # Downloads scientific computing jobs and runs them invisibly in the background
 cask "boinc"
-# Write, edit, and chat about your code with AI
-cask "cursor"
 # Server and cloud storage browser
 cask "cyberduck"
 # Databases and SQL IDE
@@ -247,6 +233,8 @@ cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-monaspace"
 cask "font-monaspace-nerd-font"
+# Tool to measure the computer system's performance
+cask "geekbench"
 # Software reverse engineering (SRE) suite of tools
 cask "ghidra"
 # Terminal emulator that uses platform-native UI and GPU acceleration
@@ -257,6 +245,8 @@ cask "google-chrome"
 cask "google-cloud-sdk"
 # Tools to protect your files
 cask "gpg-suite-no-mail"
+# Graphically shows disk usage within a file system
+cask "grandperspective"
 # Hex editor focussing on speed
 cask "hex-fiend"
 # Free and open-source media player
@@ -276,7 +266,7 @@ cask "lunar"
 # Mounts servers and cloud storages as a disk on the desktop
 cask "mountain-duck"
 # VPN client
-cask "mullvadvpn"
+cask "mullvad-vpn"
 # Free and open-source RSS reader
 cask "netnewswire"
 # Cloud gaming platform
@@ -293,6 +283,8 @@ cask "postgres-unofficial"
 cask "proxyman"
 # Geographic Information System
 cask "qgis"
+# Imaging utility to install operating systems to a microSD card
+cask "raspberry-pi-imager"
 # Control your tools with a few keystrokes
 cask "raycast"
 # GUI for streamlined Redis application development
@@ -318,18 +310,22 @@ cask "wireshark"
 # Indoor cycling game
 cask "zwift"
 mas "1Password for Safari", id: 1569813296
-mas "Balatro+", id: 6502451661
+mas "AdGuard for Safari", id: 1440147259
+mas "Balatro", id: 6502451661
 mas "Core Tunnel", id: 1354318707
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
-mas "Sink It for Reddit", id: 6449873635
+mas "RCT Classic+", id: 6702028686
+mas "Sink It", id: 6449873635
 mas "Speedtest", id: 1153157709
 mas "Surfshark", id: 1437809329
 mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
+mas "Xcode", id: 497799835
+vscode "anthropic.claude-code"
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
@@ -348,6 +344,8 @@ vscode "firsttris.vscode-jest-runner"
 vscode "forbeslindesay.vscode-sql-template-literal"
 vscode "ghmcadams.lintlens"
 vscode "github.codespaces"
+vscode "github.copilot"
+vscode "github.copilot-chat"
 vscode "github.vscode-pull-request-github"
 vscode "golang.go"
 vscode "graphql.vscode-graphql"
@@ -362,6 +360,7 @@ vscode "marp-team.marp-vscode"
 vscode "matangover.mypy"
 vscode "mkxml.vscode-filesize"
 vscode "moonrepo.moon-console"
+vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
 vscode "ms-python.black-formatter"
