@@ -15,27 +15,9 @@ alias lg='lazygit'
 alias yt='yt-dlp'
 alias zj="zellij"
 
+alias claude="/Users/jdangerhofer/.claude/local/claude"
+
 thefuck --alias | source
-
-
-########################################
-# Cursor
-########################################
-
-function c
-    if test (count $argv) -eq 1
-        # Use `z` to resolve the directory
-        set dir (z -e $argv[1])
-        if test -n "$dir"
-            /Applications/Cursor.app/Contents/MacOS/Cursor "$dir" >/dev/null 2>&1 &
-            disown
-        else
-            echo "No match found for '$argv[1]'"
-        end
-    else
-        echo "Usage: c <directory>"
-    end
-end
 
 
 ########################################
@@ -44,6 +26,15 @@ end
 
 # Clear shell greeting
 set -g fish_greeting
+
+########################################
+# Ghostty
+########################################
+
+# Fix termcap errors for programs that don't recognize ghostty
+if test "$TERM" = "xterm-ghostty"
+    set -gx TERM xterm-256color
+end
 
 ########################################
 # Golang
@@ -102,4 +93,4 @@ test -e {$HOME}/.iterm2_shell_integration.fish; and source {$HOME}/.iterm2_shell
 # Profound
 ########################################
 
-function sync_s3 --argument-names run_timestamp; aws s3 sync "s3://controller-development/control/$run_timestamp" "data/control/$run_timestamp"; end 
+function sync_s3 --argument-names run_timestamp; aws s3 sync "s3://controller-development/control/$run_timestamp" "data/control/$run_timestamp"; end
