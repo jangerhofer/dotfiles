@@ -16,6 +16,13 @@
 !.config/ghostty/*
 !.config/helix
 !.config/helix/*
+!.config/nvim/
+!.config/nvim/init.lua
+!.config/nvim/lua/
+!.config/nvim/lua/**
+!.config/nvim/stylua.toml
+.config/nvim/lazy-lock.json
+.config/nvim/lazyvim.json
 !.config/starship.toml
 !.config/tmux/
 !.gitconfig
