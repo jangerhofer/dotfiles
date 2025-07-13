@@ -17,6 +17,9 @@ alias zj="zellij"
 
 alias claude="/Users/jdangerhofer/.claude/local/claude"
 
+# Dotfiles bare repository alias
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
 thefuck --alias | source
 
 
