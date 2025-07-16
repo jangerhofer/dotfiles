@@ -19,7 +19,7 @@ function pi-connect
     end
     
     echo "Starting tunnel on port $port..."
-    ssh -N -f -L $port:localhost:$port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no -v
+    ssh -N -f -L $port:localhost:$port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
     
     if test $status -eq 0
         echo "Tunnel established! Now connecting to shell..."
