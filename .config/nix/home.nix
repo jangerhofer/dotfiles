@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./git.nix
+    ./starship.nix
+  ];
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = "jdangerhofer";
   home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/jdangerhofer" else "/home/jdangerhofer";
@@ -49,12 +53,17 @@
           set -gx TERM xterm-256color
       end
       
+      # Ensure nix profile is in PATH
+      if test -d ~/.nix-profile/bin
+          set -gx PATH ~/.nix-profile/bin $PATH
+      end
+      
       # Golang
       set -gx GOPATH $HOME/.go
       set -gx PATH $PATH $GOPATH/bin
       
       # Initialize thefuck (now pay-respects)
-      pay-respects --alias | source
+      pay-respects fish | source
     '';
     
     # Fish functions
@@ -97,18 +106,13 @@
     };
   };
 
-  # Starship prompt
-  programs.starship = {
-    enable = true;
-    enableFishIntegration = true;
-  };
 
-  # Git configuration
-  programs.git = {
-    enable = true;
-    userName = "jdangerhofer";
-    userEmail = "your-email@example.com"; # Update this
-  };
+  # Ghostty terminal configuration
+  home.file.".config/ghostty/config".text = ''
+    theme = nord
+    shell-integration = fish
+  '';
+
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
