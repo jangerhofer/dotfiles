@@ -34,6 +34,12 @@
   # Fish shell configuration
   programs.fish = {
     enable = true;
+    plugins = [
+      { name = "z"; src = pkgs.fishPlugins.z; }
+      { name = "sponge"; src = pkgs.fishPlugins.sponge; }
+      # fzf-fish has test failures, will use home.file for this
+      # fish-history-merge not available in nixpkgs, will use home.file for this
+    ];
     shellAliases = {
       b = "brew";
       g = "git";
