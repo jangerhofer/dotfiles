@@ -1,17 +1,1 @@
-k9s:
-  liveViewAutoRefresh: false
-  screenDumpDir: /tmp/dumps
-  refreshRate: 2
-  maxConnRetry: 5
-  readOnly: false
-  noExitOnCtrlC: false
-  ui:
-    enableMouse: false
-    headless: false
-    logoless: false
-    crumbsless: false
-    splashless: false
-    noIcons: false
-    reactive: false
-    skin: nord
-    defaultsToFullScreen: false
+/nix/store/frzwc0y1jin8172ryib52kwmxd0q4djg-home-manager-files/.config/k9s/config.yaml
