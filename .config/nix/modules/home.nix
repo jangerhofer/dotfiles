@@ -6,6 +6,7 @@
     ./starship.nix
     ./btop.nix
     ./helix.nix
+    ./nvim.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = "jdangerhofer";
@@ -29,6 +30,10 @@
     yt-dlp
     zellij
     btop
+    
+    # Nix development tools
+    nix-tree      # Nix dependency tree viewer
+    nix-output-monitor  # Better nix build output
   ];
 
   # Fish shell configuration
@@ -52,6 +57,17 @@
       dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       hm = "home-manager switch --flake ~/.config/nix#jdangerhofer-mac";
+      
+      # Nix aliases
+      nb = "nix build";
+      nd = "nix develop";
+      nf = "nix flake";
+      ns = "nix shell";
+      nr = "nix run";
+      nfc = "nix flake check";
+      nfu = "nix flake update";
+      nom = "nix-output-monitor";
+      nt = "nix-tree";
     };
     shellInit = ''
       # Clear shell greeting
@@ -128,9 +144,6 @@
     ".config/k9s/aliases.yaml".source = ../configs/k9s/aliases.yaml;
     ".config/k9s/config.yaml".source = ../configs/k9s/config.yaml;
     ".config/k9s/skins/nord.yaml".source = ../configs/k9s/skins/nord.yaml;
-    
-    # Neovim configuration
-    ".config/nvim".source = ../configs/nvim;
     
     # Helix themes
     ".config/helix/themes/nord.toml".source = ../configs/helix/themes/nord.toml;
