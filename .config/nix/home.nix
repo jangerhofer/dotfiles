@@ -14,7 +14,7 @@
   home.packages = with pkgs; [
     fish
     starship
-    thefuck
+    pay-respects  # replacement for thefuck
     git
     curl
     ripgrep
