@@ -1,6 +1,7 @@
 tap "common-fate/granted"
 tap "mrkai77/cask"
 tap "oven-sh/bun"
+tap "probe-rs/probe-rs"
 tap "supabase/tap"
 tap "superfly/tap"
 tap "withgraphite/tap"
@@ -10,14 +11,12 @@ brew "aom"
 brew "arduino-cli"
 # GNU compiler collection for arm-none-eabi
 brew "arm-none-eabi-gcc"
-# Official Amazon AWS command-line interface
-brew "awscli"
-# Resource monitor. C++ version and continuation of bashtop and bpytop
-brew "btop"
 # GNU internationalization (i18n) and localization (l10n) library
 brew "gettext"
 # Core application library for C
 brew "glib"
+# Official Amazon AWS command-line interface
+brew "awscli"
 # Binary installation for rust projects
 brew "cargo-binstall"
 # Cloudflare Tunnel client (formerly Argo Tunnel)
@@ -42,6 +41,8 @@ brew "fb303"
 brew "edencommon"
 # C++ template library for linear algebra
 brew "eigen"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
 # Low-level cryptographic library
 brew "nettle"
 # GNU Transport Layer Security (TLS) Library
@@ -54,8 +55,6 @@ brew "leptonica"
 brew "libass"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
-# User-friendly command-line shell for UNIX-like operating systems
-brew "fish"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # Library for encoding and decoding .avif files
@@ -64,8 +63,6 @@ brew "libavif"
 brew "gd"
 # GitHub command-line tool
 brew "gh"
-# Distributed revision control system
-brew "git"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
 # Git extension for versioning large files
@@ -94,6 +91,8 @@ brew "graphviz"
 brew "helix"
 # Kubernetes package manager
 brew "helm"
+# C/C++ and Java libraries for Unicode and globalization
+brew "icu4c@76"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # String tool
@@ -108,10 +107,6 @@ brew "kubernetes-cli"
 brew "kubie"
 # Template-free customization of Kubernetes YAML manifests
 brew "kustomize"
-# Lazier way to manage everything docker
-brew "lazydocker"
-# Simple terminal UI for git commands
-brew "lazygit"
 # Postgres C API library
 brew "libpq"
 # Mac App Store command-line interface
@@ -124,6 +119,8 @@ brew "mosh"
 brew "mtr"
 # QUIC transport protocol implementation
 brew "mvfst"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
 # Port scanning utility for large networks
 brew "nmap"
 # Tiny, lightning fast, feature-packed file manager
@@ -136,6 +133,8 @@ brew "node@20"
 brew "oci-cli"
 # On-chip debugging, in-system programming and boundary-scan testing
 brew "open-ocd"
+# Development kit for the Java programming language
+brew "openjdk"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Fast, disk space efficient package manager
@@ -151,14 +150,13 @@ brew "python@3.10"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
 # Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Cross-platform application and UI framework
 brew "qt@5"
 # Persistent key-value database, with built-in net interface
 brew "redis"
-# Search tool like grep and The Silver Searcher
-brew "ripgrep"
 # Utility that provides fast incremental file transfer
 brew "rsync"
 # Experimental Rust compiler front-end for IDEs
@@ -167,8 +165,8 @@ brew "rust-analyzer"
 brew "rustup"
 # Sigrok command-line interface to use logic analyzers and more
 brew "sigrok-cli"
-# Cross-shell prompt for astronauts
-brew "starship"
+# STM32 discovery line Linux programmer
+brew "stlink"
 # Tool to impose load on and stress test a computer system
 brew "stress"
 # User interface to the TELNET protocol
@@ -181,20 +179,20 @@ brew "tmux"
 brew "tree"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Your favorite rust -> wasm workflow tool!
+brew "wasm-pack"
 # Watch files and take action when they change
 brew "watchman"
 # Internet file retriever
 brew "wget"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
-# Feature-rich command-line audio/video downloader
-brew "yt-dlp"
-# Pluggable terminal workspace, with terminal multiplexer as the base feature
-brew "zellij"
 # Programming language designed for robustness, optimality, and clarity
 brew "zig"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
+# A collection of on chip debugging tools to communicate with microchips.
+brew "probe-rs/probe-rs/probe-rs"
 brew "superfly/tap/flyctl"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
@@ -208,6 +206,8 @@ cask "anki"
 cask "appcleaner"
 # Electronics prototyping platform
 cask "arduino-ide"
+# Tool to flash OS images to SD cards & USB drives
+cask "balenaetcher"
 # 3D model slicing software for 3D printers, maintained by Bambu Lab
 cask "bambu-studio"
 # Downloads scientific computing jobs and runs them invisibly in the background
@@ -219,7 +219,7 @@ cask "datagrip"
 # Voice and text chat software
 cask "discord"
 # App to build and share containerised applications and microservices
-cask "docker"
+cask "docker-desktop"
 # Emulator to play GameCube and Wii games
 cask "dolphin"
 # Remote desktop and second display tool
@@ -228,11 +228,82 @@ cask "duet"
 cask "figma"
 # Web browser
 cask "firefox"
+cask "font-0xproto-nerd-font"
+cask "font-3270-nerd-font"
+cask "font-adwaita-mono-nerd-font"
+cask "font-agave-nerd-font"
+cask "font-anonymice-nerd-font"
+cask "font-arimo-nerd-font"
+cask "font-atkynson-mono-nerd-font"
+cask "font-aurulent-sans-mono-nerd-font"
+cask "font-bigblue-terminal-nerd-font"
+cask "font-bitstream-vera-sans-mono-nerd-font"
+cask "font-blex-mono-nerd-font"
+cask "font-caskaydia-cove-nerd-font"
+cask "font-caskaydia-mono-nerd-font"
+cask "font-code-new-roman-nerd-font"
+cask "font-comic-shanns-mono-nerd-font"
+cask "font-commit-mono-nerd-font"
+cask "font-cousine-nerd-font"
+cask "font-d2coding-nerd-font"
+cask "font-daddy-time-mono-nerd-font"
+cask "font-dejavu-sans-mono-nerd-font"
+cask "font-departure-mono-nerd-font"
+cask "font-droid-sans-mono-nerd-font"
+cask "font-envy-code-r-nerd-font"
+cask "font-fantasque-sans-mono-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-fira-mono-nerd-font"
+cask "font-geist-mono-nerd-font"
+cask "font-go-mono-nerd-font"
+cask "font-gohufont-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-hasklug-nerd-font"
+cask "font-heavy-data-nerd-font"
+cask "font-hurmit-nerd-font"
+cask "font-im-writing-nerd-font"
 cask "font-inconsolata"
+cask "font-inconsolata-go-nerd-font"
+cask "font-inconsolata-lgc-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-intone-mono-nerd-font"
+cask "font-iosevka-nerd-font"
+cask "font-iosevka-term-nerd-font"
+cask "font-iosevka-term-slab-nerd-font"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
-cask "font-monaspace"
+cask "font-lekton-nerd-font"
+cask "font-liberation-nerd-font"
+cask "font-lilex-nerd-font"
+cask "font-m+-nerd-font"
+cask "font-martian-mono-nerd-font"
+cask "font-meslo-lg-nerd-font"
 cask "font-monaspace-nerd-font"
+cask "font-monocraft-nerd-font"
+cask "font-monofur-nerd-font"
+cask "font-monoid-nerd-font"
+cask "font-mononoki-nerd-font"
+cask "font-noto-nerd-font"
+cask "font-open-dyslexic-nerd-font"
+cask "font-overpass-nerd-font"
+cask "font-profont-nerd-font"
+cask "font-proggy-clean-tt-nerd-font"
+cask "font-recursive-mono-nerd-font"
+cask "font-roboto-mono-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+cask "font-sf-mono-nerd-font-ligaturized"
+cask "font-shure-tech-mono-nerd-font"
+cask "font-space-mono-nerd-font"
+cask "font-symbols-only-nerd-font"
+cask "font-terminess-ttf-nerd-font"
+cask "font-tinos-nerd-font"
+cask "font-ubuntu-mono-nerd-font"
+cask "font-ubuntu-nerd-font"
+cask "font-ubuntu-sans-nerd-font"
+cask "font-victor-mono-nerd-font"
+cask "font-zed-mono-nerd-font"
+# Set of tools to manage resources and applications hosted on Google Cloud
+cask "gcloud-cli"
 # Tool to measure the computer system's performance
 cask "geekbench"
 # Software reverse engineering (SRE) suite of tools
@@ -241,8 +312,6 @@ cask "ghidra"
 cask "ghostty"
 # Web browser
 cask "google-chrome"
-# Set of tools to manage resources and applications hosted on Google Cloud
-cask "google-cloud-sdk"
 # Tools to protect your files
 cask "gpg-suite-no-mail"
 # Graphically shows disk usage within a file system
@@ -275,6 +344,8 @@ cask "nvidia-geforce-now"
 cask "obsidian"
 # Replacement for Docker Desktop
 cask "orbstack"
+# Desktop virtualization software
+cask "parallels"
 # Home media server
 cask "plex-media-server"
 # App wrapper for Postgres
@@ -295,18 +366,24 @@ cask "saleae-logic"
 cask "screens-connect"
 # App that enables mouse-free UI interaction
 cask "shortcat"
+# Music streaming service
+cask "spotify"
 # Video game digital distribution service
 cask "steam"
+# Mesh VPN based on WireGuard
+cask "tailscale-app"
 # Automatic time and productivity tracking app
 cask "timing"
 # Web browser focusing on security
 cask "tor-browser"
 # Open-source BitTorrent client
 cask "transmission"
+# File transfer application
+cask "transmit"
 # Open-source code editor
 cask "visual-studio-code"
 # Network protocol analyzer
-cask "wireshark"
+cask "wireshark-app"
 # Indoor cycling game
 cask "zwift"
 mas "1Password for Safari", id: 1569813296
@@ -322,24 +399,20 @@ mas "RCT Classic+", id: 6702028686
 mas "Sink It", id: 6449873635
 mas "Speedtest", id: 1153157709
 mas "Surfshark", id: 1437809329
-mas "Tailscale", id: 1475387142
 mas "TestFlight", id: 899247664
 mas "Xcode", id: 497799835
 vscode "anthropic.claude-code"
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "astro-build.astro-vscode"
 vscode "austenc.tailwind-docs"
+vscode "biomejs.biome"
 vscode "bradlc.vscode-tailwindcss"
-vscode "bungcip.better-toml"
 vscode "christian-kohler.npm-intellisense"
 vscode "dbaeumer.vscode-eslint"
 vscode "denoland.vscode-deno"
 vscode "digitalbrainstem.javascript-ejs-support"
-vscode "dkundel.vscode-new-file"
-vscode "donjayamanne.python-environment-manager"
 vscode "eamodio.gitlens"
 vscode "earthly.earthfile-syntax-highlighting"
-vscode "esbenp.prettier-vscode"
 vscode "firsttris.vscode-jest-runner"
 vscode "forbeslindesay.vscode-sql-template-literal"
 vscode "ghmcadams.lintlens"
@@ -363,7 +436,6 @@ vscode "moonrepo.moon-console"
 vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
-vscode "ms-python.black-formatter"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.mypy-type-checker"
@@ -387,11 +459,8 @@ vscode "ms-vsliveshare.vsliveshare"
 vscode "ms-vsliveshare.vsliveshare-pack"
 vscode "mtxr.sqltools"
 vscode "mtxr.sqltools-driver-sqlite"
-vscode "nicoespeon.abracadabra"
-vscode "nrwl.angular-console"
 vscode "ocamllabs.ocaml-platform"
 vscode "orta.vscode-jest"
-vscode "orta.vscode-twoslash-queries"
 vscode "oven.bun-vscode"
 vscode "panicbit.cargo"
 vscode "pkief.material-icon-theme"
@@ -409,7 +478,7 @@ vscode "unifiedjs.vscode-mdx"
 vscode "vadimcn.vscode-lldb"
 vscode "viktorqvarfordt.vscode-pitch-black-theme"
 vscode "vincaslt.highlight-matching-tag"
+vscode "vintharas.learn-vim"
 vscode "vscodevim.vim"
 vscode "yoavbls.pretty-ts-errors"
 vscode "yzhang.markdown-all-in-one"
-vscode "zixuanchen.vitest-explorer"
