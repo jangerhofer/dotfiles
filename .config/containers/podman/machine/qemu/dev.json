@@ -1,0 +1,83 @@
+{
+ "ConfigPath": {
+  "Path": "/Users/jdangerhofer/.config/containers/podman/machine/qemu/dev.json"
+ },
+ "CmdLine": [
+  "/opt/homebrew/bin/qemu-system-aarch64",
+  "-m",
+  "2048",
+  "-smp",
+  "1",
+  "-fw_cfg",
+  "name=opt/com.coreos/config,file=/Users/jdangerhofer/.config/containers/podman/machine/qemu/dev.ign",
+  "-qmp",
+  "unix://var/folders/c_/3m5ch21941s5vdf_t9yghf_r0000gn/T/podman/qmp_dev.sock,server=on,wait=off",
+  "-netdev",
+  "socket,id=vlan,fd=3",
+  "-device",
+  "virtio-net-pci,netdev=vlan,mac=5a:94:ef:e4:0c:ee",
+  "-device",
+  "virtio-serial",
+  "-chardev",
+  "socket,path=/var/folders/c_/3m5ch21941s5vdf_t9yghf_r0000gn/T/podman/dev_ready.sock,server=on,wait=off,id=dev_ready",
+  "-device",
+  "virtserialport,chardev=dev_ready,name=org.fedoraproject.port.0",
+  "-accel",
+  "hvf",
+  "-accel",
+  "tcg",
+  "-cpu",
+  "host",
+  "-M",
+  "virt,highmem=on",
+  "-drive",
+  "file=/opt/homebrew/share/qemu/edk2-aarch64-code.fd,if=pflash,format=raw,readonly=on",
+  "-drive",
+  "file=/Users/jdangerhofer/.local/share/containers/podman/machine/qemu/dev_ovmf_vars.fd,if=pflash,format=raw",
+  "-virtfs",
+  "local,path=/Users/jdangerhofer,mount_tag=vol0,security_model=mapped-xattr",
+  "-drive",
+  "if=virtio,file=/Users/jdangerhofer/.local/share/containers/podman/machine/qemu/dev_fedora-coreos-36.20220618.2.0-qemu.aarch64.qcow2"
+ ],
+ "Rootful": true,
+ "UID": 501,
+ "IgnitionFilePath": {
+  "Path": "/Users/jdangerhofer/.config/containers/podman/machine/qemu/dev.ign"
+ },
+ "ImageStream": "testing",
+ "ImagePath": {
+  "Path": "/Users/jdangerhofer/.local/share/containers/podman/machine/qemu/dev_fedora-coreos-36.20220618.2.0-qemu.aarch64.qcow2"
+ },
+ "Mounts": [
+  {
+   "ReadOnly": false,
+   "Source": "/Users/jdangerhofer",
+   "Tag": "vol0",
+   "Target": "/Users/jdangerhofer",
+   "Type": "9p"
+  }
+ ],
+ "Name": "dev",
+ "PidFilePath": {
+  "Path": "/var/folders/c_/3m5ch21941s5vdf_t9yghf_r0000gn/T/podman/dev.pid"
+ },
+ "QMPMonitor": {
+  "Address": {
+   "Path": "/var/folders/c_/3m5ch21941s5vdf_t9yghf_r0000gn/T/podman/qmp_dev.sock"
+  },
+  "Network": "unix",
+  "Timeout": 2000000000
+ },
+ "ReadySocket": {
+  "Path": "/var/folders/c_/3m5ch21941s5vdf_t9yghf_r0000gn/T/podman/dev_ready.sock"
+ },
+ "CPUs": 1,
+ "DiskSize": 100,
+ "Memory": 2048,
+ "IdentityPath": "/Users/jdangerhofer/.ssh/dev",
+ "Port": 58674,
+ "RemoteUsername": "core",
+ "Starting": false,
+ "Created": "2022-07-02T18:47:32.829502-04:00",
+ "LastUp": "2022-07-02T18:50:03.586153-04:00"
+}
