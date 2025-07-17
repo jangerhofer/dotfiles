@@ -116,12 +116,30 @@
   };
 
 
-  # Ghostty terminal configuration
-  home.file.".config/ghostty/config".text = ''
-    theme = nord
-    shell-integration = fish
-  '';
-
+  # File management for remaining configs
+  home.file = {
+    # Ghostty terminal configuration
+    ".config/ghostty/config".text = ''
+      theme = nord
+      shell-integration = fish
+    '';
+    
+    # K9s configuration
+    ".config/k9s/aliases.yaml".source = ./k9s/aliases.yaml;
+    ".config/k9s/config.yaml".source = ./k9s/config.yaml;
+    ".config/k9s/skins/nord.yaml".source = ./k9s/skins/nord.yaml;
+    
+    # Neovim configuration
+    ".config/nvim".source = ./nvim;
+    
+    # Helix themes
+    ".config/helix/themes/nord.toml".source = ./helix/themes/nord.toml;
+    
+    # Fish plugin files (until we can migrate them to nix)
+    ".config/fish/completions".source = ./fish/completions;
+    ".config/fish/conf.d".source = ./fish/conf.d;
+    ".config/fish/functions".source = ./fish/functions;
+  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
