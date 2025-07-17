@@ -35,7 +35,10 @@
       lg = "lazygit";
       yt = "yt-dlp";
       zj = "zellij";
-      dotfiles = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
+      claude = "/Users/jdangerhofer/.claude/local/claude";
+      dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
+      dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
+      hm = "home-manager switch --flake ~/.config/nix#jdangerhofer-mac";
     };
     shellInit = ''
       # Clear shell greeting
