@@ -18,3 +18,16 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   pattern = "*",
   command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
 })
+
+-- Check for deleted files
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  pattern = "*",
+  callback = function()
+    local file = vim.fn.expand("%:p")
+    if file ~= "" and vim.fn.filereadable(file) == 0 and vim.fn.bufexists(file) == 1 then
+      vim.api.nvim_echo({
+        { "WARNING: File '" .. vim.fn.expand("%") .. "' no longer exists on disk!", "ErrorMsg" }
+      }, true, {})
+    end
+  end,
+})
