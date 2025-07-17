@@ -29,7 +29,7 @@ echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 
 # Deploy environment using Nix
 if [ "$IS_MAC" = true ]; then
-    echo "🍎 Setting up macOS environment with nix-darwin..."
+    echo "🍎 Setting up macOS system preferences with nix-darwin..."
     
     # Install nix-darwin if not already installed
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
@@ -38,6 +38,17 @@ if [ "$IS_MAC" = true ]; then
     else
         echo "🔄 Updating macOS configuration..."
         darwin-rebuild switch --flake ~/.config/nix#jdangerhofer-mac
+    fi
+    
+    echo "🏠 Setting up user environment with Home Manager..."
+    
+    # Home Manager must run as the actual user, not root
+    if ! sudo -u jdangerhofer bash -c 'command -v home-manager >/dev/null 2>&1'; then
+        echo "📦 Installing Home Manager..."
+        sudo -u jdangerhofer bash -c 'nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac'
+    else
+        echo "🔄 Updating user configuration..."
+        sudo -u jdangerhofer bash -c 'home-manager switch --flake ~/.config/nix#jdangerhofer-mac'
     fi
     
     # Apply macOS preferences
