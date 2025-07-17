@@ -4,6 +4,7 @@
   imports = [
     ./git.nix
     ./starship.nix
+    ./btop.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = "jdangerhofer";
@@ -26,6 +27,7 @@
     lazydocker
     yt-dlp
     zellij
+    btop
   ];
 
   # Fish shell configuration
