@@ -1,1 +1,0 @@
-/nix/store/pq2nnz68f68yl3ah4264cm031clbblv2-home-manager-files/.config/fish/functions/idea.fish
