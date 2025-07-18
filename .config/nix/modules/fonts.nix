@@ -17,7 +17,7 @@
     nerd-fonts.meslo-lg
     nerd-fonts.victor-mono
     nerd-fonts.iosevka
-    nerd-fonts.anonymous-pro
+    nerd-fonts.anonymice
     nerd-fonts.space-mono
     nerd-fonts.go-mono
     
