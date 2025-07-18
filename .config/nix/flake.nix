@@ -15,14 +15,13 @@
 
   outputs = { self, nixpkgs, home-manager, nix-darwin }:
     {
-      # macOS configuration (nix-darwin only - system preferences)
-      darwinConfigurations."jdangerhofer-mac" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.default = { username ? "user" }: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           {
             # Required nix-darwin settings
             system.stateVersion = 6;
-            system.primaryUser = "jdangerhofer";
+            system.primaryUser = username;
             nix.enable = false;
             
             # macOS system preferences
@@ -61,7 +60,7 @@
             # Apply settings immediately and create directories
             system.activationScripts.extraActivation.text = ''
               /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-              sudo -u jdangerhofer mkdir -p /Users/jdangerhofer/Desktop/Screenshots
+              sudo -u ${username} mkdir -p /Users/${username}/Desktop/Screenshots
             '';
             
             # macOS-specific packages via Homebrew
@@ -76,19 +75,16 @@
       
       # Home Manager configurations
       homeConfigurations = {
-        # macOS Apple Silicon
         "macos-aarch64" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin;
           modules = [ ./modules/home.nix ];
         };
         
-        # Linux x86_64
         "linux-x86_64" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [ ./modules/home.nix ];
         };
         
-        # Linux ARM64
         "linux-aarch64" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-linux;
           modules = [ ./modules/home.nix ];
