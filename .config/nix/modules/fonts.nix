@@ -5,24 +5,22 @@
   fonts.fontconfig.enable = true;
   
   home.packages = with pkgs; [
-    # Essential programming fonts
-    (nerdfonts.override { fonts = [ 
-      "JetBrainsMono"
-      "FiraCode" 
-      "Hack"
-      "SourceCodePro"
-      "UbuntuMono"
-      "DejaVuSansMono"
-      "Inconsolata"
-      "RobotoMono"
-      "Meslo"
-      "VictorMono"
-      "CascadiaCode"
-      "Iosevka"
-      "AnonymousPro"
-      "SpaceMono"
-      "GoMono"
-    ]; })
+    # Essential programming fonts (new nerd-fonts namespace)
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.sauce-code-pro
+    nerd-fonts.ubuntu-mono
+    nerd-fonts.dejavu-sans-mono
+    nerd-fonts.inconsolata
+    nerd-fonts.roboto-mono
+    nerd-fonts.meslo-lg
+    nerd-fonts.victor-mono
+    nerd-fonts.cascadia-code
+    nerd-fonts.iosevka
+    nerd-fonts.anonymous-pro
+    nerd-fonts.space-mono
+    nerd-fonts.go-mono
     
     # Additional useful fonts
     jetbrains-mono
