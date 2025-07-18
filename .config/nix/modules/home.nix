@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -13,8 +13,8 @@
     ./ssh.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
-  home.username = builtins.getEnv "USER";
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${builtins.getEnv "USER"}" else "/home/${builtins.getEnv "USER"}";
+  home.username = config.home.username;
+  home.homeDirectory = config.home.homeDirectory;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

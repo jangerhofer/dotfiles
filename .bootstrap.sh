@@ -23,10 +23,11 @@ echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 # Deploy environment
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🍎 Updating macOS configuration..."
+    
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
-        nix run nix-darwin -- switch --flake ~/.config/nix#jdangerhofer-mac
+        nix run nix-darwin -- switch --flake ~/.config/nix#default --argstr username "$USER"
     else
-        darwin-rebuild switch --flake ~/.config/nix#jdangerhofer-mac
+        darwin-rebuild switch --flake ~/.config/nix#default --argstr username "$USER"
     fi
     
     echo "🏠 Updating user environment..."
