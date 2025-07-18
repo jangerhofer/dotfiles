@@ -19,7 +19,6 @@
       claude = "/Users/jdangerhofer/.claude/local/claude";
       dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
-      hm = "home-manager switch --flake ~/.config/nix#jdangerhofer-mac";
       
       # History management
       hsync = "history --merge";
@@ -106,6 +105,23 @@
           aws s3 sync "s3://controller-development/control/$argv[1]" "data/control/$argv[1]"
         '';
         description = "Sync S3 data for given timestamp";
+      };
+      
+      hm = {
+        body = ''
+          set TEMP_FLAKE (mktemp -d)
+          cat > "$TEMP_FLAKE/flake.nix" << 'EOF'
+{
+  inputs.config.url = "path:$HOME/.config/nix";
+  outputs = { self, config }: {
+    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "aarch64-darwin";
+  };
+}
+EOF
+          home-manager switch --flake "$TEMP_FLAKE#default"
+          rm -rf "$TEMP_FLAKE"
+        '';
+        description = "Switch home-manager configuration with dynamic user";
       };
     };
   };
