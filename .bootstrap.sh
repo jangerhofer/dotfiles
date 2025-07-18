@@ -101,8 +101,11 @@ if [ -n "$FISH_PATH" ]; then
     # Change default shell to fish
     if [ "$SHELL" != "$FISH_PATH" ]; then
         echo "Changing default shell to fish..."
-        chsh -s "$FISH_PATH"
-        echo "✅ Default shell changed to fish"
+        if sudo chsh -s "$FISH_PATH" "$USER" 2>/dev/null; then
+            echo "✅ Default shell changed to fish"
+        else
+            echo "⚠️  Could not change default shell automatically. Run manually: sudo chsh -s $FISH_PATH $USER"
+        fi
     else
         echo "✅ Fish is already the default shell"
     fi
