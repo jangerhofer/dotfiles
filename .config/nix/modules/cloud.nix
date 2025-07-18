@@ -16,7 +16,7 @@
     
     # Monitoring and observability
     prometheus      # Metrics monitoring
-    grafana-cli     # Grafana CLI
+    grafana         # Grafana CLI
     
     # Service mesh and networking
     istioctl        # Istio service mesh CLI

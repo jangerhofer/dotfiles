@@ -67,6 +67,9 @@
       
       # Initialize thefuck (now pay-respects)
       pay-respects fish | source
+      
+      # Initialize direnv
+      direnv hook fish | source
     '';
     
     # Fish functions
@@ -109,19 +112,9 @@
       
       hm = {
         body = ''
-          set TEMP_FLAKE (mktemp -d)
-          cat > "$TEMP_FLAKE/flake.nix" << 'EOF'
-{
-  inputs.config.url = "path:$HOME/.config/nix";
-  outputs = { self, config }: {
-    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "aarch64-darwin";
-  };
-}
-EOF
-          home-manager switch --flake "$TEMP_FLAKE#default"
-          rm -rf "$TEMP_FLAKE"
+          home-manager switch --flake ~/.config/nix#macos-aarch64
         '';
-        description = "Switch home-manager configuration with dynamic user";
+        description = "Switch home-manager configuration";
       };
     };
   };

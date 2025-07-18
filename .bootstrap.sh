@@ -26,32 +26,21 @@ fi
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🍎 Updating macOS configuration..."
     
+    # Use direct flake configuration
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
-        nix run nix-darwin -- switch --flake ~/.config/nix#default --argstr username "$USER"
+        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
     else
-        darwin-rebuild switch --flake ~/.config/nix#default --argstr username "$USER"
+        sudo darwin-rebuild switch --flake ~/.config/nix#default
     fi
     
     echo "🏠 Updating user environment..."
     
-    # Create temporary flake for home-manager with current user
-    TEMP_FLAKE=$(mktemp -d)
-    cat > "$TEMP_FLAKE/flake.nix" << EOF
-{
-  inputs.config.url = "path:$HOME/.config/nix";
-  outputs = { self, config }: {
-    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "aarch64-darwin";
-  };
-}
-EOF
-    
+    # Use direct flake configuration
     if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake "$TEMP_FLAKE#default"
+        nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64
     else
-        home-manager switch --flake "$TEMP_FLAKE#default"
+        home-manager switch --flake ~/.config/nix#macos-aarch64
     fi
-    
-    rm -rf "$TEMP_FLAKE"
 else
     echo "🐧 Updating Linux environment..."
     # Detect ARM vs x86
