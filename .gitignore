@@ -6,3 +6,9 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Runtime logs and state files
+.config/btop/btop.log
+.config/dagger/.buildkitd.lock
+.config/dagger/cli_id
+.config/dagger/version-check
