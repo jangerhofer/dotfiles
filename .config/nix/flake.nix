@@ -32,7 +32,7 @@
             # macOS system preferences
             system.defaults = {
               NSGlobalDomain = {
-                _HIHideMenuBar = true;
+                _HIHideMenuBar = false;
                 InitialKeyRepeat = 15;
                 KeyRepeat = 2;
                 AppleShowAllExtensions = true;

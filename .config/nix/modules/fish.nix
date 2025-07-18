@@ -43,9 +43,12 @@
           set -gx TERM xterm-256color
       end
       
-      # Ensure nix profile is in PATH
+      # Ensure nix profiles are in PATH
       if test -d ~/.nix-profile/bin
           set -gx PATH ~/.nix-profile/bin $PATH
+      end
+      if test -d /nix/var/nix/profiles/default/bin
+          set -gx PATH /nix/var/nix/profiles/default/bin $PATH
       end
       
       # Golang

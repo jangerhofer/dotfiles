@@ -4,16 +4,6 @@
   programs.ssh = {
     enable = true;
     
-    # Cross-platform 1Password SSH agent integration
-    extraConfig = ''
-      AddKeysToAgent yes
-      ${if pkgs.stdenv.isDarwin then ''
-        IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-      '' else ''
-        IdentityAgent ~/.1password/agent.sock
-      ''}
-    '';
-    
     # Common SSH configurations
     matchBlocks = {
       # GitHub
@@ -45,9 +35,19 @@
     serverAliveCountMax = 3;
     compression = true;
     
-    # Prevent SSH from using known_hosts for better security
-    userKnownHostsFile = "~/.ssh/known_hosts ~/.ssh/known_hosts2";
-    strictHostKeyChecking = "ask";
+    # Cross-platform 1Password SSH agent integration and security settings
+    extraConfig = ''
+      AddKeysToAgent yes
+      ${if pkgs.stdenv.isDarwin then ''
+        IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+      '' else ''
+        IdentityAgent ~/.1password/agent.sock
+      ''}
+      
+      # Security settings
+      UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/known_hosts2
+      StrictHostKeyChecking ask
+    '';
   };
   
   # Ensure SSH directory exists with correct permissions
