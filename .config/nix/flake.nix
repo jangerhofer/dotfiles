@@ -74,22 +74,25 @@
         ];
       };
       
-      # macOS Home Manager configuration (standalone)
-      homeConfigurations."jdangerhofer-mac" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./modules/home.nix ];
-      };
-
-      # Linux x86_64 configuration
-      homeConfigurations."jdangerhofer" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./modules/home.nix ];
-      };
-      
-      # Linux aarch64 configuration  
-      homeConfigurations."jdangerhofer-arm" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        modules = [ ./modules/home.nix ];
+      # Home Manager configurations
+      homeConfigurations = {
+        # macOS Apple Silicon
+        "macos-aarch64" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          modules = [ ./modules/home.nix ];
+        };
+        
+        # Linux x86_64
+        "linux-x86_64" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [ ./modules/home.nix ];
+        };
+        
+        # Linux ARM64
+        "linux-aarch64" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux;
+          modules = [ ./modules/home.nix ];
+        };
       };
     };
 }
