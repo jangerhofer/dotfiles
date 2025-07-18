@@ -16,7 +16,7 @@
     nerd-fonts.roboto-mono
     nerd-fonts.meslo-lg
     nerd-fonts.victor-mono
-    nerd-fonts.cascadia-code
+    nerd-fonts.cascadia-mono
     nerd-fonts.iosevka
     nerd-fonts.anonymous-pro
     nerd-fonts.space-mono
