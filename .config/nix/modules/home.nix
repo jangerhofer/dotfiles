@@ -11,7 +11,6 @@
     ./k9s.nix
     ./fish.nix
     ./ssh.nix
-    ./lazygit.nix
   ];
 
   # This value determines the Home Manager release that your configuration is
