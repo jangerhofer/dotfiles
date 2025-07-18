@@ -4,10 +4,9 @@ Personal dotfiles managed with a bare Git repository.
 
 ## Quick Setup
 
-```bash
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+### Automated Setup (Recommended)
 
+```bash
 # Clone dotfiles as bare repository
 git clone --bare https://github.com/jangerhofer/dotfiles.git $HOME/.dotfiles
 
@@ -16,30 +15,26 @@ alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Backup any existing conflicting files
 mkdir -p ~/.config-backup
-dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.config-backup/{}
+dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.config-backup/{} 2>/dev/null || true
 
 # Checkout dotfiles
 dotfiles checkout
-
-# Hide untracked files (already configured in repo)
 dotfiles config --local status.showUntrackedFiles no
 
-# Restore Homebrew packages
-brew_restore
-
-# Set up fish shell
+# Run automated bootstrap (installs Nix, applies configurations)
 ./.bootstrap.sh
+```
 
-# Install and configure Nix
-nix-env -i nix-darwin
-sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup || true
-sudo ln -s ~/.config/nix/nix.conf /etc/nix/nix.conf
+### Manual Setup (macOS with Homebrew)
 
-# For macOS - apply system configuration
-nix run nix-darwin -- switch --flake ~/.config/nix#jdangerhofer-mac
+For those preferring manual control:
 
-# Apply Home Manager configuration  
-nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac
+```bash
+# Install Homebrew first
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Follow automated setup steps above, then:
+brew_restore  # Restore Homebrew packages
 ```
 
 *Note: Fish config includes the `dotfiles` alias automatically after setup.*
