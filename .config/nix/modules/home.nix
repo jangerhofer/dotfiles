@@ -90,6 +90,7 @@
     # Nix development tools
     nix-tree       # Nix dependency tree viewer
     nix-output-monitor  # Better nix build output
+    nix-index      # Nix package search tool
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     # macOS-specific tools
     mas            # Mac App Store CLI
