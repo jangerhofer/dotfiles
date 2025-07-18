@@ -116,11 +116,103 @@
         '';
         description = "Switch home-manager configuration";
       };
+      
+      "up-or-search" = {
+        body = ''
+          # If we are already in search mode, continue
+          if commandline --search-mode
+              commandline -f history-search-backward
+              return
+          end
+
+          # If we are navigating the pager, then up always navigates
+          if commandline --paging-mode
+              commandline -f up-line
+              return
+          end
+
+          # We are not already in search mode.
+          # If we are on the top line, start search mode,
+          # otherwise move up
+          set lineno (commandline -L)
+
+          switch $lineno
+              case 1
+                  commandline -f history-search-backward
+                  history merge # <-- ADDED THIS
+
+              case '*'
+                  commandline -f up-line
+          end
+        '';
+        description = "Depending on cursor position and current mode, either search backward or move up one line";
+      };
+      
+      "install-nerd-fonts" = {
+        body = ''
+          brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
+        '';
+        description = "Install all available nerd fonts via Homebrew";
+      };
+      
+      "pi-connect" = {
+        body = ''
+          set -l host $argv[1]
+          set -l port $argv[2]
+          if test -z "$port"
+              set port 8001
+          end
+          
+          # Kill any existing tunnel on this port
+          set -l existing_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
+          if test -n "$existing_pid"
+              echo "Killing existing tunnel (PID: $existing_pid)..."
+              kill $existing_pid
+              sleep 1
+          end
+          
+          echo "Starting tunnel on port $port..."
+          ssh -N -f -L $port:localhost:$port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
+          
+          if test $status -eq 0
+              echo "Tunnel established! Now connecting to shell..."
+              ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no pi@$host
+          else
+              echo "Failed to establish tunnel"
+              return 1
+          end
+        '';
+        description = "Start SSH tunnel and connection to Pi";
+      };
+      
+      "pi-disconnect" = {
+        body = ''
+          set -l host $argv[1]
+          set -l port $argv[2]
+          if test -z "$port"
+              set port 8001
+          end
+          
+          set -l existing_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
+          if test -n "$existing_pid"
+              echo "Killing tunnel to $host:$port (PID: $existing_pid)..."
+              kill $existing_pid
+          else
+              echo "No tunnel found for $host:$port"
+          end
+        '';
+        description = "Disconnect SSH tunnel to Pi";
+      };
     };
   };
 
   # Fish plugin files (until we can migrate them to nix)
   home.file = {
     ".config/fish/completions".source = ../configs/fish/completions;
+    ".config/fish/conf.d/z.fish".source = ../configs/fish/conf.d/z.fish;
+    ".config/fish/functions/__z.fish".source = ../configs/fish/functions/__z.fish;
+    ".config/fish/functions/__z_add.fish".source = ../configs/fish/functions/__z_add.fish;
+    ".config/fish/functions/__z_clean.fish".source = ../configs/fish/functions/__z_clean.fish;
+    ".config/fish/functions/__z_complete.fish".source = ../configs/fish/functions/__z_complete.fish;
   };
 }
