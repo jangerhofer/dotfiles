@@ -46,7 +46,7 @@
     
     # Development tools (migrated from homebrew)
     gh             # GitHub command-line tool
-    git-delta      # Syntax-highlighting pager for git and diff output
+    delta          # Syntax-highlighting pager for git and diff output
     git-lfs        # Git extension for versioning large files
     git-sizer      # Compute various size metrics for a Git repository
     awscli         # Official Amazon AWS command-line interface
