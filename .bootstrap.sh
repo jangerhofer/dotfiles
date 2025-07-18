@@ -33,11 +33,25 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     fi
     
     echo "🏠 Updating user environment..."
+    
+    # Create temporary flake for home-manager with current user
+    TEMP_FLAKE=$(mktemp -d)
+    cat > "$TEMP_FLAKE/flake.nix" << EOF
+{
+  inputs.config.url = "path:$HOME/.config/nix";
+  outputs = { self, config }: {
+    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "aarch64-darwin";
+  };
+}
+EOF
+    
     if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"aarch64-darwin\""
+        nix run home-manager/master -- switch --flake "$TEMP_FLAKE#default"
     else
-        home-manager switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"aarch64-darwin\""
+        home-manager switch --flake "$TEMP_FLAKE#default"
     fi
+    
+    rm -rf "$TEMP_FLAKE"
 else
     echo "🐧 Updating Linux environment..."
     # Detect ARM vs x86
@@ -54,11 +68,24 @@ else
         HM_SYSTEM="x86_64-linux"
     fi
     
+    # Create temporary flake for home-manager with current user
+    TEMP_FLAKE=$(mktemp -d)
+    cat > "$TEMP_FLAKE/flake.nix" << EOF
+{
+  inputs.config.url = "path:$HOME/.config/nix";
+  outputs = { self, config }: {
+    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "$HM_SYSTEM";
+  };
+}
+EOF
+    
     if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"$HM_SYSTEM\""
+        nix run home-manager/master -- switch --flake "$TEMP_FLAKE#default"
     else
-        home-manager switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"$HM_SYSTEM\""
+        home-manager switch --flake "$TEMP_FLAKE#default"
     fi
+    
+    rm -rf "$TEMP_FLAKE"
 fi
 
 # Set fish as default shell
