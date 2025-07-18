@@ -31,16 +31,23 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     
     echo "🏠 Updating user environment..."
     if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac
+        nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64
     else
-        home-manager switch --flake ~/.config/nix#jdangerhofer-mac
+        home-manager switch --flake ~/.config/nix#macos-aarch64
     fi
 else
     echo "🐧 Updating Linux environment..."
-    if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer
+    # Detect ARM vs x86
+    if [[ $(uname -m) == "aarch64" ]]; then
+        FLAKE_CONFIG="linux-aarch64"
     else
-        home-manager switch --flake ~/.config/nix#jdangerhofer
+        FLAKE_CONFIG="linux-x86_64"
+    fi
+    
+    if ! command -v home-manager >/dev/null 2>&1; then
+        nix run home-manager/master -- switch --flake ~/.config/nix#${FLAKE_CONFIG}
+    else
+        home-manager switch --flake ~/.config/nix#${FLAKE_CONFIG}
     fi
 fi
 

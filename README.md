@@ -128,13 +128,17 @@ nix flake update ~/.config/nix
 darwin-rebuild switch --flake ~/.config/nix#jdangerhofer-mac
 
 # Apply changes to Home Manager configuration
-home-manager switch --flake ~/.config/nix#jdangerhofer-mac
+# Use the appropriate configuration for your system:
+# - macos-aarch64: macOS Apple Silicon
+# - linux-x86_64: Linux Intel/AMD  
+# - linux-aarch64: Linux ARM64
+home-manager switch --flake ~/.config/nix#macos-aarch64
 
 # Check configuration without applying
 nix flake check ~/.config/nix
 
 # Show what packages would be installed/removed
-nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac --dry-run
+nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64 --dry-run
 
 # Garbage collect old generations
 nix-collect-garbage -d
