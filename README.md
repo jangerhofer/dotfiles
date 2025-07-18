@@ -21,7 +21,7 @@ dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 
-# Run automated bootstrap (installs Nix, applies configurations)
+# Run automated bootstrap (installs Nix, applies configurations, sets fish as default)
 ./.bootstrap.sh
 ```
 
@@ -37,7 +37,7 @@ For those preferring manual control:
 brew_restore  # Restore Homebrew packages
 ```
 
-*Note: Fish config includes the `dotfiles` alias automatically after setup.*
+*Note: Restart your terminal after setting fish as the default shell. Fish config includes the `dotfiles` alias automatically after setup.*
 
 ## Usage
 

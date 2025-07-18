@@ -44,4 +44,26 @@ else
     fi
 fi
 
+# Set fish as default shell
+echo "🐟 Setting up fish as default shell..."
+FISH_PATH=$(command -v fish)
+if [ -n "$FISH_PATH" ]; then
+    # Add fish to valid shells if not already present
+    if ! grep -Fxq "$FISH_PATH" /etc/shells 2>/dev/null; then
+        echo "Adding fish to /etc/shells..."
+        echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+    fi
+    
+    # Change default shell to fish
+    if [ "$SHELL" != "$FISH_PATH" ]; then
+        echo "Changing default shell to fish..."
+        chsh -s "$FISH_PATH"
+        echo "✅ Default shell changed to fish"
+    else
+        echo "✅ Fish is already the default shell"
+    fi
+else
+    echo "⚠️  Fish not found, skipping shell change"
+fi
+
 echo "🎉 Bootstrap complete! Restart your terminal to use the new environment."
