@@ -14,8 +14,8 @@
   };
 
   outputs = { self, nixpkgs, home-manager, nix-darwin }:
-    {
-      darwinConfigurations.default = { username ? "user" }: nix-darwin.lib.darwinSystem {
+    let
+      mkDarwinConfig = username: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           {
@@ -73,22 +73,24 @@
         ];
       };
       
-      # Home Manager configurations
+      mkHomeConfig = username: system: home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        modules = [ ./modules/home.nix ];
+        extraSpecialArgs = { inherit username; };
+      };
+    in
+    {
+      # Functions to create configurations
+      lib.mkDarwinConfig = mkDarwinConfig;
+      lib.mkHomeConfig = mkHomeConfig;
+      
+      # Default configurations for convenience
+      darwinConfigurations.default = mkDarwinConfig "user";
+      
       homeConfigurations = {
-        "macos-aarch64" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-          modules = [ ./modules/home.nix ];
-        };
-        
-        "linux-x86_64" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules = [ ./modules/home.nix ];
-        };
-        
-        "linux-aarch64" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-linux;
-          modules = [ ./modules/home.nix ];
-        };
+        "macos-aarch64" = mkHomeConfig "user" "aarch64-darwin";
+        "linux-x86_64" = mkHomeConfig "user" "x86_64-linux";
+        "linux-aarch64" = mkHomeConfig "user" "aarch64-linux";
       };
     };
 }

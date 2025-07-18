@@ -34,9 +34,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     
     echo "🏠 Updating user environment..."
     if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64
+        nix run home-manager/master -- switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"aarch64-darwin\""
     else
-        home-manager switch --flake ~/.config/nix#macos-aarch64
+        home-manager switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"aarch64-darwin\""
     fi
 else
     echo "🐧 Updating Linux environment..."
@@ -47,10 +47,17 @@ else
         FLAKE_CONFIG="linux-x86_64"
     fi
     
-    if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix#${FLAKE_CONFIG}
+    # Determine system architecture for home-manager
+    if [[ $(uname -m) == "aarch64" ]]; then
+        HM_SYSTEM="aarch64-linux"
     else
-        home-manager switch --flake ~/.config/nix#${FLAKE_CONFIG}
+        HM_SYSTEM="x86_64-linux"
+    fi
+    
+    if ! command -v home-manager >/dev/null 2>&1; then
+        nix run home-manager/master -- switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"$HM_SYSTEM\""
+    else
+        home-manager switch --flake ~/.config/nix --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable --expr "(import ~/.config/nix).lib.mkHomeConfig \"$USER\" \"$HM_SYSTEM\""
     fi
 fi
 
