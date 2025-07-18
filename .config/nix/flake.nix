@@ -47,7 +47,7 @@
               dock = {
                 autohide = true;
                 show-recents = false;
-                tilesize = 48;
+                tilesize = 16;  # Minimum dock size
                 mru-spaces = false;  # Don't rearrange spaces based on most recent use
               };
               
