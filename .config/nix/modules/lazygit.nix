@@ -26,9 +26,6 @@
         language = "auto";
         timeFormat = "02 Jan 06 15:04 MST";
         shortTimeFormat = "15:04";
-        theme = {
-          lightTheme = false;
-        };
       };
       git = {
         paging = {
