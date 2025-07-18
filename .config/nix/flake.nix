@@ -14,10 +14,6 @@
   };
 
   outputs = { self, nixpkgs, home-manager, nix-darwin }:
-    let
-      system = "x86_64-linux"; # Change to "aarch64-darwin" for Apple Silicon Mac
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
     {
       # macOS configuration (nix-darwin only - system preferences)
       darwinConfigurations."jdangerhofer-mac" = nix-darwin.lib.darwinSystem {
@@ -84,9 +80,15 @@
         modules = [ ./modules/home.nix ];
       };
 
-      # Linux configuration
+      # Linux x86_64 configuration
       homeConfigurations."jdangerhofer" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./modules/home.nix ];
+      };
+      
+      # Linux aarch64 configuration  
+      homeConfigurations."jdangerhofer-arm" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux;
         modules = [ ./modules/home.nix ];
       };
     };
