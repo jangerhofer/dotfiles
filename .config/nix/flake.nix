@@ -17,6 +17,7 @@
     let
       mkDarwinConfig = username: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = { inherit username; };
         modules = [
           {
             # Required nix-darwin settings
@@ -78,11 +79,6 @@
               "com.apple.SoftwareUpdate" = {
                 ScheduleFrequency = 1;
               };
-              "com.apple.Safari" = {
-                IncludeDevelopMenu = true;
-                WebKitDeveloperExtrasEnabledPreferenceKey = true;
-                "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
-              };
               "com.apple.screencapture" = {
                 "include-date" = false;
               };
@@ -116,12 +112,12 @@
       lib.mkHomeConfig = mkHomeConfig;
       
       # Default configurations for convenience
-      darwinConfigurations.default = mkDarwinConfig "user";
+      darwinConfigurations.default = mkDarwinConfig "jdangerhofer";
       
       homeConfigurations = {
-        "macos-aarch64" = mkHomeConfig "user" "aarch64-darwin";
-        "linux-x86_64" = mkHomeConfig "user" "x86_64-linux";
-        "linux-aarch64" = mkHomeConfig "user" "aarch64-linux";
+        "macos-aarch64" = mkHomeConfig "jdangerhofer" "aarch64-darwin";
+        "linux-x86_64" = mkHomeConfig "jdangerhofer" "x86_64-linux";
+        "linux-aarch64" = mkHomeConfig "jdangerhofer" "aarch64-linux";
       };
     };
 }

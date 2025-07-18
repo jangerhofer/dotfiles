@@ -18,7 +18,7 @@
 
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = username;
-  home.homeDirectory = "/home/${username}";
+  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -50,11 +50,10 @@
     delta          # Syntax-highlighting pager for git and diff output
     git-lfs        # Git extension for versioning large files
     git-sizer      # Compute various size metrics for a Git repository
-    awscli         # Official Amazon AWS command-line interface
     
     # Kubernetes tools (migrated from homebrew)
     kubectl        # Kubernetes command-line interface
-    helm           # Kubernetes package manager
+    kubernetes-helm # Kubernetes package manager
     
     # Programming languages (migrated from homebrew)
     go             # Go programming language
@@ -68,11 +67,12 @@
     rsync          # Fast incremental file transfer
     nmap           # Network mapper
     stress         # System stress testing
-    telnet         # Network utility
+    inetutils      # Network utilities including telnet
     
     # Additional CLI tools (migrated from homebrew)
     bun            # JavaScript runtime and bundler
     cloudflared    # Cloudflare tunnel client
+    direnv         # Environment variable loader for project directories
     minicom        # Serial communication program
     mosh           # Mobile shell (SSH alternative)
     nnn            # Terminal file manager
@@ -86,7 +86,6 @@
     kustomize      # Kubernetes configuration management
     
     # Development tools
-    rust-analyzer  # Rust language server (if not already via rustup)
     
     # Nix development tools
     nix-tree       # Nix dependency tree viewer
@@ -96,6 +95,9 @@
     mas            # Mac App Store CLI
   ];
 
+
+  # Allow unfree packages (required for terraform and other BSL/commercial packages)
+  nixpkgs.config.allowUnfree = true;
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
