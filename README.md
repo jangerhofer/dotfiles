@@ -29,6 +29,17 @@ brew_restore
 
 # Set up fish shell
 ./.bootstrap.sh
+
+# Install and configure Nix
+nix-env -i nix-darwin
+sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.backup || true
+sudo ln -s ~/.config/nix/nix.conf /etc/nix/nix.conf
+
+# For macOS - apply system configuration
+nix run nix-darwin -- switch --flake ~/.config/nix#jdangerhofer-mac
+
+# Apply Home Manager configuration  
+nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac
 ```
 
 *Note: Fish config includes the `dotfiles` alias automatically after setup.*
@@ -74,3 +85,73 @@ dotfiles log --oneline
 This setup uses a bare Git repository stored in `~/.dotfiles/` to track configuration files throughout your home directory. Files stay in their natural locations (`.vimrc` in `~`, `.config/` in `~/.config/`) while Git metadata is kept separate.
 
 Based on [Atlassian's bare repository guide](https://www.atlassian.com/git/tutorials/dotfiles).
+
+## Nix Configuration
+
+The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that provides cross-platform development environment management for both macOS and Linux.
+
+### Structure
+
+```
+~/.config/nix/
+├── flake.nix          # Main Nix flake configuration
+├── flake.lock         # Pinned dependency versions
+├── nix.conf           # Nix daemon configuration
+├── modules/           # Modular configurations
+│   ├── home.nix       # Main Home Manager config
+│   ├── fish.nix       # Fish shell configuration
+│   ├── git.nix        # Git configuration
+│   ├── helix.nix      # Helix editor configuration
+│   ├── nvim.nix       # Neovim configuration
+│   ├── starship.nix   # Starship prompt configuration
+│   ├── btop.nix       # System monitor configuration
+│   ├── ghostty.nix    # Terminal emulator configuration
+│   ├── k9s.nix        # Kubernetes CLI configuration
+│   └── ssh.nix        # SSH configuration
+└── configs/           # Application configuration files
+    ├── fish/          # Fish shell functions and completions
+    ├── helix/         # Helix editor themes
+    ├── k9s/           # K9s skins and config
+    └── nvim/          # Neovim Lua configurations
+```
+
+### Features
+
+- **Cross-platform**: Supports both macOS (via nix-darwin) and Linux
+- **Modular design**: Each application has its own Nix module for easy management
+- **System integration**: On macOS, manages system preferences via nix-darwin
+- **Development tools**: Includes modern CLI tools like ripgrep, lazygit, zellij, btop
+- **Reproducible**: Flake.lock ensures consistent dependency versions
+
+### Nix Management Commands
+
+```bash
+# Update flake inputs
+nix flake update ~/.config/nix
+
+# Apply changes to system configuration (macOS only)
+darwin-rebuild switch --flake ~/.config/nix#jdangerhofer-mac
+
+# Apply changes to Home Manager configuration
+home-manager switch --flake ~/.config/nix#jdangerhofer-mac
+
+# Check configuration without applying
+nix flake check ~/.config/nix
+
+# Show what packages would be installed/removed
+nix run home-manager/master -- switch --flake ~/.config/nix#jdangerhofer-mac --dry-run
+
+# Garbage collect old generations
+nix-collect-garbage -d
+```
+
+### Managed Applications
+
+The Nix configuration manages:
+
+- **Shell**: Fish with custom functions and completions
+- **Editor**: Helix and Neovim with language server configurations  
+- **Terminal**: Ghostty terminal emulator settings
+- **Development**: Git, SSH, starship prompt, development tools
+- **Monitoring**: btop system monitor, k9s Kubernetes interface
+- **System**: macOS preferences and settings (via nix-darwin)
