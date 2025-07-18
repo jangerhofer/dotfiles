@@ -129,7 +129,5 @@ EOF
   # Fish plugin files (until we can migrate them to nix)
   home.file = {
     ".config/fish/completions".source = ../configs/fish/completions;
-    ".config/fish/conf.d".source = ../configs/fish/conf.d;
-    ".config/fish/functions".source = ../configs/fish/functions;
   };
 }
