@@ -7,7 +7,7 @@
     plugins = [
       { name = "z"; src = pkgs.fishPlugins.z; }
       { name = "sponge"; src = pkgs.fishPlugins.sponge; }
-      # fzf-fish has test failures, will use home.file for this
+      { name = "fzf.fish"; src = pkgs.fishPlugins.fzf-fish; }
       # fish-history-merge not available in nixpkgs, will use home.file for this
     ];
     shellAliases = {
@@ -22,6 +22,9 @@
       dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       hm = "home-manager switch --flake ~/.config/nix#jdangerhofer-mac";
+      
+      # History management
+      hsync = "history --merge";
       
       # Nix aliases
       nb = "nix build";
