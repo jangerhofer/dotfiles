@@ -86,6 +86,7 @@
     kustomize      # Kubernetes configuration management
     
     # Development tools
+    uv             # Fast Python package installer and resolver
     
     # Nix development tools
     nix-tree       # Nix dependency tree viewer
