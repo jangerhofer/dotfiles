@@ -87,11 +87,27 @@ if [ -n "$FISH_PATH" ]; then
         echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
     fi
     
+    # Get current user's shell
+    CURRENT_SHELL=$(dscl . -read /Users/$USER UserShell 2>/dev/null | awk '{print $2}' || echo "$SHELL")
+    
     # Change default shell to fish
-    if [ "$SHELL" != "$FISH_PATH" ]; then
+    if [ "$CURRENT_SHELL" != "$FISH_PATH" ]; then
         echo "Changing default shell to fish..."
+        echo "Current shell: $CURRENT_SHELL"
+        echo "Target shell: $FISH_PATH"
+        
+        # Try chsh first
         if sudo chsh -s "$FISH_PATH" "$USER" 2>/dev/null; then
             echo "✅ Default shell changed to fish"
+        # If chsh fails, try dscl on macOS
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            if sudo dscl . -change /Users/$USER UserShell "$CURRENT_SHELL" "$FISH_PATH" 2>/dev/null; then
+                echo "✅ Default shell changed to fish (via dscl)"
+            else
+                echo "⚠️  Could not change default shell automatically. Run manually:"
+                echo "    sudo chsh -s $FISH_PATH $USER"
+                echo "    or: sudo dscl . -change /Users/$USER UserShell $CURRENT_SHELL $FISH_PATH"
+            fi
         else
             echo "⚠️  Could not change default shell automatically. Run manually: sudo chsh -s $FISH_PATH $USER"
         fi
