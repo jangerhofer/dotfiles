@@ -38,11 +38,11 @@
       # Update flake inputs to latest versions
       nup = "cd ~/.config/nix && nix flake update --flake ~/.config/nix";
       # Show what changed in flake.lock after update
-      ncheck = "cd ~/.config/nix && git diff flake.lock";
+      ncheck = "cd ~/.config/nix && git --git-dir=$HOME/.dotfiles --work-tree=$HOME diff HEAD -- .config/nix/flake.lock";
       # List available generations for rollback
       nroll = "home-manager generations";
       # Complete update workflow (update → check → apply)
-      nfull = "cd ~/.config/nix && nix flake update --flake ~/.config/nix && git diff flake.lock && hm";
+      nfull = "cd ~/.config/nix && nix flake update --flake ~/.config/nix && git --git-dir=$HOME/.dotfiles --work-tree=$HOME diff HEAD -- .config/nix/flake.lock && hm";
     };
     shellInit = ''
       # Clear shell greeting
