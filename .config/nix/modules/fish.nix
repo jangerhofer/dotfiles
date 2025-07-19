@@ -43,6 +43,8 @@
       nroll = "home-manager generations";
       # Complete update workflow (update → check → apply)
       nfull = "cd ~/.config/nix && nix flake update --flake ~/.config/nix && git --git-dir=$HOME/.dotfiles --work-tree=$HOME diff HEAD -- .config/nix/flake.lock && hm";
+      # Read home-manager news
+      nnews = "home-manager news --flake ~/.config/nix#macos-aarch64";
     };
     shellInit = ''
       # Clear shell greeting
