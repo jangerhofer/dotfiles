@@ -58,6 +58,7 @@
     # Programming languages (migrated from homebrew)
     go             # Go programming language
     nodejs         # Node.js runtime
+    pnpm           # Fast, disk space efficient package manager
     python311      # Python 3.11
     rustup         # Rust toolchain installer
     
