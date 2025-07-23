@@ -32,7 +32,7 @@
         ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
       };
       core = {
-        editor = "hx";
+        editor = "nvim";
       };
       pull = {
         rebase = true;
