@@ -157,6 +157,27 @@
         description = "Install all available nerd fonts via Homebrew";
       };
       
+      "pi-proxy-status" = {
+        body = ''
+          if curl -s http://localhost:2019/config/ >/dev/null 2>&1
+              echo "Pi proxy is running"
+              # Show current routes
+              set -l routes (curl -s http://localhost:2019/config/apps/http/servers/srv0/routes | jq -r 'to_entries[] | select(.key | startswith("pi_")) | .key | sub("pi_"; "")')
+              if test -n "$routes"
+                  echo "Active tunnels:"
+                  for route in $routes
+                      echo "  - http://$route.localhost:7999"
+                  end
+              else
+                  echo "No active tunnels"
+              end
+          else
+              echo "Pi proxy is not running"
+          end
+        '';
+        description = "Check Pi proxy status";
+      };
+
       "pi-connect" = {
         body = ''
           set -l host $argv[1]
@@ -167,6 +188,7 @@
           
           # Check for device mapping
           set -l config_file ~/.config/pi-devices.conf
+          set -l friendly_name $host
           if test -f $config_file -a -n "$host"
               set -l mapped_host (grep "^$host=" $config_file 2>/dev/null | cut -d'=' -f2)
               if test -n "$mapped_host"
@@ -193,6 +215,18 @@
               return 1
           end
           
+          # Add route to Caddy via API
+          set -l route_id "pi_$friendly_name"
+          curl -s -X PUT "http://localhost:2019/config/apps/http/servers/srv0/routes/$route_id" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "match": [{"host": ["'$friendly_name'.localhost"]}],
+              "handle": [{
+                "@type": "reverse_proxy",
+                "upstreams": [{"dial": "localhost:'$local_port'"}]
+              }]
+            }' >/dev/null
+          
           echo "Starting tunnel from localhost:$local_port to $host:$remote_port..."
           ssh -N -f -L $local_port:localhost:$remote_port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
           
@@ -200,16 +234,25 @@
               # Get the tunnel PID
               set -l tunnel_pid (ps aux | grep "ssh.*-L $local_port:localhost:$remote_port.*$host" | grep -v grep | awk '{print $2}')
               
-              echo "Tunnel established on port $local_port! Now connecting to shell..."
+              echo "Tunnel established!"
+              echo "Access at: http://$friendly_name.localhost:7999"
+              echo "Direct port: http://localhost:$local_port"
+              echo ""
+              echo "Connecting to shell..."
               ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no pi@$host
               
-              # Kill tunnel after SSH session ends
+              # Clean up after SSH session
               if test -n "$tunnel_pid"
-                  echo "Cleaning up tunnel (PID: $tunnel_pid)..."
+                  echo "Cleaning up tunnel..."
                   kill $tunnel_pid
+                  
+                  # Remove route from Caddy
+                  curl -s -X DELETE "http://localhost:2019/config/apps/http/servers/srv0/routes/$route_id" >/dev/null
               end
           else
               echo "Failed to establish tunnel"
+              # Remove route if tunnel failed
+              curl -s -X DELETE "http://localhost:2019/config/apps/http/servers/srv0/routes/$route_id" >/dev/null
               return 1
           end
         '';
