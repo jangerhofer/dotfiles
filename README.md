@@ -154,3 +154,40 @@ The Nix configuration manages:
 - **Development**: Git, SSH, starship prompt, development tools
 - **Monitoring**: btop system monitor, k9s Kubernetes interface
 - **System**: macOS preferences and settings (via nix-darwin)
+
+### Why Home Manager Downloads Large Amounts of Data
+
+When running `hm` (home-manager switch), you might see large downloads (100+ MB) even without updating your flake. This happens because:
+
+1. **Unstable channel lacks binary caches**: Using `nixpkgs-unstable` means you're on the bleeding edge. When packages update, the Nix build farm needs time to compile and cache binaries. If you run `hm` before binaries are cached, Nix must download:
+   - Source code
+   - Build dependencies (compilers, build tools)
+   - Transitive dependencies
+   
+2. **Example**: Building a 1MB program might download:
+   - Source: 1MB
+   - GCC compiler: 150MB
+   - Development headers: 20MB
+   - Build tools: 10MB
+   - Total: ~180MB to build a 1MB binary
+
+#### Solutions
+
+1. **Switch to stable channel**: Change `nixpkgs.url` in `flake.nix` to:
+   ```nix
+   nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+   ```
+   Stable releases have pre-built binaries available.
+
+2. **Wait after updates**: After running `nup` (nix flake update), wait a day before running `hm` to give the build farm time to cache binaries.
+
+3. **Use community caches**: Add cachix or other binary caches that might have pre-built unstable packages.
+
+#### How Pinning Works
+
+- `flake.nix`: Points to a branch (e.g., `nixos-unstable`)
+- `flake.lock`: Pins to specific commit
+- `nup`: Updates the pin in `flake.lock`
+- `hm`: Uses the pinned commit
+
+Downloads occur not from updating nixpkgs, but from building packages that lack cached binaries at your pinned commit.
