@@ -186,8 +186,17 @@
           ssh -N -f -L $port:localhost:$port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
           
           if test $status -eq 0
+              # Get the tunnel PID
+              set -l tunnel_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
+              
               echo "Tunnel established! Now connecting to shell..."
               ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no pi@$host
+              
+              # Kill tunnel after SSH session ends
+              if test -n "$tunnel_pid"
+                  echo "Cleaning up tunnel (PID: $tunnel_pid)..."
+                  kill $tunnel_pid
+              end
           else
               echo "Failed to establish tunnel"
               return 1
