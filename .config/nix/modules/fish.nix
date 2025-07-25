@@ -165,6 +165,15 @@
               set port 8001
           end
           
+          # Check for device mapping
+          set -l config_file ~/.config/pi-devices.conf
+          if test -f $config_file -a -n "$host"
+              set -l mapped_host (grep "^$host=" $config_file 2>/dev/null | cut -d'=' -f2)
+              if test -n "$mapped_host"
+                  set host $mapped_host
+              end
+          end
+          
           # Kill any existing tunnel on this port
           set -l existing_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
           if test -n "$existing_pid"
