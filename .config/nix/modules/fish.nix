@@ -160,9 +160,9 @@
       "pi-connect" = {
         body = ''
           set -l host $argv[1]
-          set -l port $argv[2]
-          if test -z "$port"
-              set port 8001
+          set -l remote_port $argv[2]
+          if test -z "$remote_port"
+              set remote_port 8001
           end
           
           # Check for device mapping
@@ -174,22 +174,33 @@
               end
           end
           
-          # Kill any existing tunnel on this port
-          set -l existing_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
-          if test -n "$existing_pid"
-              echo "Killing existing tunnel (PID: $existing_pid)..."
-              kill $existing_pid
-              sleep 1
+          # Find an available local port starting from 8000
+          set -l local_port 8000
+          set -l max_port 8100
+          set -l port_found 0
+          
+          while test $local_port -le $max_port
+              # Check if port is in use
+              if not lsof -i :$local_port >/dev/null 2>&1
+                  set port_found 1
+                  break
+              end
+              set local_port (math $local_port + 1)
           end
           
-          echo "Starting tunnel on port $port..."
-          ssh -N -f -L $port:localhost:$port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
+          if test $port_found -eq 0
+              echo "No available ports found between 8000-8100"
+              return 1
+          end
+          
+          echo "Starting tunnel from localhost:$local_port to $host:$remote_port..."
+          ssh -N -f -L $local_port:localhost:$remote_port pi@$host -o PreferredAuthentications=password -o PubkeyAuthentication=no 2>/dev/null
           
           if test $status -eq 0
               # Get the tunnel PID
-              set -l tunnel_pid (ps aux | grep "ssh.*-L $port:localhost:$port.*$host" | grep -v grep | awk '{print $2}')
+              set -l tunnel_pid (ps aux | grep "ssh.*-L $local_port:localhost:$remote_port.*$host" | grep -v grep | awk '{print $2}')
               
-              echo "Tunnel established! Now connecting to shell..."
+              echo "Tunnel established on port $local_port! Now connecting to shell..."
               ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no pi@$host
               
               # Kill tunnel after SSH session ends
