@@ -97,6 +97,7 @@
 
       # Development tools
       uv # Fast Python package installer and resolver
+      caddy # Fast multi-platform web server with automatic HTTPS
 
       # Nix development tools
       nix-tree # Nix dependency tree viewer
@@ -113,5 +114,24 @@
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
+  
+  # Caddy proxy service for Pi devices
+  launchd.agents.caddy-pi-proxy = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.caddy}/bin/caddy"
+        "run"
+        "--config"
+        "${config.home.homeDirectory}/.config/caddy/pi-proxy.json"
+        "--adapter"
+        "caddyfile"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "${config.home.homeDirectory}/.config/caddy/caddy.log";
+      StandardErrorPath = "${config.home.homeDirectory}/.config/caddy/caddy.log";
+    };
+  };
 }
 
