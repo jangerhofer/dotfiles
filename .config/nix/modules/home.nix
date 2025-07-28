@@ -103,6 +103,9 @@
       nix-tree # Nix dependency tree viewer
       nix-output-monitor # Better nix build output
       nix-index # Nix package search tool
+      
+      # Embedded development tools
+      gcc-arm-embedded # ARM embedded toolchain
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
       # macOS-specific tools
