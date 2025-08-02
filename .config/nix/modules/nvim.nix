@@ -128,6 +128,49 @@
       }
     '';
     
+    # Neo-tree explorer customization
+    ".config/nvim/lua/plugins/neo-tree.lua".text = ''
+      return {
+        "nvim-neo-tree/neo-tree.nvim",
+        config = function()
+          -- Force all filename text to be white
+          vim.api.nvim_set_hl(0, "NeoTreeFileName", { fg = "#FFFFFF" })
+          vim.api.nvim_set_hl(0, "NeoTreeFileNameOpened", { fg = "#FFFFFF", bold = true })
+          vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { fg = "#FFFFFF", bold = true })
+        end,
+      }
+    '';
+    
+    # Snacks.nvim picker customization for better visibility
+    ".config/nvim/lua/plugins/snacks.lua".text = ''
+      return {
+        "folke/snacks.nvim",
+        opts = {
+          picker = {
+            win = {
+              -- Force white text in snacks picker windows
+              wo = {
+                winhl = "Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder",
+              },
+            },
+          },
+        },
+        config = function(_, opts)
+          require("snacks").setup(opts)
+          -- Force snacks picker text to be white
+          vim.api.nvim_set_hl(0, "SnacksPickerNormal", { fg = "#FFFFFF" })
+          vim.api.nvim_set_hl(0, "SnacksPickerFile", { fg = "#FFFFFF" })
+          vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#FFFFFF", bold = true })
+          vim.api.nvim_set_hl(0, "SnacksPickerMatch", { fg = "#88C0D0", bold = true })
+          
+          -- Also try these common picker highlights
+          vim.api.nvim_set_hl(0, "PickerNormal", { fg = "#FFFFFF" })
+          vim.api.nvim_set_hl(0, "PickerPrompt", { fg = "#FFFFFF" })
+          vim.api.nvim_set_hl(0, "PickerSelection", { fg = "#FFFFFF", bg = "#434C5E" })
+        end,
+      }
+    '';
+    
     # Nix development plugin
     ".config/nvim/lua/plugins/nix.lua".text = ''
       return {
