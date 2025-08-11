@@ -94,7 +94,7 @@
             homebrew = {
               enable = true;
               brews = [ ];
-              casks = [ "ghostty" "intellij-idea" "ollama" ];
+              casks = [ "battery" "ghostty" "intellij-idea" "ollama" ];
             };
           }
         ];
