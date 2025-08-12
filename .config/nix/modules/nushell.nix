@@ -20,8 +20,6 @@
       yt = "yt-dlp";
       zj = "zellij";
       claude = "/Users/jdangerhofer/.claude/local/claude";
-      dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
-      dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       
       # History management (Nushell doesn't have history merge - it auto-syncs)
       # hsync = "history merge";  # Not needed in Nushell
@@ -38,11 +36,12 @@
       nt = "nix-tree";
       
       # Nix update workflow aliases
-      nup = "cd ~/.config/nix; nix flake update --flake ~/.config/nix";
-      ncheck = "cd ~/.config/nix; git --git-dir=$HOME/.dotfiles --work-tree=$HOME diff HEAD -- .config/nix/flake.lock";
       nroll = "home-manager generations";
-      nfull = "cd ~/.config/nix; nix flake update --flake ~/.config/nix; git --git-dir=$HOME/.dotfiles --work-tree=$HOME diff HEAD -- .config/nix/flake.lock; hm";
       nnews = "home-manager news --flake ~/.config/nix#macos-aarch64";
+      
+      # macOS open utility
+      f = "/usr/bin/open";
+      
     };
     
     # Nushell configuration
@@ -51,12 +50,61 @@
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu *
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
-      # Starship prompt
-      $env.STARSHIP_SHELL = "nu"
-      $env.PROMPT_COMMAND = {|| starship prompt }
-      $env.PROMPT_COMMAND_RIGHT = ""
+      
+      # Clean prompt indicators  
+      $env.PROMPT_INDICATOR = ""
+      $env.PROMPT_INDICATOR_VI_INSERT = ""  
+      $env.PROMPT_INDICATOR_VI_NORMAL = ""
       
       # Custom functions
+      
+      # Dotfiles git commands
+      def dt [...args] {
+        git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME ...$args
+      }
+      
+      def dtlg [] {
+        lazygit --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME
+      }
+      
+      # Nix workflow functions
+      def ncheck [] {
+        cd $"($env.HOME)/.config/nix"
+        git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
+      }
+      
+      def nup [] {
+        cd $"($env.HOME)/.config/nix"
+        nix flake update --flake $"($env.HOME)/.config/nix"
+      }
+      
+      def nfull [] {
+        cd $"($env.HOME)/.config/nix"
+        nix flake update --flake $"($env.HOME)/.config/nix"
+        git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
+        hm
+      }
+      
+      # Zoxide integration with proper directory changing
+      def --env z [dir?: string] {
+        if ($dir | is-empty) {
+          zoxide query -l
+        } else {
+          let result = (zoxide query $dir)
+          if ($result | is-not-empty) {
+            cd $result
+          } else {
+            print $"No match found for '($dir)'"
+          }
+        }
+      }
+      
+      def --env zi [] {
+        let result = (zoxide query -i)
+        if ($result | is-not-empty) {
+          cd $result
+        }
+      }
       
       # Brew backup/restore
       def brew_backup [] {
@@ -72,9 +120,9 @@
         bash -c $"/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea ($args | str join ' ') >/dev/null 2>&1 &"
       }
       
-      # IntelliJ IDEA with directory resolution using z
+      # IntelliJ IDEA with directory resolution using zoxide
       def i [dir: string] {
-        let resolved = (z query $dir | lines | first)
+        let resolved = (zoxide query $dir | lines | first)
         if $resolved != "" {
           bash -c $"/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea '($resolved)' >/dev/null 2>&1 &"
         } else {
@@ -94,12 +142,12 @@
       
       # Darwin switch
       def dm [] {
-        nix run nix-darwin -- switch --flake ~/.config/nix#default
+        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
       }
       
       # Combined nix switch (Darwin + home-manager)
       def nm [] {
-        nix run nix-darwin -- switch --flake ~/.config/nix#default
+        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
       }
       
       # Install all nerd fonts
