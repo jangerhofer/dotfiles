@@ -51,10 +51,10 @@
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
       
-      # Vi mode indicators
-      $env.PROMPT_INDICATOR = "$ "
-      $env.PROMPT_INDICATOR_VI_INSERT = "$ "  
-      $env.PROMPT_INDICATOR_VI_NORMAL = "# "
+      # Disable nushell prompt indicators since we use starship
+      $env.PROMPT_INDICATOR = ""
+      $env.PROMPT_INDICATOR_VI_INSERT = ""  
+      $env.PROMPT_INDICATOR_VI_NORMAL = ""
       
       # Custom functions
       
@@ -194,6 +194,11 @@
         completions: {
           algorithm: "fuzzy"
           case_sensitive: false
+        }
+        
+        cursor_shape: {
+          vi_insert: "line"       # Vertical line cursor in insert mode
+          vi_normal: "block"      # Block cursor in normal mode
         }
         
         keybindings: [
