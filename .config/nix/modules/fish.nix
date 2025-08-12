@@ -121,7 +121,14 @@
         body = ''
           home-manager switch --flake ~/.config/nix#macos-aarch64
         '';
-        description = "Switch home-manager configuration";
+        description = "Switch home-manager configuration only";
+      };
+      
+      dm = {
+        body = ''
+          nix run nix-darwin -- switch --flake ~/.config/nix#default
+        '';
+        description = "Switch Darwin system configuration (includes home-manager)";
       };
       
       "up-or-search" = {
