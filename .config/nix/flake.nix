@@ -19,7 +19,7 @@
         system = "aarch64-darwin";
         specialArgs = { inherit username; };
         modules = [
-          {
+          ({ pkgs, ... }: {
             # Required nix-darwin settings
             system.stateVersion = 6;
             system.primaryUser = username;
@@ -90,13 +90,22 @@
               sudo -u ${username} mkdir -p /Users/${username}/Desktop/Screenshots
             '';
             
+            # Set default shell to nushell
+            users.users.${username} = {
+              home = "/Users/${username}";
+              shell = pkgs.nushell;
+            };
+            
+            # Add nushell to system shells
+            environment.shells = with pkgs; [ nushell fish bash zsh ];
+            
             # macOS-specific packages via Homebrew
             homebrew = {
               enable = true;
               brews = [ ];
               casks = [ "battery" "ghostty" "intellij-idea" "ollama" ];
             };
-          }
+          })
         ];
       };
       

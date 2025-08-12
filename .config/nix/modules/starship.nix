@@ -4,6 +4,7 @@
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
+    enableNushellIntegration = true;
     settings = {
       directory = {
         style = "blue";
@@ -42,7 +43,7 @@
       aws = {
         format = ''on [$symbol($profile )(\($region\) )]($style)'';
         style = "bold blue";
-        symbol = "🅰 ";
+        symbol = "☁️ ";
       };
     };
   };
