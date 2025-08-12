@@ -16,6 +16,7 @@
     ./ghostty.nix
     ./k9s.nix
     ./fish.nix
+    ./nushell.nix
     ./ssh.nix
     ./lazygit.nix
     ./fonts.nix
