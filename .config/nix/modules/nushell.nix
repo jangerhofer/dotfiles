@@ -51,10 +51,10 @@
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
       
-      # Clean prompt indicators  
-      $env.PROMPT_INDICATOR = ""
-      $env.PROMPT_INDICATOR_VI_INSERT = ""  
-      $env.PROMPT_INDICATOR_VI_NORMAL = ""
+      # Vi mode indicators
+      $env.PROMPT_INDICATOR = "$ "
+      $env.PROMPT_INDICATOR_VI_INSERT = "$ "  
+      $env.PROMPT_INDICATOR_VI_NORMAL = "# "
       
       # Custom functions
       
@@ -187,7 +187,6 @@
         edit_mode: vi
         
         history: {
-          max_size: 100_000
           file_format: "sqlite"
           sync_on_enter: true
         }
@@ -196,6 +195,38 @@
           algorithm: "fuzzy"
           case_sensitive: false
         }
+        
+        keybindings: [
+          {
+            name: move_word_left_alt_h
+            modifier: alt
+            keycode: char_h
+            mode: [emacs, vi_normal, vi_insert]
+            event: { edit: MoveWordLeft }
+          }
+          {
+            name: move_word_right_alt_l
+            modifier: alt
+            keycode: char_l
+            mode: [emacs, vi_normal, vi_insert]
+            event: { edit: MoveWordRight }
+          }
+          {
+            name: move_word_left_alt_b
+            modifier: alt
+            keycode: char_b
+            mode: [emacs, vi_normal, vi_insert]
+            event: { edit: MoveWordLeft }
+          }
+          {
+            name: move_word_right_alt_f
+            modifier: alt
+            keycode: char_f
+            mode: [emacs, vi_normal, vi_insert]
+            event: { edit: MoveWordRight }
+          }
+        ]
+        
         
         hooks: {
           pre_prompt: [
