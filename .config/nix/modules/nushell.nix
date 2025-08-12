@@ -23,8 +23,8 @@
       dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       
-      # History management
-      hsync = "history merge";
+      # History management (Nushell doesn't have history merge - it auto-syncs)
+      # hsync = "history merge";  # Not needed in Nushell
       
       # Nix aliases
       nb = "nix build";
