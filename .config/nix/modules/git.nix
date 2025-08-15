@@ -6,6 +6,12 @@
     userName = "JD Angerhofer";
     userEmail = "jd.angerhofer@gmail.com";
     
+    # Enable difftastic for better diffs
+    difftastic = {
+      enable = true;
+      display = "side-by-side";
+    };
+    
     signing = {
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUy3gdzKIGR7Euq21r4O8hScZBj4wg9hJp9gXcOB00n";
       signByDefault = true;
@@ -78,6 +84,15 @@
       dswd = "diff --staged --word-diff";
       dw = "diff -w";
       dwd = "diff --word-diff";
+      
+      # Difftastic aliases (as recommended in the manual)
+      dlog = "-c diff.external=difft log --ext-diff";
+      dshow = "-c diff.external=difft show --ext-diff";
+      ddiff = "-c diff.external=difft diff";
+      
+      # Additional shortcuts from the manual
+      dl = "-c diff.external=difft log -p --ext-diff";  # git log with patches
+      dft = "-c diff.external=difft diff";  # git diff with difftastic
       
       # Fetch aliases
       f = "fetch";
