@@ -112,6 +112,7 @@
     ++ lib.optionals pkgs.stdenv.isDarwin [
       # macOS-specific tools
       mas # Mac App Store CLI
+      utm # Virtual machine app for macOS
     ];
 
   # Allow unfree packages (required for terraform and other BSL/commercial packages)
