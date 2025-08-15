@@ -182,6 +182,19 @@
         ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no $"pi@($actual_host)"
       }
       
+      # Open file or directory in VSCode using fzf
+      def cz [search_term?: string] {
+        let selection = if ($search_term | is-not-empty) {
+          (fd --type f --type d --hidden --exclude .git | fzf --query $search_term --select-1 --exit-0 --preview 'if [ -d {} ]; then eza -la --color=always {}; else bat --color=always --style=numbers --line-range=:200 {} 2>/dev/null || cat {}; fi' | complete | get stdout | str trim)
+        } else {
+          (fd --type f --type d --hidden --exclude .git | fzf --preview 'if [ -d {} ]; then eza -la --color=always {}; else bat --color=always --style=numbers --line-range=:200 {} 2>/dev/null || cat {}; fi' | complete | get stdout | str trim)
+        }
+        
+        if ($selection | is-not-empty) {
+          ^code $selection
+        }
+      }
+      
       # Basic config
       $env.config = {
         show_banner: false
