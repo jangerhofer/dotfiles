@@ -37,7 +37,7 @@
     with pkgs;
     [
       starship
-      pay-respects # replacement for thefuck
+      pay-respects
       git
       curl
       ripgrep
@@ -48,71 +48,71 @@
       btop
 
       # CLI utilities (migrated from homebrew)
-      fd # Simple, fast alternative to find
-      fzf # Command-line fuzzy finder
-      jq # Lightweight JSON processor
-      tree # Display directories as trees
-      wget # Internet file retriever
+      fd
+      fzf
+      jq
+      tree
+      wget
 
       # Development tools (migrated from homebrew)
-      gh # GitHub command-line tool
-      delta # Syntax-highlighting pager for git and diff output
-      git-lfs # Git extension for versioning large files
-      git-sizer # Compute various size metrics for a Git repository
+      gh
+      delta
+      git-lfs
+      git-sizer
 
       # Kubernetes tools (migrated from homebrew)
-      kubectl # Kubernetes command-line interface
-      kubernetes-helm # Kubernetes package manager
+      kubectl
+      kubernetes-helm
 
       # Programming languages (migrated from homebrew)
-      go # Go programming language
-      nodejs # Node.js runtime
-      pnpm # Fast, disk space efficient package manager
-      python311 # Python 3.11
-      rustup # Rust toolchain installer
+      go
+      nodejs
+      pnpm
+      python311
+      rustup
 
       # System utilities
       bat
-      eza # Modern replacement for ls
-      tmux # Terminal multiplexer
-      mtr # Network diagnostic tool
-      rsync # Fast incremental file transfer
-      nmap # Network mapper
-      stress # System stress testing
-      inetutils # Network utilities including telnet
+      eza
+      tmux
+      mtr
+      rsync
+      nmap
+      stress
+      inetutils
 
       # Additional CLI tools (migrated from homebrew)
-      bun # JavaScript runtime and bundler
-      cloudflared # Cloudflare tunnel client
-      direnv # Environment variable loader for project directories
-      minicom # Serial communication program
-      mosh # Mobile shell (SSH alternative)
-      nnn # Terminal file manager
-      redis # In-memory data store
-      watchman # File watching service
-      yq # YAML processor
-      zig # Programming language
+      bun
+      cloudflared
+      direnv
+      minicom
+      mosh
+      nnn
+      redis
+      watchman
+      yq
+      zig
 
       # Kubernetes additional tools
-      kubie # Kubernetes context switcher
-      kustomize # Kubernetes configuration management
+      kubie
+      kustomize
 
       # Development tools
-      uv # Fast Python package installer and resolver
-      caddy # Fast multi-platform web server with automatic HTTPS
+      uv
+      caddy
 
       # Nix development tools
-      nix-tree # Nix dependency tree viewer
-      nix-output-monitor # Better nix build output
-      nix-index # Nix package search tool
+      nix-tree
+      nix-output-monitor
+      nix-index
       
       # Embedded development tools
-      gcc-arm-embedded # ARM embedded toolchain
+      gcc-arm-embedded
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
       # macOS-specific tools
-      mas # Mac App Store CLI
-      utm # Virtual machine app for macOS
+      mas
+      utm
     ];
 
   # Allow unfree packages (required for terraform and other BSL/commercial packages)
