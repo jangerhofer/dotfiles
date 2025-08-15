@@ -16,6 +16,7 @@
       lg = "lazygit";
       yt = "yt-dlp";
       zj = "zellij";
+      l = "eza -la";
       claude = "/Users/jdangerhofer/.claude/local/claude";
       dt = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
       dtlg = "lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
