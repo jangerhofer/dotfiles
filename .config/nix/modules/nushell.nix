@@ -19,6 +19,7 @@
       lg = "lazygit";
       yt = "yt-dlp";
       zj = "zellij";
+      l = "eza -la";
       claude = "/Users/jdangerhofer/.claude/local/claude";
       
       # History management (Nushell doesn't have history merge - it auto-syncs)

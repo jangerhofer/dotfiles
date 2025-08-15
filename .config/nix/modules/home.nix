@@ -73,6 +73,7 @@
 
       # System utilities
       bat
+      eza # Modern replacement for ls
       tmux # Terminal multiplexer
       mtr # Network diagnostic tool
       rsync # Fast incremental file transfer
