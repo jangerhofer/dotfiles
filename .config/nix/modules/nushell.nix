@@ -284,6 +284,11 @@
       # Golang
       $env.PATH = ($env.PATH | append $"($env.HOME)/.go/bin")
       
+      # OrbStack
+      if ("~/.orbstack/bin" | path expand | path exists) {
+        $env.PATH = ($env.PATH | append ("~/.orbstack/bin" | path expand))
+      }
+      
       # Initialize pay-respects (thefuck replacement)
       # Note: pay-respects doesn't have native nushell support yet
       # You can use it by typing 'pay-respects' after a failed command
