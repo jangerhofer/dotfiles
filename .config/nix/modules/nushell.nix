@@ -195,6 +195,27 @@
         }
       }
       
+      # Rebuild macOS Spotlight index
+      def spotlight_index_rebuild [] {
+        print "Rebuilding macOS Spotlight index..."
+        print "This will require sudo access and may take some time."
+        
+        # Enable indexing on all volumes
+        print "Step 1: Enabling indexing on all volumes..."
+        sudo mdutil -Ea
+        
+        # Turn off indexing
+        print "Step 2: Turning off indexing..."
+        sudo mdutil -ai off
+        
+        # Turn indexing back on
+        print "Step 3: Turning indexing back on..."
+        sudo mdutil -ai on
+        
+        print "Spotlight index rebuild initiated. Indexing will continue in the background."
+        print "You can check progress in System Settings > Siri & Spotlight"
+      }
+      
       # Basic config
       $env.config = {
         show_banner: false
