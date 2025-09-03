@@ -143,12 +143,12 @@
       
       # Darwin switch
       def dm [] {
-        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
+        sudo nix run nix-darwin -- switch --flake $"($env.HOME)/.config/nix#default"
       }
       
       # Combined nix switch (Darwin + home-manager)
       def nm [] {
-        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
+        sudo nix run nix-darwin -- switch --flake $"($env.HOME)/.config/nix#default"
       }
       
       # Install all nerd fonts
