@@ -3,6 +3,15 @@ set -euo pipefail
 
 echo "🚀 Starting environment bootstrap with Nix..."
 
+backup_etc_file() {
+    local target="$1"
+    local backup="${target}.before-nix-darwin"
+    if [ -e "$target" ] && [ ! -L "$target" ] && [ ! -e "$backup" ]; then
+        echo "📁 Backing up $target to ${backup} so nix-darwin can manage it..."
+        sudo mv "$target" "$backup"
+    fi
+}
+
 # Check if Nix is installed
 if ! command -v nix >/dev/null 2>&1; then
     echo "📦 Installing Nix package manager..."
@@ -25,6 +34,7 @@ fi
 # Deploy environment
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🍎 Updating macOS configuration..."
+    backup_etc_file "/etc/shells"
     
     # Use direct flake configuration
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
@@ -81,38 +91,49 @@ fi
 echo "🐟 Setting up fish as default shell..."
 FISH_PATH=$(command -v fish)
 if [ -n "$FISH_PATH" ]; then
-    # Add fish to valid shells if not already present
-    if ! grep -Fxq "$FISH_PATH" /etc/shells 2>/dev/null; then
-        echo "Adding fish to /etc/shells..."
-        echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+    can_switch_shell=true
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if ! grep -Fxq "$FISH_PATH" /etc/shells 2>/dev/null; then
+            echo "⚠️  fish isn't listed in /etc/shells yet. Run the darwin switch first, then rerun this script to change your shell."
+            can_switch_shell=false
+        fi
+    else
+        if ! grep -Fxq "$FISH_PATH" /etc/shells 2>/dev/null; then
+            echo "Adding fish to /etc/shells..."
+            echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+        fi
     fi
     
-    # Get current user's shell
-    CURRENT_SHELL=$(dscl . -read /Users/$USER UserShell 2>/dev/null | awk '{print $2}' || echo "$SHELL")
-    
-    # Change default shell to fish
-    if [ "$CURRENT_SHELL" != "$FISH_PATH" ]; then
-        echo "Changing default shell to fish..."
-        echo "Current shell: $CURRENT_SHELL"
-        echo "Target shell: $FISH_PATH"
+    if [ "$can_switch_shell" = true ]; then
+        # Get current user's shell
+        CURRENT_SHELL=$(dscl . -read /Users/$USER UserShell 2>/dev/null | awk '{print $2}' || echo "$SHELL")
         
-        # Try chsh first
-        if sudo chsh -s "$FISH_PATH" "$USER" 2>/dev/null; then
-            echo "✅ Default shell changed to fish"
-        # If chsh fails, try dscl on macOS
-        elif [[ "$OSTYPE" == "darwin"* ]]; then
-            if sudo dscl . -change /Users/$USER UserShell "$CURRENT_SHELL" "$FISH_PATH" 2>/dev/null; then
-                echo "✅ Default shell changed to fish (via dscl)"
+        # Change default shell to fish
+        if [ "$CURRENT_SHELL" != "$FISH_PATH" ]; then
+            echo "Changing default shell to fish..."
+            echo "Current shell: $CURRENT_SHELL"
+            echo "Target shell: $FISH_PATH"
+            
+            # Try chsh first
+            if sudo chsh -s "$FISH_PATH" "$USER" 2>/dev/null; then
+                echo "✅ Default shell changed to fish"
+            # If chsh fails, try dscl on macOS
+            elif [[ "$OSTYPE" == "darwin"* ]]; then
+                if sudo dscl . -change /Users/$USER UserShell "$CURRENT_SHELL" "$FISH_PATH" 2>/dev/null; then
+                    echo "✅ Default shell changed to fish (via dscl)"
+                else
+                    echo "⚠️  Could not change default shell automatically. Run manually:"
+                    echo "    sudo chsh -s $FISH_PATH $USER"
+                    echo "    or: sudo dscl . -change /Users/$USER UserShell $CURRENT_SHELL $FISH_PATH"
+                fi
             else
                 echo "⚠️  Could not change default shell automatically. Run manually:"
                 echo "    sudo chsh -s $FISH_PATH $USER"
                 echo "    or: sudo dscl . -change /Users/$USER UserShell $CURRENT_SHELL $FISH_PATH"
             fi
         else
-            echo "⚠️  Could not change default shell automatically. Run manually: sudo chsh -s $FISH_PATH $USER"
+            echo "✅ Fish is already the default shell"
         fi
-    else
-        echo "✅ Fish is already the default shell"
     fi
 else
     echo "⚠️  Fish not found, skipping shell change"
