@@ -7,7 +7,6 @@
     # Environment variables
     environmentVariables = {
       EDITOR = "hx";
-      GOPATH = "$HOME/.go";
     };
     
     # Shell aliases - all from fish config
@@ -47,7 +46,7 @@
     
     # Nushell configuration
     extraConfig = ''
-      # Load completions
+      # Load completions with proper paths
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu *
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
@@ -58,7 +57,7 @@
       $env.PROMPT_INDICATOR_VI_NORMAL = ""
       
       # Custom functions
-      
+
       # Dotfiles git commands
       def dt [...args] {
         git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME ...$args

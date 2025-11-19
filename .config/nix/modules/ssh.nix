@@ -9,6 +9,13 @@
     
     # Common SSH configurations
     matchBlocks = {
+      # Default settings for all hosts
+      "*" = {
+        serverAliveInterval = 60;
+        serverAliveCountMax = 3;
+        compression = true;
+      };
+      
       # GitHub
       "github.com" = {
         hostname = "github.com";
@@ -33,7 +40,6 @@
       # Tailscale devices - shared settings
       "vps mbp-work" = {
         identitiesOnly = true;
-        identityAgent = "none";
       };
       
       # VPS server
@@ -43,11 +49,6 @@
         user = "ubuntu";
       };
     };
-    
-    # Security settings
-    serverAliveInterval = 60;
-    serverAliveCountMax = 3;
-    compression = true;
     
     # Cross-platform SSH agent and security settings
     extraConfig = ''
