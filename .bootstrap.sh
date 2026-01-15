@@ -12,29 +12,33 @@ backup_etc_file() {
     fi
 }
 
-# Check if Nix is installed
-if ! command -v nix >/dev/null 2>&1; then
-    echo "📦 Installing Nix package manager..."
+install_determinate_nix() {
+    echo "📦 Installing Nix with Determinate Systems installer..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
     
     # Source Nix environment
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     fi
-else
-    echo "✅ Nix already installed"
-fi
+}
 
-# Enable flakes
-mkdir -p ~/.config/nix
-if ! grep -q "experimental-features = nix-command flakes" ~/.config/nix/nix.conf 2>/dev/null; then
-    echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+# Check if Nix is installed and ensure it's Determinate
+if ! command -v nix >/dev/null 2>&1; then
+    install_determinate_nix
+else
+    if nix --version 2>/dev/null | grep -qi "Determinate Systems"; then
+        echo "✅ Nix already installed (Determinate Systems)"
+    else
+        echo "⚠️  Nix is installed, but not via Determinate Systems. Reinstalling with Determinate..."
+        install_determinate_nix
+    fi
 fi
 
 # Deploy environment
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🍎 Updating macOS configuration..."
     backup_etc_file "/etc/shells"
+    backup_etc_file "/etc/zshenv"
     
     # Use direct flake configuration
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
@@ -89,6 +93,8 @@ fi
 
 # Set Nushell as default shell
 echo "🌀 Setting up Nushell as default shell..."
+# Track original shell so we can revert later if needed.
+STATE_FILE="${HOME}/.bootstrap-state"
 # Prefer the system-managed Nu path (matches /etc/shells), fall back to PATH lookup
 if [ -x /run/current-system/sw/bin/nu ]; then
     NU_PATH=/run/current-system/sw/bin/nu
@@ -115,6 +121,9 @@ if [ -n "$NU_PATH" ]; then
         
         # Change default shell to Nushell
         if [ "$CURRENT_SHELL" != "$NU_PATH" ]; then
+            if [ ! -f "$STATE_FILE" ]; then
+                printf "ORIGINAL_SHELL=%s\nBOOTSTRAP_USER=%s\n" "$CURRENT_SHELL" "$USER" > "$STATE_FILE"
+            fi
             echo "Changing default shell to Nushell..."
             echo "Current shell: $CURRENT_SHELL"
             echo "Target shell: $NU_PATH"
