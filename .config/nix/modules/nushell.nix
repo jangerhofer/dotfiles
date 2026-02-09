@@ -47,7 +47,7 @@
     # Nushell configuration
     extraConfig = ''
       # Load completions with proper paths
-      use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu *
+      use ~/.config/nushell/completions/git-completions.nu *
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
       
@@ -327,6 +327,9 @@
       # You can use it by typing 'pay-respects' after a failed command
     '';
   };
+
+  home.file.".config/nushell/completions/git-completions.nu".source =
+    "${pkgs.nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu";
   
   home.packages = with pkgs; [
     nushell
