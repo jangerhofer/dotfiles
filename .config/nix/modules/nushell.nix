@@ -12,7 +12,6 @@
     # Shell aliases - all from fish config
     shellAliases = {
       b = "brew";
-      g = "git";
       k = "kubectl";
       d = "lazydocker";
       lg = "lazygit";
@@ -50,6 +49,138 @@
       use ~/.config/nushell/completions/git-completions.nu *
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
       
+      def complete-git-subcommands-and-aliases [] {
+        let subcommands = (
+          ^git help -a
+          | lines
+          | where {|line| $line | str starts-with "   "}
+          | parse -r '\s*(?P<value>[^ ]+)\s*(?P<description>\w.*)?'
+          | get value
+        )
+        let aliases = (complete-git-aliases)
+        $subcommands | append $aliases | uniq | sort
+      }
+
+      def complete-git-alias-map [] {
+        let raw = (^git config --get-regexp '^alias\.' | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout
+        | lines
+        | parse -r '^alias\.(?P<name>\S+)\s+(?P<expansion>.+)$'
+      }
+
+      def complete-git-aliases [] {
+        complete-git-alias-map | get name
+      }
+
+      def resolve-git-command [subcommand: string] {
+        let alias_match = (complete-git-alias-map | where name == $subcommand | first)
+        if $alias_match == null {
+          return $subcommand
+        }
+
+        let expansion = ($alias_match.expansion | str trim)
+        if ($expansion | str starts-with "!") {
+          return $subcommand
+        }
+
+        let words = ($expansion | split row " " | where {|word| $word != ""})
+        if (($words | length) == 0) {
+          return $subcommand
+        }
+
+        if $words.0 == "git" {
+          return ($words.1? | default $subcommand)
+        }
+
+        $words.0
+      }
+
+      def complete-git-branches [] {
+        let raw = (^git for-each-ref --format='%(refname:short)' refs/heads refs/remotes | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout
+        | lines
+        | where {|branch| ($branch | str trim) != "" and (not ($branch | str ends-with "/HEAD"))}
+        | uniq
+        | sort
+      }
+
+      def complete-git-tags [] {
+        let raw = (^git tag --list | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout | lines | where {|tag| ($tag | str trim) != ""} | uniq | sort
+      }
+
+      def complete-git-remotes [] {
+        let raw = (^git remote | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout | lines | where {|remote| ($remote | str trim) != ""} | uniq | sort
+      }
+
+      def complete-git-files [] {
+        let raw = (^git ls-files --cached --others --exclude-standard | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout | lines | where {|file| ($file | str trim) != ""} | uniq | sort
+      }
+
+      def complete-git-args [context: string, position?: int] {
+        let pos = ($position | default ($context | str length))
+        let before = ($context | str substring ..$pos)
+        let trailing_space = ($before | str ends-with " ")
+        let tokens = ($before | str trim | split row " " | where {|tok| $tok != ""})
+
+        let commands = (complete-git-subcommands-and-aliases)
+
+        if (($tokens | length) <= 1) {
+          return $commands
+        }
+        if (($tokens | length) == 2 and (not $trailing_space)) {
+          return $commands
+        }
+
+        let entered_subcommand = $tokens.1
+        let resolved_subcommand = (resolve-git-command $entered_subcommand)
+        let typed_subarg_count = (($tokens | length) - 2)
+        let arg_index = (if $trailing_space { $typed_subarg_count + 1 } else { $typed_subarg_count })
+
+        match $resolved_subcommand {
+          "switch" => (complete-git-branches)
+          "checkout" => (complete-git-branches | append (complete-git-tags) | append (complete-git-files) | uniq | sort)
+          "branch" => (complete-git-branches)
+          "merge" => (complete-git-branches)
+          "rebase" => (complete-git-branches)
+          "cherry-pick" => (complete-git-branches | append (complete-git-tags) | uniq | sort)
+          "reset" => (complete-git-branches | append (complete-git-tags) | append (complete-git-files) | uniq | sort)
+          "restore" => (complete-git-files)
+          "add" => (complete-git-files)
+          "rm" => (complete-git-files)
+          "mv" => (complete-git-files)
+          "fetch" => (if $arg_index == 1 { complete-git-remotes } else { complete-git-branches })
+          "pull" => (if $arg_index == 1 { complete-git-remotes } else { complete-git-branches })
+          "push" => (if $arg_index == 1 { complete-git-remotes } else { complete-git-branches })
+          "remote" => (
+            if $arg_index == 1 {
+              ["add", "rename", "remove", "set-url", "get-url", "show", "prune", "update"]
+            } else {
+              complete-git-remotes
+            }
+          )
+          "tag" => (complete-git-tags)
+          _ => []
+        }
+      }
+      
       
       # Disable nushell prompt indicators since we use starship
       $env.PROMPT_INDICATOR = ""
@@ -57,6 +188,18 @@
       $env.PROMPT_INDICATOR_VI_NORMAL = ""
       
       # Custom functions
+
+      # Wrapped git shorthand with alias-aware completion.
+      def --wrapped g [
+        command?: string@"complete-git-subcommands-and-aliases",
+        ...args: string@"complete-git-args"
+      ] {
+        if ($command | is-empty) {
+          ^git ...$args
+        } else {
+          ^git $command ...$args
+        }
+      }
 
       # Dotfiles git commands
       def dt [...args] {
