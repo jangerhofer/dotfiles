@@ -38,6 +38,24 @@
       nroll = "home-manager generations";
       nnews = "home-manager news --flake ~/.config/nix#macos-aarch64";
 
+      # Expire old Home Manager generations by timestamp, e.g. hmgc '-30 days'
+      hmgc = "home-manager expire-generations";
+
+      # Delete old profile generations, then garbage-collect unreachable store paths
+      ngc = "nix-collect-garbage -d";
+
+      # Delete profile generations older than a given age, e.g. ngco 30d
+      ngco = "nix-collect-garbage --delete-older-than";
+
+      # Garbage-collect unreachable store paths without touching profile generations
+      nsgc = "nix store gc";
+
+      # Deduplicate identical files in the Nix store to recover disk space
+      nopt = "nix store optimise";
+
+      # System-wide generation cleanup; useful when root-owned profiles are involved
+      dgc = "sudo nix-collect-garbage -d";
+      
       # macOS open utility
       f = "/usr/bin/open";
       
@@ -228,6 +246,18 @@
         hm
       }
 
+      def nclean [hm_older_than: string = "-30 days", nix_older_than: string = "30d"] {
+        # Common local cleanup pass:
+        # 1. Drop old Home Manager generations
+        # 2. Drop old Nix profile generations
+        # 3. Garbage-collect unreachable store paths
+        # 4. Deduplicate identical store files
+        home-manager expire-generations $hm_older_than
+        nix-collect-garbage --delete-older-than $nix_older_than
+        nix store gc
+        nix store optimise
+      }
+      
       # Zoxide integration with proper directory changing
       def --env z [dir?: string] {
         if ($dir | is-empty) {
