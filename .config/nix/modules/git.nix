@@ -17,39 +17,43 @@
       signByDefault = true;
     };
     
-    extraConfig = {
-      tag = {
-        forceSignAnnotated = true;
-        gpgSign = true;
+    extraConfig =
+      {
+        tag = {
+          forceSignAnnotated = true;
+          gpgSign = true;
+        };
+        rebase = {
+          updateRefs = true;
+        };
+        help = {
+          autocorrect = "immediate";
+        };
+        push = {
+          gpgSign = "if-asked";
+          default = "current";
+          autoSetupRemote = true;
+        };
+        gpg = {
+          format = "ssh";
+          ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        };
+        core = {
+          editor = "nvim";
+        };
+        pull = {
+          rebase = true;
+        };
+        filter.lfs = {
+          process = "git-lfs filter-process";
+          required = true;
+          clean = "git-lfs clean -- %f";
+          smudge = "git-lfs smudge -- %f";
+        };
+      }
+      // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+        http.sslCAInfo = "/etc/ssl/cert.pem";
       };
-      rebase = {
-        updateRefs = true;
-      };
-      help = {
-        autocorrect = "immediate";
-      };
-      push = {
-        gpgSign = "if-asked";
-        default = "current";
-        autoSetupRemote = true;
-      };
-      gpg = {
-        format = "ssh";
-        ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-      };
-      core = {
-        editor = "nvim";
-      };
-      pull = {
-        rebase = true;
-      };
-      filter.lfs = {
-        process = "git-lfs filter-process";
-        required = true;
-        clean = "git-lfs clean -- %f";
-        smudge = "git-lfs smudge -- %f";
-      };
-    };
     
     aliases = {
       # Add aliases
