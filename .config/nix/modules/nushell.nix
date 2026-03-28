@@ -37,7 +37,7 @@
       # Nix update workflow aliases
       nroll = "home-manager generations";
       nnews = "home-manager news --flake ~/.config/nix#macos-aarch64";
-      
+
       # macOS open utility
       f = "/usr/bin/open";
       
@@ -227,7 +227,7 @@
         git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
         hm
       }
-      
+
       # Zoxide integration with proper directory changing
       def --env z [dir?: string] {
         if ($dir | is-empty) {
@@ -447,6 +447,11 @@
         $env.PATH = ($env.PATH | prepend "/opt/homebrew/bin")
         # Load homebrew env vars
         /opt/homebrew/bin/brew shellenv | lines | parse "export {name}={value}" | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value} | load-env
+      }
+
+      # Ensure /usr/local tools like flox remain visible in nushell
+      if ("/usr/local/bin" | path exists) {
+        $env.PATH = ($env.PATH | prepend "/usr/local/bin")
       }
       
       # Ensure nix profiles are in PATH
