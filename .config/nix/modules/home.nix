@@ -5,7 +5,6 @@
   username ? "user",
   ...
 }:
-
 {
   imports = [
     ./git.nix
@@ -83,7 +82,6 @@
       # Additional CLI tools (migrated from homebrew)
       bun
       cloudflared
-      direnv
       minicom
       mosh
       nnn
@@ -119,6 +117,13 @@
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
+
+  # Manage direnv centrally and use nix-direnv's faster flake integration.
+  programs.direnv = {
+    enable = true;
+    enableNushellIntegration = true;
+    nix-direnv.enable = true;
+  };
   
   # Caddy proxy service for Pi devices
   launchd.agents.caddy-pi-proxy = {
@@ -139,4 +144,3 @@
     };
   };
 }
-
