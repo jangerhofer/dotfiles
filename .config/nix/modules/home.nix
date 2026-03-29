@@ -5,6 +5,16 @@
   username ? "user",
   ...
 }:
+
+let
+  nixMaintenanceScript = pkgs.writeShellScript "nix-maintenance" ''
+    set -eu
+
+    "${config.home.profileDirectory}/bin/home-manager" expire-generations '-30 days'
+    "${pkgs.nix}/bin/nix-collect-garbage" --delete-older-than 30d
+    "${pkgs.nix}/bin/nix" store gc
+  '';
+in
 {
   imports = [
     ./git.nix
@@ -123,6 +133,40 @@
     enable = true;
     enableNushellIntegration = true;
     nix-direnv.enable = true;
+  };
+
+  # Periodic cleanup for Home Manager generations and user-reachable store data.
+  launchd.agents.nix-maintenance = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "${nixMaintenanceScript}" ];
+      StartCalendarInterval = {
+        Weekday = 1;
+        Hour = 4;
+        Minute = 30;
+      };
+      StandardOutPath = "${config.home.homeDirectory}/.cache/nix-maintenance.log";
+      StandardErrorPath = "${config.home.homeDirectory}/.cache/nix-maintenance.log";
+    };
+  };
+
+  # Deduplicate identical store files periodically to keep the Nix store compact.
+  launchd.agents.nix-store-optimise = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.nix}/bin/nix"
+        "store"
+        "optimise"
+      ];
+      StartCalendarInterval = {
+        Day = 1;
+        Hour = 5;
+        Minute = 0;
+      };
+      StandardOutPath = "${config.home.homeDirectory}/.cache/nix-maintenance.log";
+      StandardErrorPath = "${config.home.homeDirectory}/.cache/nix-maintenance.log";
+    };
   };
   
   # Caddy proxy service for Pi devices

@@ -243,7 +243,7 @@
         cd $"($env.HOME)/.config/nix"
         nix flake update --flake $"($env.HOME)/.config/nix"
         git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
-        hm
+        nm
       }
 
       def nclean [hm_older_than: string = "-30 days", nix_older_than: string = "30d"] {
@@ -310,17 +310,18 @@
       
       # Home-manager switch
       def hm [] {
-        home-manager switch --flake ~/.config/nix#macos-aarch64
+        home-manager switch --flake $"($env.HOME)/.config/nix#macos-aarch64"
       }
       
       # Darwin switch
       def dm [] {
-        sudo nix run nix-darwin -- switch --flake $"($env.HOME)/.config/nix#default"
+        sudo darwin-rebuild switch --flake $"($env.HOME)/.config/nix#default"
       }
       
       # Combined nix switch (Darwin + home-manager)
       def nm [] {
-        sudo nix run nix-darwin -- switch --flake $"($env.HOME)/.config/nix#default"
+        dm
+        hm
       }
       
       # Install all nerd fonts
