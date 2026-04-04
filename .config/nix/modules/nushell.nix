@@ -332,6 +332,24 @@ in
         dm
         hm
       }
+
+      # Jellyfin launchd helpers
+      def jf-start [] {
+        launchctl bootstrap $"gui/(id -u)" $"($env.HOME)/Library/LaunchAgents/org.nix-community.home.jellyfin.plist"
+      }
+
+      def jf-stop [] {
+        launchctl bootout $"gui/(id -u)/org.nix-community.home.jellyfin"
+      }
+
+      def jf-status [] {
+        launchctl print $"gui/(id -u)/org.nix-community.home.jellyfin"
+        lsof -nP -iTCP:8096 -sTCP:LISTEN
+      }
+
+      def jf-logs [] {
+        tail -f $"($env.HOME)/.local/state/jellyfin/log/log_(date now | format date '%Y%m%d').log"
+      }
       
       # Install all nerd fonts
       def install-nerd-fonts [] {
@@ -496,6 +514,11 @@ in
       }
       if ("/nix/var/nix/profiles/default/bin" | path exists) {
         $env.PATH = ($env.PATH | prepend "/nix/var/nix/profiles/default/bin")
+      }
+
+      # User-local CLI installs
+      if ("~/.local/bin" | path expand | path exists) {
+        $env.PATH = ($env.PATH | append ("~/.local/bin" | path expand))
       }
       
       # Golang
