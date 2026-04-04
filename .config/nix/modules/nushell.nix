@@ -467,6 +467,9 @@
       }
       
       # Initialize Homebrew
+      if ("/usr/local/bin/tailscale" | path exists) {
+        $env.PATH = ($env.PATH | prepend "/usr/local/bin")
+      }
       if ("/opt/homebrew/bin/brew" | path exists) {
         $env.PATH = ($env.PATH | prepend "/opt/homebrew/bin")
         # Load homebrew env vars
