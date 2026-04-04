@@ -1,5 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, enableMediaServer ? false, ... }:
 
+let
+  homeManagerTarget = if enableMediaServer then "media-server" else "macos-aarch64";
+in
 {
   programs.nushell = {
     enable = true;
@@ -36,7 +39,7 @@
       
       # Nix update workflow aliases
       nroll = "home-manager generations";
-      nnews = "home-manager news --flake ~/.config/nix#macos-aarch64";
+      nnews = "home-manager news --flake ~/.config/nix#${homeManagerTarget}";
 
       # Expire old Home Manager generations by timestamp, e.g. hmgc '-30 days'
       hmgc = "home-manager expire-generations";
@@ -52,7 +55,6 @@
 
       # Deduplicate identical files in the Nix store to recover disk space
       nopt = "nix store optimise";
-
       # System-wide generation cleanup; useful when root-owned profiles are involved
       dgc = "sudo nix-collect-garbage -d";
       
@@ -310,7 +312,7 @@
       
       # Home-manager switch
       def hm [] {
-        home-manager switch --flake $"($env.HOME)/.config/nix#macos-aarch64"
+        home-manager switch --flake ~/.config/nix#${homeManagerTarget}
       }
       
       # Darwin switch

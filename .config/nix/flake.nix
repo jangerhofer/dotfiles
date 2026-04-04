@@ -109,11 +109,19 @@
         ];
       };
       
-      mkHomeConfig = username: system: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [ ./modules/home.nix ];
-        extraSpecialArgs = { inherit username; };
-      };
+      mkHomeConfig =
+        {
+          username,
+          system,
+          enableMediaServer ? false,
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [ ./modules/home.nix ];
+          extraSpecialArgs = {
+            inherit username enableMediaServer;
+          };
+        };
     in
     {
       # Functions to create configurations
@@ -124,9 +132,23 @@
       darwinConfigurations.default = mkDarwinConfig "jdangerhofer";
       
       homeConfigurations = {
-        "macos-aarch64" = mkHomeConfig "jdangerhofer" "aarch64-darwin";
-        "linux-x86_64" = mkHomeConfig "jdangerhofer" "x86_64-linux";
-        "linux-aarch64" = mkHomeConfig "jdangerhofer" "aarch64-linux";
+        "macos-aarch64" = mkHomeConfig {
+          username = "jdangerhofer";
+          system = "aarch64-darwin";
+        };
+        "media-server" = mkHomeConfig {
+          username = "jdangerhofer";
+          system = "aarch64-darwin";
+          enableMediaServer = true;
+        };
+        "linux-x86_64" = mkHomeConfig {
+          username = "jdangerhofer";
+          system = "x86_64-linux";
+        };
+        "linux-aarch64" = mkHomeConfig {
+          username = "jdangerhofer";
+          system = "aarch64-linux";
+        };
       };
     };
 }

@@ -3,6 +3,7 @@
   pkgs,
   lib,
   username ? "user",
+  enableMediaServer ? false,
   ...
 }:
 
@@ -29,6 +30,7 @@ in
     ./lazygit.nix
     ./fonts.nix
     ./cloud.nix
+    ./media-server.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage
@@ -107,7 +109,6 @@ in
       # Development tools
       uv
       caddy
-      jellyfin
 
       # Nix development tools
       nix-tree
