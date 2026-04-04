@@ -221,9 +221,16 @@ in
         }
       }
 
-      # Dotfiles git commands
-      def dt [...args] {
-        git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME ...$args
+      # Dotfiles git commands with the same completion/flag behavior as `g`.
+      def --wrapped dt [
+        command?: string@"complete-git-subcommands-and-aliases",
+        ...args: string@"complete-git-args"
+      ] {
+        if ($command | is-empty) {
+          ^git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME ...$args
+        } else {
+          ^git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME $command ...$args
+        }
       }
       
       def dtlg [] {
