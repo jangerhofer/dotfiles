@@ -185,6 +185,8 @@ brew "wasm-pack"
 brew "watchman"
 # Internet file retriever
 brew "wget"
+# Feature-rich command-line audio/video downloader
+brew "yt-dlp"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
 # Programming language designed for robustness, optimality, and clarity

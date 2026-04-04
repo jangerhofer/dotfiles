@@ -53,7 +53,6 @@ in
       ripgrep
       lazygit
       lazydocker
-      yt-dlp
       zellij
       btop
 
