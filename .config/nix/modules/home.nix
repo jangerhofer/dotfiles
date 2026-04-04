@@ -107,6 +107,7 @@ in
       # Development tools
       uv
       caddy
+      jellyfin
 
       # Nix development tools
       nix-tree
