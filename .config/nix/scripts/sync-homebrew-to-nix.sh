@@ -84,7 +84,11 @@ leaves = {line.strip() for line in leaves_path.read_text().splitlines() if line.
 brews = []
 for formula in data.get("formulae", []):
     full_name = formula.get("full_name") or formula["name"]
+    installed = formula.get("installed", [])
+    explicitly_installed = any(not item.get("installed_as_dependency", False) for item in installed)
     if full_name not in leaves and formula["name"] not in leaves:
+        continue
+    if not explicitly_installed:
         continue
 
     brews.append(full_name)
@@ -151,7 +155,9 @@ taps = set()
 
 for formula in data.get("formulae", []):
     full_name = formula.get("full_name") or formula["name"]
-    if full_name in leaves or formula["name"] in leaves:
+    installed = formula.get("installed", [])
+    explicitly_installed = any(not item.get("installed_as_dependency", False) for item in installed)
+    if (full_name in leaves or formula["name"] in leaves) and explicitly_installed:
         formulae.add(full_name)
         tap = formula.get("tap")
         if tap and tap != "homebrew/core":
