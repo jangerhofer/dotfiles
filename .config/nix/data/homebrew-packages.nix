@@ -3,7 +3,6 @@
   taps = [
     "labstreaminglayer/tap"
     "mrkai77/cask"
-    "withgraphite/tap"
   ];
 
   brews = [
