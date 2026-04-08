@@ -1,7 +1,6 @@
 {
   # Managed by `brew_sync`. Review diffs before committing.
   taps = [
-    "labstreaminglayer/tap"
     "mrkai77/cask"
   ];
 
@@ -83,7 +82,6 @@
     "uv"
     "wasm-pack"
     "yt-dlp"
-    "labstreaminglayer/tap/lsl"
   ];
 
   casks = [
