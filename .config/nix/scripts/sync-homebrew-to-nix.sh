@@ -118,7 +118,7 @@ def emit_list(name: str, values: list[str]) -> str:
 contents = "\n".join(
     [
         "{",
-        "  # Managed by `brew_sync`. Review diffs before committing.",
+        "  # Managed by `brew_sync`. Tracks top-level Homebrew formulae and installed casks.",
         emit_list("taps", taps),
         "",
         emit_list("brews", brews),
@@ -179,7 +179,7 @@ def emit_list(name: str, values: set[str]) -> str:
 contents = "\n".join(
     [
         "{",
-        "  # Managed by `brew_sync`. Review diffs before committing.",
+        "  # Managed by `brew_sync`. Tracks top-level Homebrew formulae and installed casks.",
         emit_list("taps", taps),
         "",
         emit_list("brews", formulae),

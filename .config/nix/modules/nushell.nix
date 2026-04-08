@@ -353,14 +353,6 @@ in
         tail -f $"($env.HOME)/.local/state/jellyfin/log/log_(date now | format date '%Y%m%d').log"
       }
       
-      # Install all nerd fonts
-      def install-nerd-fonts [] {
-        brew search '/font-.*-nerd-font/' 
-        | lines 
-        | each {|font| brew install --cask $font} 
-        | ignore
-      }
-      
       # Pi device connection
       def pi [host: string, remote_port?: int = 8001] {
         mut actual_host = $host

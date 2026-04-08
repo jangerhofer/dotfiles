@@ -1,5 +1,5 @@
 {
-  # Managed by `brew_sync`. Review diffs before committing.
+  # Managed by `brew_sync`. Tracks top-level Homebrew formulae and installed casks.
   taps = [
     "mrkai77/cask"
   ];

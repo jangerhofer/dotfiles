@@ -95,7 +95,7 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 │   └── homebrew-packages.nix # Flake-managed Homebrew package lists
 ├── nix.conf           # Nix daemon configuration
 ├── scripts/
-│   └── sync-homebrew-to-nix.sh # Capture current Homebrew installs into Nix
+│   └── sync-homebrew-to-nix.sh # Sync top-level Homebrew formulae and installed casks into Nix
 ├── modules/           # Modular configurations
 │   ├── home.nix       # Main Home Manager config
 │   ├── nushell.nix    # Nushell configuration
@@ -107,7 +107,6 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 │   ├── ghostty.nix    # Terminal emulator configuration
 │   ├── k9s.nix        # Kubernetes CLI configuration
 │   ├── cloud.nix      # Cloud and infrastructure tooling
-│   ├── fonts.nix      # Font packages
 │   ├── media-server.nix # Optional media server profile
 │   └── ssh.nix        # SSH configuration
 └── configs/           # Application configuration files
@@ -145,7 +144,7 @@ nix flake check ~/.config/nix
 # Show what packages would be activated
 nix build ~/.config/nix#homeConfigurations.macos-aarch64.activationPackage --dry-run
 
-# Sync current Homebrew installs back into the flake-managed manifest
+# Sync top-level Homebrew formulae and installed casks back into the flake-managed manifest
 brew_sync
 
 # Garbage collect old generations
@@ -156,7 +155,7 @@ nix-collect-garbage -d
 
 These Nushell activation helpers map cleanly to the two config layers:
 
-- `hm`: Home Manager only. Use this after changing user-level config in `modules/home.nix` or modules it imports, such as Nushell, Git, Helix, fonts, or `home.packages`.
+- `hm`: Home Manager only. Use this after changing user-level config in `modules/home.nix` or modules it imports, such as Nushell, Git, Helix, or `home.packages`.
 - `dm`: nix-darwin only. Use this after changing macOS system settings in `flake.nix`, especially the `homebrew = { ... }` block, system defaults, shells, or other Darwin-only behavior.
 - `nm`: Run both. Use this when a change spans both layers, or when you are not sure which side owns it.
 
@@ -178,6 +177,7 @@ The Nix configuration manages:
 - **Development**: Git, SSH, starship prompt, development tools
 - **Monitoring**: btop system monitor, k9s Kubernetes interface
 - **System**: macOS preferences and settings (via nix-darwin)
+- **Fonts**: System-wide fonts installed via nix-darwin
 - **Homebrew**: macOS Homebrew taps, formulae, and casks via nix-darwin
 
 ### Why Home Manager Downloads Large Amounts of Data

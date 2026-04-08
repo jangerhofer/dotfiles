@@ -44,7 +44,6 @@ in
     ./nushell.nix
     ./ssh.nix
     ./lazygit.nix
-    ./fonts.nix
     ./cloud.nix
     ./media-server.nix
   ];
