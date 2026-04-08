@@ -106,6 +106,7 @@
               taps = homebrewPackages.taps;
               brews = homebrewPackages.brews;
               casks = homebrewPackages.casks;
+              onActivation.cleanup = "uninstall";
             };
           })
         ];
