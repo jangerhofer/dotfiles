@@ -290,11 +290,11 @@ in
       
       # Brew backup/restore
       def brew_backup [] {
-        brew bundle dump --force --describe --file .Brewfile
+        brew bundle dump --force --describe --file $"($env.HOME)/.Brewfile"
       }
       
       def brew_restore [] {
-        brew bundle --file .Brewfile
+        brew bundle --file $"($env.HOME)/.Brewfile"
       }
       
       # IntelliJ IDEA launcher
