@@ -97,7 +97,6 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 │   ├── fish.nix       # Fish shell configuration
 │   ├── git.nix        # Git configuration
 │   ├── helix.nix      # Helix editor configuration
-│   ├── nvim.nix       # Neovim configuration
 │   ├── starship.nix   # Starship prompt configuration
 │   ├── btop.nix       # System monitor configuration
 │   ├── ghostty.nix    # Terminal emulator configuration
@@ -106,8 +105,7 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 └── configs/           # Application configuration files
     ├── fish/          # Fish shell functions and completions
     ├── helix/         # Helix editor themes
-    ├── k9s/           # K9s skins and config
-    └── nvim/          # Neovim Lua configurations
+    └── k9s/           # K9s skins and config
 ```
 
 ### Features
@@ -149,7 +147,7 @@ nix-collect-garbage -d
 The Nix configuration manages:
 
 - **Shell**: Fish with custom functions and completions
-- **Editor**: Helix and Neovim with language server configurations  
+- **Editor**: Helix with language server configurations  
 - **Terminal**: Ghostty terminal emulator settings
 - **Development**: Git, SSH, starship prompt, development tools
 - **Monitoring**: btop system monitor, k9s Kubernetes interface

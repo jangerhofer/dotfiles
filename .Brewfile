@@ -119,8 +119,6 @@ brew "mosh"
 brew "mtr"
 # QUIC transport protocol implementation
 brew "mvfst"
-# Ambitious Vim-fork focused on extensibility and agility
-brew "neovim"
 # Port scanning utility for large networks
 brew "nmap"
 # Tiny, lightning fast, feature-packed file manager

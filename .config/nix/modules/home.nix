@@ -31,7 +31,6 @@ in
     ./starship.nix
     ./btop.nix
     ./helix.nix
-    ./nvim.nix
     ./ghostty.nix
     ./k9s.nix
     ./nushell.nix
@@ -119,6 +118,10 @@ in
       caddy
 
       # Nix development tools
+      nixd
+      nixfmt-rfc-style
+      statix
+      deadnix
       nix-tree
       nix-output-monitor
       nix-index
