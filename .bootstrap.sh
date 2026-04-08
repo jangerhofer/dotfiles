@@ -12,6 +12,19 @@ backup_etc_file() {
     fi
 }
 
+activate_home_manager_flake() {
+    local flake_ref="$1"
+    local temp_dir
+    local out_link
+
+    temp_dir=$(mktemp -d)
+    trap 'rm -rf "$temp_dir"' RETURN
+    out_link="$temp_dir/home-manager"
+
+    nix build "${flake_ref}.activationPackage" --out-link "$out_link"
+    "$out_link/activate"
+}
+
 # Check if Nix is installed
 if ! command -v nix >/dev/null 2>&1; then
     echo "📦 Installing Nix package manager..."
@@ -44,22 +57,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     fi
     
     echo "🏠 Updating user environment..."
-    
-    # Use direct flake configuration
-    if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64
-    else
-        home-manager switch --flake ~/.config/nix#macos-aarch64
-    fi
+
+    activate_home_manager_flake "$HOME/.config/nix#homeConfigurations.macos-aarch64"
 else
     echo "🐧 Updating Linux environment..."
-    # Detect ARM vs x86
-    if [[ $(uname -m) == "aarch64" ]]; then
-        FLAKE_CONFIG="linux-aarch64"
-    else
-        FLAKE_CONFIG="linux-x86_64"
-    fi
-    
+
     # Determine system architecture for home-manager
     if [[ $(uname -m) == "aarch64" ]]; then
         HM_SYSTEM="aarch64-linux"
@@ -73,17 +75,16 @@ else
 {
   inputs.config.url = "path:$HOME/.config/nix";
   outputs = { self, config }: {
-    homeConfigurations.default = config.lib.mkHomeConfig "$USER" "$HM_SYSTEM";
+    homeConfigurations.default = config.lib.mkHomeConfig {
+      username = "$USER";
+      system = "$HM_SYSTEM";
+    };
   };
 }
 EOF
-    
-    if ! command -v home-manager >/dev/null 2>&1; then
-        nix run home-manager/master -- switch --flake "$TEMP_FLAKE#default"
-    else
-        home-manager switch --flake "$TEMP_FLAKE#default"
-    fi
-    
+
+    activate_home_manager_flake "$TEMP_FLAKE#homeConfigurations.default"
+
     rm -rf "$TEMP_FLAKE"
 fi
 

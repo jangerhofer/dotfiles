@@ -21,7 +21,7 @@ dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 
-# Run automated bootstrap (installs Nix, applies configurations, sets fish as default)
+# Run automated bootstrap (installs Nix, applies configurations, sets Nushell as default)
 ./.bootstrap.sh
 ```
 
@@ -34,45 +34,45 @@ For those preferring manual control:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Follow automated setup steps above, then:
-brew_restore  # Restore Homebrew packages
+brew bundle --file ~/.Brewfile
 ```
 
-*Note: Restart your terminal after setting fish as the default shell. Fish config includes the `dotfiles` alias automatically after setup.*
+*Note: Restart your terminal after bootstrap completes so your default Nushell environment is active. After bootstrap, use `dt` for dotfiles operations.*
 
 ## Usage
 
 ### Basic Operations
 ```bash
 # Check status (only shows tracked files)
-dotfiles status
+dt status
 
 # Add new files to track
-dotfiles add .vimrc
-dotfiles add .config/tmux/
+dt add .vimrc
+dt add .config/tmux/
 
 # Commit changes
-dotfiles commit -m "Update vim config"
+dt commit -m "Update vim config"
 
 # Push changes
-dotfiles push
+dt push
 ```
 
 ### Advanced Operations
 ```bash
 # Remove file from tracking (keeps local file)
-dotfiles rm --cached .unwanted-file
+dt rm --cached .unwanted-file
 
 # Stop tracking a directory
-dotfiles rm -r --cached .config/unwanted/
+dt rm -r --cached .config/unwanted/
 
 # View tracked files
-dotfiles ls-files
+dt ls-files
 
 # Diff changes
-dotfiles diff
+dt diff
 
 # View history
-dotfiles log --oneline
+dt log --oneline
 ```
 
 ## How It Works
@@ -94,16 +94,19 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 ├── nix.conf           # Nix daemon configuration
 ├── modules/           # Modular configurations
 │   ├── home.nix       # Main Home Manager config
-│   ├── fish.nix       # Fish shell configuration
+│   ├── nushell.nix    # Nushell configuration
 │   ├── git.nix        # Git configuration
 │   ├── helix.nix      # Helix editor configuration
+│   ├── lazygit.nix    # Lazygit configuration
 │   ├── starship.nix   # Starship prompt configuration
 │   ├── btop.nix       # System monitor configuration
 │   ├── ghostty.nix    # Terminal emulator configuration
 │   ├── k9s.nix        # Kubernetes CLI configuration
+│   ├── cloud.nix      # Cloud and infrastructure tooling
+│   ├── fonts.nix      # Font packages
+│   ├── media-server.nix # Optional media server profile
 │   └── ssh.nix        # SSH configuration
 └── configs/           # Application configuration files
-    ├── fish/          # Fish shell functions and completions
     ├── helix/         # Helix editor themes
     └── k9s/           # K9s skins and config
 ```
@@ -123,7 +126,7 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 nix flake update ~/.config/nix
 
 # Apply changes to system configuration (macOS only)
-darwin-rebuild switch --flake ~/.config/nix#jdangerhofer-mac
+darwin-rebuild switch --flake ~/.config/nix#default
 
 # Apply changes to Home Manager configuration
 # Use the appropriate configuration for your system:
@@ -135,8 +138,8 @@ home-manager switch --flake ~/.config/nix#macos-aarch64
 # Check configuration without applying
 nix flake check ~/.config/nix
 
-# Show what packages would be installed/removed
-nix run home-manager/master -- switch --flake ~/.config/nix#macos-aarch64 --dry-run
+# Show what packages would be activated
+nix build ~/.config/nix#homeConfigurations.macos-aarch64.activationPackage --dry-run
 
 # Garbage collect old generations
 nix-collect-garbage -d
@@ -146,7 +149,7 @@ nix-collect-garbage -d
 
 The Nix configuration manages:
 
-- **Shell**: Fish with custom functions and completions
+- **Shell**: Nushell with custom functions and completions
 - **Editor**: Helix with language server configurations  
 - **Terminal**: Ghostty terminal emulator settings
 - **Development**: Git, SSH, starship prompt, development tools
@@ -157,7 +160,7 @@ The Nix configuration manages:
 
 When running `hm` (home-manager switch), you might see large downloads (100+ MB) even without updating your flake. This happens because:
 
-1. **Unstable channel lacks binary caches**: Using `nixpkgs-unstable` means you're on the bleeding edge. When packages update, the Nix build farm needs time to compile and cache binaries. If you run `hm` before binaries are cached, Nix must download:
+1. **Recently updated pins may outrun binary caches**: Even on stable inputs, very fresh package revisions or less common packages may not have binaries cached yet. If you run `hm` before binaries are available, Nix must download:
    - Source code
    - Build dependencies (compilers, build tools)
    - Transitive dependencies
@@ -171,11 +174,11 @@ When running `hm` (home-manager switch), you might see large downloads (100+ MB)
 
 #### Solutions
 
-1. **Switch to stable channel**: Change `nixpkgs.url` in `flake.nix` to:
+1. **Stay on stable inputs unless you need newer packages**: The current flake already uses a stable `nixpkgs` release:
    ```nix
-   nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+   nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
    ```
-   Stable releases have pre-built binaries available.
+   Stable releases usually have better binary cache coverage.
 
 2. **Wait after updates**: After running `nup` (nix flake update), wait a day before running `hm` to give the build farm time to cache binaries.
 
@@ -183,7 +186,7 @@ When running `hm` (home-manager switch), you might see large downloads (100+ MB)
 
 #### How Pinning Works
 
-- `flake.nix`: Points to a branch (e.g., `nixos-unstable`)
+- `flake.nix`: Points to a branch or release (e.g., `nixos-25.05`)
 - `flake.lock`: Pins to specific commit
 - `nup`: Updates the pin in `flake.lock`
 - `hm`: Uses the pinned commit
