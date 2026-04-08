@@ -6,7 +6,6 @@
 
   brews = [
     "aom"
-    "arm-none-eabi-gcc"
     "bison"
     "blueutil"
     "gettext"
