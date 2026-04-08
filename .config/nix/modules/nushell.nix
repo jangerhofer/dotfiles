@@ -1,4 +1,4 @@
-{ config, pkgs, lib, enableMediaServer ? false, ... }:
+{ config, pkgs, lib, enableMediaServer ? false, sharedPathEntries ? [ ], ... }:
 
 let
   homeManagerTarget = if enableMediaServer then "media-server" else "macos-aarch64";
@@ -494,40 +494,28 @@ in
         $env.TERM = "xterm-256color"
       }
       
-      # Initialize Homebrew
-      if ("/usr/local/bin/tailscale" | path exists) {
-        $env.PATH = ($env.PATH | prepend "/usr/local/bin")
+      # Shared PATH additions are declared in Home Manager and appended here to
+      # avoid Nushell-specific drift while keeping Nix-managed tooling first.
+      let shared_path_entries = [
+${lib.concatMapStringsSep "\n" (path: ''        "${path}"'') sharedPathEntries}
+      ]
+
+      for entry in $shared_path_entries {
+        let expanded = ($entry | path expand)
+        if (($expanded | path exists) and (not ($env.PATH | any {|current| $current == $expanded }))) {
+          $env.PATH = ($env.PATH | append $expanded)
+        }
       }
+
+      # Load Homebrew-specific environment variables without letting Homebrew
+      # reorder PATH ahead of Nix-managed tooling.
       if ("/opt/homebrew/bin/brew" | path exists) {
-        $env.PATH = ($env.PATH | prepend "/opt/homebrew/bin")
-        # Load homebrew env vars
-        /opt/homebrew/bin/brew shellenv | lines | parse "export {name}={value}" | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value} | load-env
-      }
-
-      # Ensure /usr/local tools like flox remain visible in nushell
-      if ("/usr/local/bin" | path exists) {
-        $env.PATH = ($env.PATH | prepend "/usr/local/bin")
-      }
-      
-      # Ensure nix profiles are in PATH
-      if ("~/.nix-profile/bin" | path expand | path exists) {
-        $env.PATH = ($env.PATH | prepend ("~/.nix-profile/bin" | path expand))
-      }
-      if ("/nix/var/nix/profiles/default/bin" | path exists) {
-        $env.PATH = ($env.PATH | prepend "/nix/var/nix/profiles/default/bin")
-      }
-
-      # User-local CLI installs
-      if ("~/.local/bin" | path expand | path exists) {
-        $env.PATH = ($env.PATH | append ("~/.local/bin" | path expand))
-      }
-      
-      # Golang
-      $env.PATH = ($env.PATH | append $"($env.HOME)/.go/bin")
-      
-      # OrbStack
-      if ("~/.orbstack/bin" | path expand | path exists) {
-        $env.PATH = ($env.PATH | append ("~/.orbstack/bin" | path expand))
+        /opt/homebrew/bin/brew shellenv
+        | lines
+        | parse "export {name}={value}"
+        | where name != "PATH"
+        | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value}
+        | load-env
       }
       
       # Initialize pay-respects (thefuck replacement)

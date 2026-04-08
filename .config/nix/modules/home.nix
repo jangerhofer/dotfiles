@@ -15,17 +15,17 @@ let
     "${pkgs.nix}/bin/nix-collect-garbage" --delete-older-than 30d
     "${pkgs.nix}/bin/nix" store gc
   '';
-  sharedSessionPath =
-    lib.concatStringsSep ":"
-      (
-        [ "$HOME/.local/bin" "$HOME/.go/bin" ]
-        ++ lib.optionals pkgs.stdenv.isDarwin [
-          "/opt/homebrew/bin"
-          "$HOME/.orbstack/bin"
-        ]
-      );
+  sharedPathEntries =
+    [ "$HOME/.local/bin" "$HOME/.go/bin" ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      "/opt/homebrew/bin"
+      "$HOME/.orbstack/bin"
+    ];
+  sharedSessionPath = lib.concatStringsSep ":" sharedPathEntries;
 in
 {
+  _module.args.sharedPathEntries = sharedPathEntries;
+
   imports = [
     ./git.nix
     ./starship.nix
