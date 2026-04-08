@@ -22,6 +22,7 @@ let
       "/nix/var/nix/profiles/default/bin"
       "${homeDirectory}/.local/bin"
       "${homeDirectory}/.go/bin"
+      "${homeDirectory}/.cargo/bin"
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
       "/run/current-system/sw/bin"
@@ -146,14 +147,37 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Keep common editor and PATH defaults consistent outside Nushell too.
-  home.sessionVariables = {
-    EDITOR = "hx";
-    VISUAL = "hx";
-    PATH = "$PATH:${sharedSessionPath}";
-  };
+  home.sessionVariables =
+    {
+      EDITOR = "hx";
+      VISUAL = "hx";
+      PATH = "$PATH:${sharedSessionPath}";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      STM32CubeMX_PATH = "/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources";
+      STM32_PRG_PATH =
+        "/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin";
+    };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
+
+  # Keep fallback shells declarative too.
+  programs.zsh.enable = true;
+
+  home.file = {
+    ".profile".text = ''
+      if [ -e "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh" ]; then
+        . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+      fi
+    '';
+
+    ".bash_profile".text = ''
+      if [ -f "$HOME/.profile" ]; then
+        . "$HOME/.profile"
+      fi
+    '';
+  };
 
   # Manage direnv centrally and use nix-direnv's faster flake integration.
   programs.direnv = {
