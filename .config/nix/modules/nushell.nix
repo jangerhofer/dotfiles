@@ -4,6 +4,7 @@ let
   homeManagerTarget = if enableMediaServer then "media-server" else "macos-aarch64";
   homeManagerBin = "${config.home.homeDirectory}/.nix-profile/bin/home-manager";
   darwinRebuildBin = "/run/current-system/sw/bin/darwin-rebuild";
+  nixBinDir = "/nix/var/nix/profiles/default/bin";
 in
 {
   programs.nushell = {
@@ -318,7 +319,9 @@ in
       
       # Home-manager switch
       def hm [] {
-        ^${homeManagerBin} switch --flake ~/.config/nix#${homeManagerTarget}
+        with-env { PATH: ($env.PATH | prepend "${nixBinDir}") } {
+          ^${homeManagerBin} switch --flake ~/.config/nix#${homeManagerTarget}
+        }
       }
       
       # Darwin switch

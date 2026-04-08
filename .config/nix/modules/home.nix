@@ -19,6 +19,7 @@ let
   sharedPathEntries =
     [
       "${homeDirectory}/.nix-profile/bin"
+      "/nix/var/nix/profiles/default/bin"
       "${homeDirectory}/.local/bin"
       "${homeDirectory}/.go/bin"
     ]
