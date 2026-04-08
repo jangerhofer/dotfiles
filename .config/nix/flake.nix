@@ -98,7 +98,7 @@
             };
             
             # Add nushell to system shells
-            environment.shells = with pkgs; [ nushell fish bash zsh ];
+            environment.shells = with pkgs; [ nushell bash zsh ];
             
             # macOS-specific packages via Homebrew
             homebrew = {

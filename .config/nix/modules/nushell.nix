@@ -16,7 +16,7 @@ in
       VISUAL = "hx";
     };
     
-    # Shell aliases - all from fish config
+    # Shell aliases
     shellAliases = {
       b = "brew";
       k = "kubectl";
