@@ -41,22 +41,25 @@ emit_from_bundle_dump() {
   HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 \
     "${brew_bin}" bundle dump --force --describe --file "${tmp_brewfile}" >/dev/null
 
-  python3 - <<'PY' "${tmp_brewfile}" "${output_path}"
+  "${brew_bin}" info --json=v2 --installed > "${tmp_json}"
+  "${brew_bin}" leaves | LC_ALL=C sort -u > "${tmp_leaves}"
+
+  python3 - <<'PY' "${tmp_brewfile}" "${tmp_json}" "${tmp_leaves}" "${output_path}"
+import json
 import re
 import sys
 from pathlib import Path
 
 brewfile_path = Path(sys.argv[1])
-output_path = Path(sys.argv[2])
+json_path = Path(sys.argv[2])
+leaves_path = Path(sys.argv[3])
+output_path = Path(sys.argv[4])
 
 taps = []
-brews = []
-casks = []
+seen_taps = set()
 
 patterns = {
     "tap": re.compile(r'^tap "([^"]+)"'),
-    "brew": re.compile(r'^brew "([^"]+)"'),
-    "cask": re.compile(r'^cask "([^"]+)"'),
 }
 
 for raw_line in brewfile_path.read_text().splitlines():
@@ -70,13 +73,37 @@ for raw_line in brewfile_path.read_text().splitlines():
             continue
 
         value = match.group(1)
-        if kind == "tap":
+        if kind == "tap" and value not in seen_taps:
             taps.append(value)
-        elif kind == "brew":
-            brews.append(value)
-        elif kind == "cask":
-            casks.append(value)
+            seen_taps.add(value)
         break
+
+data = json.loads(json_path.read_text())
+leaves = {line.strip() for line in leaves_path.read_text().splitlines() if line.strip()}
+
+brews = []
+for formula in data.get("formulae", []):
+    full_name = formula.get("full_name") or formula["name"]
+    if full_name not in leaves and formula["name"] not in leaves:
+        continue
+
+    brews.append(full_name)
+    tap = formula.get("tap")
+    if tap and tap != "homebrew/core" and tap not in seen_taps:
+        taps.append(tap)
+        seen_taps.add(tap)
+
+casks = []
+for cask in data.get("casks", []):
+    token = cask.get("full_token") or cask["token"]
+    casks.append(token)
+    tap = cask.get("tap")
+    if tap and tap != "homebrew/cask" and tap not in seen_taps:
+        taps.append(tap)
+        seen_taps.add(tap)
+
+brews = sorted(set(brews))
+casks = sorted(set(casks))
 
 def emit_list(name: str, values: list[str]) -> str:
     lines = [f"  {name} = ["]
@@ -124,9 +151,7 @@ taps = set()
 
 for formula in data.get("formulae", []):
     full_name = formula.get("full_name") or formula["name"]
-    installed = formula.get("installed", [])
-    explicitly_requested = any(item.get("installed_on_request") for item in installed)
-    if explicitly_requested or full_name in leaves or formula["name"] in leaves:
+    if full_name in leaves or formula["name"] in leaves:
         formulae.add(full_name)
         tap = formula.get("tap")
         if tap and tap != "homebrew/core":
