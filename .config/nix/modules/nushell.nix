@@ -2,6 +2,8 @@
 
 let
   homeManagerTarget = if enableMediaServer then "media-server" else "macos-aarch64";
+  homeManagerBin = "${config.home.homeDirectory}/.nix-profile/bin/home-manager";
+  darwinRebuildBin = "/run/current-system/sw/bin/darwin-rebuild";
 in
 {
   programs.nushell = {
@@ -39,11 +41,11 @@ in
       nt = "nix-tree";
       
       # Nix update workflow aliases
-      nroll = "home-manager generations";
-      nnews = "home-manager news --flake ~/.config/nix#${homeManagerTarget}";
+      nroll = "${homeManagerBin} generations";
+      nnews = "${homeManagerBin} news --flake ~/.config/nix#${homeManagerTarget}";
 
       # Expire old Home Manager generations by timestamp, e.g. hmgc '-30 days'
-      hmgc = "home-manager expire-generations";
+      hmgc = "${homeManagerBin} expire-generations";
 
       # Delete old profile generations, then garbage-collect unreachable store paths
       ngc = "nix-collect-garbage -d";
@@ -262,7 +264,7 @@ in
         # 2. Drop old Nix profile generations
         # 3. Garbage-collect unreachable store paths
         # 4. Deduplicate identical store files
-        home-manager expire-generations $hm_older_than
+        ^${homeManagerBin} expire-generations $hm_older_than
         nix-collect-garbage --delete-older-than $nix_older_than
         nix store gc
         nix store optimise
@@ -316,12 +318,12 @@ in
       
       # Home-manager switch
       def hm [] {
-        home-manager switch --flake ~/.config/nix#${homeManagerTarget}
+        ^${homeManagerBin} switch --flake ~/.config/nix#${homeManagerTarget}
       }
       
       # Darwin switch
       def dm [] {
-        sudo darwin-rebuild switch --flake $"($env.HOME)/.config/nix#default"
+        sudo ${darwinRebuildBin} switch --flake $"($env.HOME)/.config/nix#default"
       }
       
       # Combined nix switch (Darwin + home-manager)
@@ -490,8 +492,8 @@ in
         $env.TERM = "xterm-256color"
       }
       
-      # Shared PATH additions are declared in Home Manager and appended here to
-      # avoid Nushell-specific drift while keeping Nix-managed tooling first.
+      # Shared PATH additions are declared in Home Manager so Nushell keeps the
+      # standard Nix user/system bins plus local tool paths available.
       let shared_path_entries = [
 ${lib.concatMapStringsSep "\n" (path: ''        "${path}"'') sharedPathEntries}
       ]

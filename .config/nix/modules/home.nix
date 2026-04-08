@@ -8,6 +8,7 @@
 }:
 
 let
+  homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
   nixMaintenanceScript = pkgs.writeShellScript "nix-maintenance" ''
     set -eu
 
@@ -16,10 +17,15 @@ let
     "${pkgs.nix}/bin/nix" store gc
   '';
   sharedPathEntries =
-    [ "$HOME/.local/bin" "$HOME/.go/bin" ]
+    [
+      "${homeDirectory}/.nix-profile/bin"
+      "${homeDirectory}/.local/bin"
+      "${homeDirectory}/.go/bin"
+    ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
+      "/run/current-system/sw/bin"
       "/opt/homebrew/bin"
-      "$HOME/.orbstack/bin"
+      "${homeDirectory}/.orbstack/bin"
     ];
   sharedSessionPath = lib.concatStringsSep ":" sharedPathEntries;
 in
@@ -43,7 +49,7 @@ in
 
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = username;
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+  home.homeDirectory = homeDirectory;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
