@@ -10,6 +10,7 @@ in
     # Environment variables
     environmentVariables = {
       EDITOR = "hx";
+      VISUAL = "hx";
     };
     
     # Shell aliases - all from fish config

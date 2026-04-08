@@ -122,7 +122,7 @@
         };
       };
       os = {
-        editPreset = "nvim";
+        editPreset = "helix";
       };
       disableStartupPopups = false;
       customCommands = [];

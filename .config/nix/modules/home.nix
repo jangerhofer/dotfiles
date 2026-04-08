@@ -15,6 +15,15 @@ let
     "${pkgs.nix}/bin/nix-collect-garbage" --delete-older-than 30d
     "${pkgs.nix}/bin/nix" store gc
   '';
+  sharedSessionPath =
+    lib.concatStringsSep ":"
+      (
+        [ "$HOME/.local/bin" "$HOME/.go/bin" ]
+        ++ lib.optionals pkgs.stdenv.isDarwin [
+          "/opt/homebrew/bin"
+          "$HOME/.orbstack/bin"
+        ]
+      );
 in
 {
   imports = [
@@ -125,6 +134,13 @@ in
 
   # Allow unfree packages (required for terraform and other BSL/commercial packages)
   nixpkgs.config.allowUnfree = true;
+
+  # Keep common editor and PATH defaults consistent outside Nushell too.
+  home.sessionVariables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+    PATH = "$PATH:${sharedSessionPath}";
+  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
