@@ -152,6 +152,22 @@ brew_sync
 nix-collect-garbage -d
 ```
 
+### Configuration Activation Commands (`hm`, `dm`, `nm`)
+
+These Nushell activation helpers map cleanly to the two config layers:
+
+- `hm`: Home Manager only. Use this after changing user-level config in `modules/home.nix` or modules it imports, such as Nushell, Git, Helix, fonts, or `home.packages`.
+- `dm`: nix-darwin only. Use this after changing macOS system settings in `flake.nix`, especially the `homebrew = { ... }` block, system defaults, shells, or other Darwin-only behavior.
+- `nm`: Run both. Use this when a change spans both layers, or when you are not sure which side owns it.
+
+Practical rule of thumb:
+
+- Changed `homebrew-packages.nix` or anything in the `homebrew` block: run `dm` or `nm`.
+- Changed shell/editor/git/user package config: run `hm`.
+- Changed both: run `nm`.
+
+`hm` does not apply nix-darwin Homebrew changes. If you remove a Brew package from `homebrew-packages.nix`, it will only be uninstalled when you run `dm` or `nm`.
+
 ### Managed Applications
 
 The Nix configuration manages:
