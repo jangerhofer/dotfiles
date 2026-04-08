@@ -15,6 +15,7 @@
 
   outputs = { self, nixpkgs, home-manager, nix-darwin }:
     let
+      homebrewPackages = import ./data/homebrew-packages.nix;
       mkDarwinConfig = username: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit username; };
@@ -102,8 +103,9 @@
             # macOS-specific packages via Homebrew
             homebrew = {
               enable = true;
-              brews = [ ];
-              casks = [ "battery" "ghostty" "intellij-idea" "ollama" "whatsapp" ];
+              taps = homebrewPackages.taps;
+              brews = homebrewPackages.brews;
+              casks = homebrewPackages.casks;
             };
           })
         ];

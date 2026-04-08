@@ -33,8 +33,8 @@ For those preferring manual control:
 # Install Homebrew first
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Follow automated setup steps above, then:
-brew bundle --file ~/.Brewfile
+# Follow automated setup steps above, then apply the flake-managed macOS config:
+sudo darwin-rebuild switch --flake ~/.config/nix#default
 ```
 
 *Note: Restart your terminal after bootstrap completes so your default Nushell environment is active. After bootstrap, use `dt` for dotfiles operations.*
@@ -91,7 +91,11 @@ The dotfiles include a comprehensive Nix setup located in `~/.config/nix/` that 
 ~/.config/nix/
 ├── flake.nix          # Main Nix flake configuration
 ├── flake.lock         # Pinned dependency versions
+├── data/
+│   └── homebrew-packages.nix # Flake-managed Homebrew package lists
 ├── nix.conf           # Nix daemon configuration
+├── scripts/
+│   └── sync-homebrew-to-nix.sh # Capture current Homebrew installs into Nix
 ├── modules/           # Modular configurations
 │   ├── home.nix       # Main Home Manager config
 │   ├── nushell.nix    # Nushell configuration
@@ -141,6 +145,9 @@ nix flake check ~/.config/nix
 # Show what packages would be activated
 nix build ~/.config/nix#homeConfigurations.macos-aarch64.activationPackage --dry-run
 
+# Sync current Homebrew installs back into the flake-managed manifest
+brew_sync
+
 # Garbage collect old generations
 nix-collect-garbage -d
 ```
@@ -155,6 +162,7 @@ The Nix configuration manages:
 - **Development**: Git, SSH, starship prompt, development tools
 - **Monitoring**: btop system monitor, k9s Kubernetes interface
 - **System**: macOS preferences and settings (via nix-darwin)
+- **Homebrew**: macOS Homebrew taps, formulae, and casks via nix-darwin
 
 ### Why Home Manager Downloads Large Amounts of Data
 

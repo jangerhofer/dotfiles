@@ -289,13 +289,9 @@ in
         }
       }
       
-      # Brew backup/restore
-      def brew_backup [] {
-        brew bundle dump --force --describe --file $"($env.HOME)/.Brewfile"
-      }
-      
-      def brew_restore [] {
-        brew bundle --file $"($env.HOME)/.Brewfile"
+      # Sync the live Homebrew state back into the flake-managed manifest.
+      def brew_sync [] {
+        ^bash $"($env.HOME)/.config/nix/scripts/sync-homebrew-to-nix.sh"
       }
       
       # IntelliJ IDEA launcher
