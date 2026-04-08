@@ -16,6 +16,20 @@
   outputs = { self, nixpkgs, home-manager, nix-darwin }:
     let
       homebrewPackages = import ./data/homebrew-packages.nix;
+      darwinFontPackages =
+        pkgs:
+        let
+          nerdFonts = builtins.removeAttrs pkgs.nerd-fonts [
+            "override"
+            "overrideDerivation"
+            "recurseForDerivations"
+          ];
+        in
+        [
+          pkgs.inconsolata
+          pkgs."jetbrains-mono"
+        ]
+        ++ builtins.attrValues nerdFonts;
       mkDarwinConfig = username: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit username; };
@@ -99,6 +113,9 @@
             
             # Add nushell to system shells
             environment.shells = with pkgs; [ nushell bash zsh ];
+
+            # Install fonts system-wide into /Library/Fonts/Nix Fonts.
+            fonts.packages = darwinFontPackages pkgs;
             
             # macOS-specific packages via Homebrew
             homebrew = {

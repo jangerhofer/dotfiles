@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  # Temporarily disable extra fonts until the set is updated for 25.05
+  # Font installation is owned by nix-darwin on macOS.
   fonts.fontconfig.enable = false;
   home.packages = [ ];
 }
