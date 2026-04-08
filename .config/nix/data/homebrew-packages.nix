@@ -57,7 +57,6 @@
     "libzip"
     "mprocs"
     "mvfst"
-    "node@20"
     "open-ocd"
     "opencsg"
     "openjdk"
