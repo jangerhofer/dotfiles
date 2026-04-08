@@ -109,10 +109,13 @@ in
       # Additional CLI tools (migrated from homebrew)
       bun
       cloudflared
+      ghidra
+      k9s
       minicom
       mosh
       nnn
       redis
+      wasm-pack
       watchman
       yq
       zig
