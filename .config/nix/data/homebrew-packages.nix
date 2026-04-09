@@ -19,6 +19,7 @@
   casks = [
     "1password"
     "1password-cli"
+    "amazon-photos"
     "android-studio"
     "anki"
     "appcleaner"
@@ -63,6 +64,7 @@
     "transmission"
     "transmit"
     "visual-studio-code"
+    "vlc"
     "whatsapp"
     "wireshark-app"
     "zwift"
