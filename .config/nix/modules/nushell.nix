@@ -336,20 +336,20 @@ in
       }
 
       # Jellyfin launchd helpers
-      def jf-start [] {
+      def jf_start [] {
         launchctl bootstrap $"gui/(id -u)" $"($env.HOME)/Library/LaunchAgents/org.nix-community.home.jellyfin.plist"
       }
 
-      def jf-stop [] {
+      def jf_stop [] {
         launchctl bootout $"gui/(id -u)/org.nix-community.home.jellyfin"
       }
 
-      def jf-status [] {
+      def jf_status [] {
         launchctl print $"gui/(id -u)/org.nix-community.home.jellyfin"
         lsof -nP -iTCP:8096 -sTCP:LISTEN
       }
 
-      def jf-logs [] {
+      def jf_logs [] {
         tail -f $"($env.HOME)/.local/state/jellyfin/log/log_(date now | format date '%Y%m%d').log"
       }
       
