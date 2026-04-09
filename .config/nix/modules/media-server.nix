@@ -8,7 +8,7 @@
 
 let
   mediaServerEnabled = pkgs.stdenv.isDarwin && enableMediaServer;
-  jellyfinDataDir = "${config.home.homeDirectory}/.local/share/jellyfin/data";
+  jellyfinDataDir = "${config.home.homeDirectory}/.local/share/jellyfin";
   jellyfinConfigDir = "${config.home.homeDirectory}/.config/jellyfin";
   jellyfinCacheDir = "${config.home.homeDirectory}/.cache/jellyfin";
   jellyfinLogDir = "${config.home.homeDirectory}/.local/state/jellyfin/log";
