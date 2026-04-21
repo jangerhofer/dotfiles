@@ -1,8 +1,14 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  pkgsUnstable ? pkgs,
+  ...
+}:
 
 {
   programs.zellij = {
     enable = true;
+    package = pkgsUnstable.zellij;
     settings = {
       theme = "nord";
       keybinds = {
