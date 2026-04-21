@@ -12,6 +12,7 @@
     "imagemagick"
     "lefthook"
     "mprocs"
+    "ollama"
     "stlink"
     "yt-dlp"
   ];
@@ -33,7 +34,6 @@
     "docker-desktop"
     "dolphin"
     "firefox"
-    "flox"
     "gcloud-cli"
     "geekbench"
     "ghostty"
