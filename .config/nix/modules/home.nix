@@ -27,6 +27,7 @@ let
     ++ lib.optionals pkgs.stdenv.isDarwin [
       "/run/current-system/sw/bin"
       "/opt/homebrew/bin"
+      "/usr/local/bin"
       "${homeDirectory}/.orbstack/bin"
     ];
   sharedSessionPath = lib.concatStringsSep ":" sharedPathEntries;
