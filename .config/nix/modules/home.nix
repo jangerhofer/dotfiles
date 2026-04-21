@@ -40,6 +40,7 @@ in
     ./btop.nix
     ./helix.nix
     ./ghostty.nix
+    ./zellij.nix
     ./k9s.nix
     ./nushell.nix
     ./ssh.nix
@@ -68,7 +69,6 @@ in
       ripgrep
       lazygit
       lazydocker
-      zellij
       btop
 
       # CLI utilities (migrated from homebrew)
