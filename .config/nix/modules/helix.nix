@@ -10,6 +10,13 @@
           enable = true;
         };
       };
+      # Make Ctrl-a copy the entire buffer to the system clipboard.
+      keys.normal = {
+        "C-a" = [
+          "select_all"
+          "yank_to_clipboard"
+        ];
+      };
     };
   };
 
