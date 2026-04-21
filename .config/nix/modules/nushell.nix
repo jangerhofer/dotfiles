@@ -24,6 +24,11 @@ in
       lg = "lazygit";
       yt = "yt-dlp";
       zj = "zellij";
+      zls = "zellij list-sessions";
+      za = "zellij attach";
+      zc = "zellij attach --create";
+      zbg = "zellij attach --create-background";
+      zk = "zellij kill-session";
       l = "eza -la";
       claude = "/Users/jdangerhofer/.claude/local/claude";
       
