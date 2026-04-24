@@ -8,6 +8,7 @@
 }:
 
 let
+  enablePiProxy = false;
   homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
   nixMaintenanceScript = pkgs.writeShellScript "nix-maintenance" ''
     set -eu
@@ -228,8 +229,9 @@ in
     };
   };
 
-  # Caddy proxy service for Pi devices
-  launchd.agents.caddy-pi-proxy = {
+  # Caddy proxy service for Pi devices. Disabled unless the proxy config exists
+  # and the machine opts in.
+  launchd.agents.caddy-pi-proxy = lib.mkIf enablePiProxy {
     enable = true;
     config = {
       ProgramArguments = [
