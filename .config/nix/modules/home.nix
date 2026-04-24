@@ -130,6 +130,15 @@ in
       # Development tools
       uv
       caddy
+      cargo-binstall
+      ffmpeg
+      gemini-cli
+      graphicsmagick
+      imagemagick
+      lefthook
+      mprocs
+      ollama
+      yt-dlp
 
       # Nix development tools
       nixd
@@ -210,6 +219,11 @@ in
     package = direnvNoCheck;
     enableNushellIntegration = true;
     nix-direnv.enable = true;
+  };
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama;
   };
 
   # Periodic cleanup for Home Manager generations and user-reachable store data.

@@ -5,16 +5,7 @@
   ];
 
   brews = [
-    "cargo-binstall"
-    "ffmpeg"
-    "gemini-cli"
-    "graphicsmagick"
-    "imagemagick"
-    "lefthook"
-    "mprocs"
-    "ollama"
     "stlink"
-    "yt-dlp"
   ];
 
   casks = [
@@ -34,7 +25,6 @@
     "docker-desktop"
     "dolphin"
     "firefox"
-    "gcloud-cli"
     "geekbench"
     "ghostty"
     "google-chrome"
