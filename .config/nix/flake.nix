@@ -2,14 +2,14 @@
   description = "Cross-platform development environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -24,20 +24,11 @@
     }:
     let
       homebrewPackages = import ./data/homebrew-packages.nix;
-      darwinFontPackages =
-        pkgs:
-        let
-          nerdFonts = builtins.removeAttrs pkgs.nerd-fonts [
-            "override"
-            "overrideDerivation"
-            "recurseForDerivations"
-          ];
-        in
-        [
-          pkgs.inconsolata
-          pkgs."jetbrains-mono"
-        ]
-        ++ builtins.attrValues nerdFonts;
+      darwinFontPackages = pkgs: [
+        pkgs.nerd-fonts.inconsolata
+        pkgs.nerd-fonts.jetbrains-mono
+        pkgs.nerd-fonts.symbols-only
+      ];
       mkDarwinConfig =
         username:
         nix-darwin.lib.darwinSystem {
@@ -51,6 +42,7 @@
                 system.stateVersion = 6;
                 system.primaryUser = username;
                 nix.enable = false;
+                system.tools.darwin-option.enable = false;
 
                 # macOS system preferences
                 system.defaults = {

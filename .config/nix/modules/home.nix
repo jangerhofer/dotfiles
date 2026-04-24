@@ -16,20 +16,22 @@ let
     "${pkgs.nix}/bin/nix-collect-garbage" --delete-older-than 30d
     "${pkgs.nix}/bin/nix" store gc
   '';
-  sharedPathEntries =
-    [
-      "${homeDirectory}/.nix-profile/bin"
-      "/nix/var/nix/profiles/default/bin"
-      "${homeDirectory}/.local/bin"
-      "${homeDirectory}/.go/bin"
-      "${homeDirectory}/.cargo/bin"
-    ]
-    ++ lib.optionals pkgs.stdenv.isDarwin [
-      "/run/current-system/sw/bin"
-      "/opt/homebrew/bin"
-      "/usr/local/bin"
-      "${homeDirectory}/.orbstack/bin"
-    ];
+  direnvNoCheck = pkgs.direnv.overrideAttrs (_old: {
+    doCheck = false;
+  });
+  sharedPathEntries = [
+    "${homeDirectory}/.nix-profile/bin"
+    "/nix/var/nix/profiles/default/bin"
+    "${homeDirectory}/.local/bin"
+    "${homeDirectory}/.go/bin"
+    "${homeDirectory}/.cargo/bin"
+  ]
+  ++ lib.optionals pkgs.stdenv.isDarwin [
+    "/run/current-system/sw/bin"
+    "/opt/homebrew/bin"
+    "/usr/local/bin"
+    "${homeDirectory}/.orbstack/bin"
+  ];
   sharedSessionPath = lib.concatStringsSep ":" sharedPathEntries;
 in
 {
@@ -136,7 +138,7 @@ in
       nix-tree
       nix-output-monitor
       nix-index
-      
+
       # Embedded development tools
       gcc-arm-embedded
     ]
@@ -150,20 +152,22 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Keep common editor and PATH defaults consistent outside Nushell too.
-  home.sessionVariables =
-    {
-      EDITOR = "hx";
-      VISUAL = "hx";
-      PATH = "$PATH:${sharedSessionPath}";
-    }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      STM32CubeMX_PATH = "/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources";
-      STM32_PRG_PATH =
-        "/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin";
-    };
+  home.sessionVariables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+    PATH = "$PATH:${sharedSessionPath}";
+  }
+  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    STM32CubeMX_PATH = "/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources";
+    STM32_PRG_PATH = "/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin";
+  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
+
+  # Avoid noisy options.json generation on 25.11; use `nnews` to inspect news on demand.
+  manual.manpages.enable = false;
+  news.display = "silent";
 
   # Keep fallback shells declarative too.
   programs.zsh.enable = true;
@@ -185,6 +189,7 @@ in
   # Manage direnv centrally and use nix-direnv's faster flake integration.
   programs.direnv = {
     enable = true;
+    package = direnvNoCheck;
     enableNushellIntegration = true;
     nix-direnv.enable = true;
   };
@@ -222,7 +227,7 @@ in
       StandardErrorPath = "${config.home.homeDirectory}/.cache/nix-maintenance.log";
     };
   };
-  
+
   # Caddy proxy service for Pi devices
   launchd.agents.caddy-pi-proxy = {
     enable = true;
