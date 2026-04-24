@@ -7,15 +7,18 @@
       gui = {
         theme = {
           lightTheme = false;
-          activeBorderColor = ["#81A1C1" "bold"];
-          inactiveBorderColor = ["#4C566A"];
-          optionsTextColor = ["#81A1C1"];
-          selectedLineBgColor = ["#3B4252"];
-          selectedRangeBgColor = ["#3B4252"];
-          cherryPickedCommitBgColor = ["#A3BE8C"];
-          cherryPickedCommitFgColor = ["#2E3440"];
-          unstagedChangesColor = ["#EBCB8B"];
-          defaultFgColor = ["#E5E9F0"];
+          activeBorderColor = [
+            "#81A1C1"
+            "bold"
+          ];
+          inactiveBorderColor = [ "#4C566A" ];
+          optionsTextColor = [ "#81A1C1" ];
+          selectedLineBgColor = [ "#3B4252" ];
+          selectedRangeBgColor = [ "#3B4252" ];
+          cherryPickedCommitBgColor = [ "#A3BE8C" ];
+          cherryPickedCommitFgColor = [ "#2E3440" ];
+          unstagedChangesColor = [ "#EBCB8B" ];
+          defaultFgColor = [ "#E5E9F0" ];
         };
         scrollHeight = 2;
         scrollPastBottom = true;
@@ -28,10 +31,12 @@
         shortTimeFormat = "15:04";
       };
       git = {
-        paging = {
-          colorArg = "always";
-          pager = "delta --dark --paging=never";
-        };
+        pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --dark --paging=never";
+          }
+        ];
         commit = {
           signOff = false;
         };
@@ -47,7 +52,9 @@
         autoFetch = true;
         autoRefresh = true;
         branchLogCmd = "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --";
-        allBranchesLogCmds = ["git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium"];
+        allBranchesLogCmds = [
+          "git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium"
+        ];
         overrideGpg = false;
         disableForcePushing = false;
         parseEmoji = false;
@@ -78,7 +85,13 @@
           nextBlock = "<right>";
           prevBlock-alt = "h";
           nextBlock-alt = "l";
-          jumpToBlock = ["1" "2" "3" "4" "5"];
+          jumpToBlock = [
+            "1"
+            "2"
+            "3"
+            "4"
+            "5"
+          ];
           nextMatch = "n";
           prevMatch = "N";
           optionMenu = "x";
@@ -125,8 +138,8 @@
         editPreset = "helix";
       };
       disableStartupPopups = false;
-      customCommands = [];
-      services = {};
+      customCommands = [ ];
+      services = { };
       notARepository = "prompt";
       promptToReturnFromSubprocess = true;
     };
