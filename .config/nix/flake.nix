@@ -143,15 +143,31 @@
           username,
           system,
           enableMediaServer ? false,
+          homeManagerProfileName ? null,
+          extraProfileModules ? [ ],
         }:
         let
+          homeManagerTarget =
+            if homeManagerProfileName != null then
+              homeManagerProfileName
+            else if enableMediaServer then
+              "media-server"
+            else if system == "aarch64-darwin" then
+              "macos-aarch64"
+            else if system == "x86_64-linux" then
+              "linux-x86_64"
+            else if system == "aarch64-linux" then
+              "linux-aarch64"
+            else
+              "macos-aarch64";
           pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
         in
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [ ./modules/home.nix ];
+          modules = [ ./modules/home.nix ] ++ extraProfileModules;
           extraSpecialArgs = {
             inherit username enableMediaServer pkgsUnstable;
+            homeManagerProfileName = homeManagerTarget;
           };
         };
     in
@@ -172,6 +188,12 @@
           username = "jdangerhofer";
           system = "aarch64-darwin";
           enableMediaServer = true;
+        };
+        "macos-aarch64-rhythm" = mkHomeConfig {
+          username = "jdangerhofer";
+          system = "aarch64-darwin";
+          homeManagerProfileName = "macos-aarch64-rhythm";
+          extraProfileModules = [ ./modules/rhythm.nix ];
         };
         "linux-x86_64" = mkHomeConfig {
           username = "jdangerhofer";

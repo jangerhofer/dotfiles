@@ -134,6 +134,7 @@ darwin-rebuild switch --flake ~/.config/nix#default
 # Apply changes to Home Manager configuration
 # Use the appropriate configuration for your system:
 # - macos-aarch64: macOS Apple Silicon
+# - macos-aarch64-rhythm: macOS Apple Silicon + Rhythm profile
 # - linux-x86_64: Linux Intel/AMD  
 # - linux-aarch64: Linux ARM64
 home-manager switch --flake ~/.config/nix#macos-aarch64
@@ -164,6 +165,8 @@ Practical rule of thumb:
 - Changed `homebrew-packages.nix` or anything in the `homebrew` block: run `dm` or `nm`.
 - Changed shell/editor/git/user package config: run `hm`.
 - Changed both: run `nm`.
+
+For arbitrary profile combinations, define another entry in `flake.nix` by passing additional modules via `extraProfileModules` in `mkHomeConfig`. `rhythm` is currently one optional module you can opt into with `macos-aarch64-rhythm`.
 
 `hm` does not apply nix-darwin Homebrew changes. If you remove a Brew package from `homebrew-packages.nix`, it will only be uninstalled when you run `dm` or `nm`.
 

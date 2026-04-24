@@ -112,7 +112,6 @@ in
       # Additional CLI tools (migrated from homebrew)
       bun
       cloudflared
-      ghidra
       k9s
       minicom
       mosh
