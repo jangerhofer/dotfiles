@@ -1,6 +1,9 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
+  signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUy3gdzKIGR7Euq21r4O8hScZBj4wg9hJp9gXcOB00n";
+  allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
+
   gitAliases = {
     # Add aliases
     a = "add";
@@ -140,6 +143,10 @@ let
   };
 in
 {
+  home.file.".config/git/allowed_signers".text = ''
+    jd.angerhofer@gmail.com ${signingKey}
+  '';
+
   programs.difftastic = {
     enable = true;
     git.enable = true;
@@ -153,7 +160,7 @@ in
     enable = true;
 
     signing = {
-      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUy3gdzKIGR7Euq21r4O8hScZBj4wg9hJp9gXcOB00n";
+      key = signingKey;
       signByDefault = true;
     };
 
@@ -176,7 +183,10 @@ in
       };
       gpg = {
         format = "ssh";
-        ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        ssh = {
+          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          allowedSignersFile = allowedSignersFile;
+        };
       };
       core.editor = "hx";
       pull.rebase = true;
