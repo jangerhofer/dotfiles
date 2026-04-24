@@ -1,7 +1,7 @@
-{ config, pkgs, lib, enableMediaServer ? false, sharedPathEntries ? [ ], ... }:
+{ config, pkgs, lib, homeManagerProfileName ? "macos-aarch64", sharedPathEntries ? [ ], ... }:
 
 let
-  homeManagerTarget = if enableMediaServer then "media-server" else "macos-aarch64";
+  homeManagerTarget = homeManagerProfileName;
   homeManagerBin = "${config.home.homeDirectory}/.nix-profile/bin/home-manager";
   darwinRebuildBin = "/run/current-system/sw/bin/darwin-rebuild";
   nixBinDir = "/nix/var/nix/profiles/default/bin";
@@ -356,29 +356,6 @@ in
 
       def jf_logs [] {
         tail -f $"($env.HOME)/.local/state/jellyfin/log/log_(date now | format date '%Y%m%d').log"
-      }
-      
-      # Pi device connection
-      def pi [host: string, remote_port?: int = 8001] {
-        mut actual_host = $host
-        let config_file = "~/.config/pi-devices.conf" | path expand
-        
-        # Check for device mapping
-        if ($config_file | path exists) {
-          let mapping = (open $config_file | lines | where {|line| $line | str starts-with $"($host)="} | first)
-          if $mapping != null {
-            $actual_host = ($mapping | split column "=" | get column2.0)
-          }
-        }
-        
-        # Open browser in background
-        print $"Opening browser tab to http://($actual_host):($remote_port) \(in background\)..."
-        bash -c $"open -g 'http://($actual_host):($remote_port)'"
-        print "Browser tab opened in background."
-        
-        # Connect via SSH
-        print "Connecting to shell..."
-        ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no $"pi@($actual_host)"
       }
       
       # Open file or directory in VSCode using fzf
