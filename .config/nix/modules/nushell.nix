@@ -498,12 +498,28 @@ in
 ${lib.concatMapStringsSep "\n" (path: ''        "${path}"'') sharedPathEntries}
       ]
 
-      for entry in $shared_path_entries {
-        let expanded = ($entry | path expand)
-        if (($expanded | path exists) and (not ($env.PATH | any {|current| $current == $expanded }))) {
-          $env.PATH = ($env.PATH | append $expanded)
-        }
-      }
+      let path_candidates = (
+        $shared_path_entries
+        | each {|entry| $entry | path expand --no-symlink }
+        | append ($env.PATH? | default [])
+        | where {|entry| $entry | path exists }
+      )
+
+      $env.PATH = (
+        $path_candidates
+        | reduce -f { seen: [], paths: [] } {|entry, acc|
+            let key = ($entry | path expand)
+            if ($acc.seen | any {|seen| $seen == $key }) {
+              $acc
+            } else {
+              {
+                seen: ($acc.seen | append $key)
+                paths: ($acc.paths | append $entry)
+              }
+            }
+          }
+        | get paths
+      )
 
       # Load Homebrew-specific environment variables without letting Homebrew
       # reorder PATH ahead of Nix-managed tooling.

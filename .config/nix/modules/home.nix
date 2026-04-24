@@ -170,8 +170,25 @@ in
   manual.manpages.enable = false;
   news.display = "silent";
 
-  # Keep fallback shells declarative too.
-  programs.zsh.enable = true;
+  # Keep fallback shells declarative too, with the same tool precedence as Nushell.
+  programs.zsh = {
+    enable = true;
+    initContent = lib.mkBefore ''
+      _hm_path_entries=(
+      ${lib.concatMapStringsSep "\n" (path: "  ${lib.escapeShellArg path}") sharedPathEntries}
+      )
+      _hm_existing_path_entries=()
+      for _hm_path_entry in "''${_hm_path_entries[@]}"; do
+        if [[ -d "$_hm_path_entry" ]]; then
+          _hm_existing_path_entries+=("$_hm_path_entry")
+        fi
+      done
+      path=("''${_hm_existing_path_entries[@]}" "''${path[@]}")
+      typeset -U path
+      export PATH
+      unset _hm_path_entry _hm_path_entries _hm_existing_path_entries
+    '';
+  };
 
   home.file = {
     ".profile".text = ''
