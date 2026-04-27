@@ -3,6 +3,8 @@ set -euo pipefail
 
 echo "🚀 Starting environment bootstrap with Nix..."
 
+EXPECTED_DARWIN_USER="jdangerhofer"
+
 backup_etc_file() {
     local target="$1"
     local backup="${target}.before-nix-darwin"
@@ -23,6 +25,71 @@ activate_home_manager_flake() {
 
     nix build "${flake_ref}.activationPackage" --out-link "$out_link"
     "$out_link/activate"
+}
+
+current_user() {
+    id -un
+}
+
+run_as_root() {
+    sudo env HOME=/var/root NIX_CONFIG="experimental-features = nix-command flakes" "$@"
+}
+
+check_darwin_user() {
+    local user
+    local expected_home
+
+    user=$(current_user)
+    expected_home="/Users/${EXPECTED_DARWIN_USER}"
+
+    if [ "$user" != "$EXPECTED_DARWIN_USER" ]; then
+        echo "❌ This macOS flake is configured for user '${EXPECTED_DARWIN_USER}', but you are logged in as '${user}'."
+        echo "   Rename the macOS account and home folder first, then open a new terminal and rerun this script."
+        echo "   Expected home directory: ${expected_home}"
+        exit 1
+    fi
+
+    if [ "$HOME" != "$expected_home" ]; then
+        echo "❌ HOME is '${HOME}', but this bootstrap expects '${expected_home}'."
+        echo "   Open a fresh login shell after renaming the account, then rerun this script."
+        exit 1
+    fi
+}
+
+resolve_homebrew() {
+    if command -v brew >/dev/null 2>&1; then
+        command -v brew
+        return 0
+    fi
+
+    if [ -x /opt/homebrew/bin/brew ]; then
+        echo /opt/homebrew/bin/brew
+        return 0
+    fi
+
+    if [ -x /usr/local/bin/brew ]; then
+        echo /usr/local/bin/brew
+        return 0
+    fi
+
+    return 1
+}
+
+ensure_homebrew() {
+    local brew_bin
+
+    if brew_bin=$(resolve_homebrew); then
+        echo "✅ Homebrew already installed"
+    else
+        echo "🍺 Installing Homebrew for nix-darwin Homebrew activation..."
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        brew_bin=$(resolve_homebrew) || {
+            echo "❌ Homebrew installation finished, but brew was not found."
+            exit 1
+        }
+    fi
+
+    eval "$("$brew_bin" shellenv)"
 }
 
 # Check if Nix is installed
@@ -47,13 +114,17 @@ fi
 # Deploy environment
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo "🍎 Updating macOS configuration..."
+    check_darwin_user
+    ensure_homebrew
     backup_etc_file "/etc/shells"
+
+    DARWIN_FLAKE="$HOME/.config/nix#default"
     
     # Use direct flake configuration
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
-        sudo nix run nix-darwin -- switch --flake ~/.config/nix#default
+        run_as_root nix run nix-darwin -- switch --flake "$DARWIN_FLAKE"
     else
-        sudo darwin-rebuild switch --flake ~/.config/nix#default
+        run_as_root darwin-rebuild switch --flake "$DARWIN_FLAKE"
     fi
     
     echo "🏠 Updating user environment..."
