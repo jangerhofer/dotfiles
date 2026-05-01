@@ -226,6 +226,29 @@ in
 
       # Custom functions
 
+      def complete-zellij-sessions [] {
+        let raw = (^zellij list-sessions --short --no-formatting | complete)
+        if $raw.exit_code != 0 {
+          return []
+        }
+        $raw.stdout
+        | lines
+        | where {|session| ($session | str trim) != ""}
+        | uniq
+        | sort
+      }
+
+      def --wrapped zac [
+        session?: string@"complete-zellij-sessions",
+        ...args: string
+      ] {
+        if ($session | is-empty) {
+          ^zellij attach --create ...$args
+        } else {
+          ^zellij attach --create $session ...$args
+        }
+      }
+
       # Wrapped git shorthand with alias-aware completion.
       def --wrapped g [
         command?: string@"complete-git-subcommands-and-aliases",
