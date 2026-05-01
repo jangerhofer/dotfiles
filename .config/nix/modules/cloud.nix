@@ -6,6 +6,7 @@
     google-cloud-sdk # Google Cloud SDK
 
     # Infrastructure as Code
+    opentofu # OpenTofu CLI
     terraform # Infrastructure provisioning
     terragrunt # Terraform wrapper
     packer # Image building

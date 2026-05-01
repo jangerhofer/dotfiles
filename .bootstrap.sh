@@ -24,7 +24,7 @@ activate_home_manager_flake() {
     out_link="$temp_dir/home-manager"
 
     nix build "${flake_ref}.activationPackage" --out-link "$out_link"
-    "$out_link/activate"
+    bash "$out_link/activate"
 }
 
 current_user() {
@@ -124,7 +124,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
         run_as_root nix run nix-darwin -- switch --flake "$DARWIN_FLAKE"
     else
-        run_as_root darwin-rebuild switch --flake "$DARWIN_FLAKE"
+        run_as_root bash "$(command -v darwin-rebuild)" switch --flake "$DARWIN_FLAKE"
     fi
     
     echo "🏠 Updating user environment..."

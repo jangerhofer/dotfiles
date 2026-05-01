@@ -1,21 +1,29 @@
-{ config, pkgs, lib, homeManagerProfileName ? "macos-aarch64", sharedPathEntries ? [ ], ... }:
+{
+  config,
+  pkgs,
+  lib,
+  homeManagerProfileName ? "macos-aarch64",
+  sharedPathEntries ? [ ],
+  ...
+}:
 
 let
   homeManagerTarget = homeManagerProfileName;
   homeManagerBin = "${config.home.homeDirectory}/.nix-profile/bin/home-manager";
   darwinRebuildBin = "/run/current-system/sw/bin/darwin-rebuild";
+  bashBin = "${pkgs.bash}/bin/bash";
   nixBinDir = "/nix/var/nix/profiles/default/bin";
 in
 {
   programs.nushell = {
     enable = true;
-    
+
     # Environment variables
     environmentVariables = {
       EDITOR = "hx";
       VISUAL = "hx";
     };
-    
+
     # Shell aliases
     shellAliases = {
       b = "brew";
@@ -31,10 +39,10 @@ in
       zk = "zellij kill-session";
       l = "eza -la";
       claude = "/Users/jdangerhofer/.claude/local/claude";
-      
+
       # History management (Nushell doesn't have history merge - it auto-syncs)
       # hsync = "history merge";  # Not needed in Nushell
-      
+
       # Nix aliases
       nb = "nix build";
       nd = "nix develop";
@@ -45,7 +53,7 @@ in
       nfu = "nix flake update";
       nom = "nix-output-monitor";
       nt = "nix-tree";
-      
+
       # Nix update workflow aliases
       nroll = "${homeManagerBin} generations";
       nnews = "${homeManagerBin} news --flake ~/.config/nix#${homeManagerTarget}";
@@ -66,18 +74,18 @@ in
       nopt = "nix store optimise";
       # System-wide generation cleanup; useful when root-owned profiles are involved
       dgc = "sudo nix-collect-garbage -d";
-      
+
       # macOS open utility
       f = "/usr/bin/open";
-      
+
     };
-    
+
     # Nushell configuration
     extraConfig = ''
       # Load completions with proper paths
       use ~/.config/nushell/completions/git-completions.nu *
       use ${pkgs.nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
-      
+
       def complete-git-subcommands-and-aliases [] {
         let subcommands = (
           ^git help -a
@@ -209,13 +217,13 @@ in
           _ => []
         }
       }
-      
-      
+
+
       # Disable nushell prompt indicators since we use starship
       $env.PROMPT_INDICATOR = ""
       $env.PROMPT_INDICATOR_VI_INSERT = ""  
       $env.PROMPT_INDICATOR_VI_NORMAL = ""
-      
+
       # Custom functions
 
       # Wrapped git shorthand with alias-aware completion.
@@ -241,22 +249,22 @@ in
           ^git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME $command ...$args
         }
       }
-      
+
       def dtlg [] {
         lazygit --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME
       }
-      
+
       # Nix workflow functions
       def ncheck [] {
         cd $"($env.HOME)/.config/nix"
         git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
       }
-      
+
       def nup [] {
         cd $"($env.HOME)/.config/nix"
         nix flake update --flake $"($env.HOME)/.config/nix"
       }
-      
+
       def nfull [] {
         cd $"($env.HOME)/.config/nix"
         nix flake update --flake $"($env.HOME)/.config/nix"
@@ -275,7 +283,7 @@ in
         nix store gc
         nix store optimise
       }
-      
+
       # Zoxide integration with proper directory changing
       def --env z [dir?: string] {
         if ($dir | is-empty) {
@@ -289,24 +297,24 @@ in
           }
         }
       }
-      
+
       def --env zi [] {
         let result = (zoxide query -i)
         if ($result | is-not-empty) {
           cd $result
         }
       }
-      
+
       # Sync the live Homebrew state back into the flake-managed manifest.
       def brew_sync [] {
         ^bash $"($env.HOME)/.config/nix/scripts/sync-homebrew-to-nix.sh"
       }
-      
+
       # IntelliJ IDEA launcher
       def idea [...args] {
         bash -c $"/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea ($args | str join ' ') >/dev/null 2>&1 &"
       }
-      
+
       # IntelliJ IDEA with directory resolution using zoxide
       def i [dir: string] {
         let resolved = (zoxide query $dir | lines | first)
@@ -316,24 +324,30 @@ in
           print $"No match found for '($dir)'"
         }
       }
-      
+
       # S3 sync function
       def sync_s3 [timestamp: string] {
         aws s3 sync $"s3://controller-development/control/($timestamp)" $"data/control/($timestamp)"
       }
-      
+
       # Home-manager switch
       def hm [] {
+        let temp_dir = (mktemp -d)
+        let out_link = $"($temp_dir)/home-manager"
         with-env { PATH: ($env.PATH | prepend "${nixBinDir}") } {
-          ^${homeManagerBin} switch --flake ~/.config/nix#${homeManagerTarget}
+          nix build $"($env.HOME)/.config/nix#homeConfigurations.${homeManagerTarget}.activationPackage" --out-link $out_link
+          ^${bashBin} $"($out_link)/activate"
         }
+        rm -rf $temp_dir
       }
-      
+
       # Darwin switch
       def dm [] {
-        sudo ${darwinRebuildBin} switch --flake $"($env.HOME)/.config/nix#default"
+        print "Refreshing sudo credentials for nix-darwin..."
+        ^sudo -v
+        ^sudo ${bashBin} ${darwinRebuildBin} switch --flake $"($env.HOME)/.config/nix#default"
       }
-      
+
       # Combined nix switch (Darwin + home-manager)
       def nm [] {
         dm
@@ -357,7 +371,7 @@ in
       def jf_logs [] {
         tail -f $"($env.HOME)/.local/state/jellyfin/log/log_(date now | format date '%Y%m%d').log"
       }
-      
+
       # Open file or directory in VSCode using fzf
       def cz [search_term?: string] {
         let selection = if ($search_term | is-not-empty) {
@@ -370,7 +384,7 @@ in
           ^code $selection
         }
       }
-      
+
       # Rebuild macOS Spotlight index
       def spotlight_index_rebuild [] {
         print "Rebuilding macOS Spotlight index..."
@@ -391,7 +405,7 @@ in
         print "Spotlight index rebuild initiated. Indexing will continue in the background."
         print "You can check progress in System Settings > Siri & Spotlight"
       }
-      
+
       # Basic config
       $env.config = {
         show_banner: false
@@ -458,69 +472,69 @@ in
         }
       }
     '';
-    
+
     # Environment setup
     extraEnv = ''
-      # Clear greeting
-      $env.config = ($env.config | upsert show_banner false)
-      
-      # Fix termcap for ghostty
-      if $env.TERM? == "xterm-ghostty" {
-        $env.TERM = "xterm-256color"
-      }
-      
-      # Shared PATH additions are declared in Home Manager so Nushell keeps the
-      # standard Nix user/system bins plus local tool paths available.
-      let shared_path_entries = [
-${lib.concatMapStringsSep "\n" (path: ''        "${path}"'') sharedPathEntries}
-      ]
-
-      let path_candidates = (
-        $shared_path_entries
-        | each {|entry| $entry | path expand --no-symlink }
-        | append ($env.PATH? | default [])
-        | where {|entry| $entry | path exists }
-      )
-
-      $env.PATH = (
-        $path_candidates
-        | reduce -f { seen: [], paths: [] } {|entry, acc|
-            let key = ($entry | path expand)
-            if ($acc.seen | any {|seen| $seen == $key }) {
-              $acc
-            } else {
-              {
-                seen: ($acc.seen | append $key)
-                paths: ($acc.paths | append $entry)
-              }
+            # Clear greeting
+            $env.config = ($env.config | upsert show_banner false)
+            
+            # Fix termcap for ghostty
+            if $env.TERM? == "xterm-ghostty" {
+              $env.TERM = "xterm-256color"
             }
-          }
-        | get paths
-      )
+            
+            # Shared PATH additions are declared in Home Manager so Nushell keeps the
+            # standard Nix user/system bins plus local tool paths available.
+            let shared_path_entries = [
+      ${lib.concatMapStringsSep "\n" (path: ''"${path}"'') sharedPathEntries}
+            ]
 
-      # Load Homebrew-specific environment variables without letting Homebrew
-      # reorder PATH ahead of Nix-managed tooling.
-      if ("/opt/homebrew/bin/brew" | path exists) {
-        /opt/homebrew/bin/brew shellenv
-        | lines
-        | parse "export {name}={value}"
-        | where name != "PATH"
-        | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value}
-        | load-env
-      }
-      
-      # Initialize pay-respects (thefuck replacement)
-      # Note: pay-respects doesn't have native nushell support yet
-      # You can use it by typing 'pay-respects' after a failed command
+            let path_candidates = (
+              $shared_path_entries
+              | each {|entry| $entry | path expand --no-symlink }
+              | append ($env.PATH? | default [])
+              | where {|entry| $entry | path exists }
+            )
+
+            $env.PATH = (
+              $path_candidates
+              | reduce -f { seen: [], paths: [] } {|entry, acc|
+                  let key = ($entry | path expand)
+                  if ($acc.seen | any {|seen| $seen == $key }) {
+                    $acc
+                  } else {
+                    {
+                      seen: ($acc.seen | append $key)
+                      paths: ($acc.paths | append $entry)
+                    }
+                  }
+                }
+              | get paths
+            )
+
+            # Load Homebrew-specific environment variables without letting Homebrew
+            # reorder PATH ahead of Nix-managed tooling.
+            if ("/opt/homebrew/bin/brew" | path exists) {
+              /opt/homebrew/bin/brew shellenv
+              | lines
+              | parse "export {name}={value}"
+              | where name != "PATH"
+              | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value}
+              | load-env
+            }
+            
+            # Initialize pay-respects (thefuck replacement)
+            # Note: pay-respects doesn't have native nushell support yet
+            # You can use it by typing 'pay-respects' after a failed command
     '';
   };
 
   home.file.".config/nushell/completions/git-completions.nu".source =
     "${pkgs.nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu";
-  
+
   home.packages = with pkgs; [
     nushell
-    nu_scripts  # For completions
-    zoxide      # Modern z replacement that works with nushell
+    nu_scripts # For completions
+    zoxide # Modern z replacement that works with nushell
   ];
 }
