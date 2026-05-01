@@ -4,11 +4,15 @@
   lib,
   username ? "user",
   enableMediaServer ? false,
+  homeManagerProfileName ? null,
   ...
 }:
 
 let
   enablePiProxy = false;
+  profileName = if homeManagerProfileName == null then "" else homeManagerProfileName;
+  isDarwin = pkgs.stdenv.isDarwin;
+  isVpsProfile = profileName == "vps-aarch64";
   homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
   nixMaintenanceScript = pkgs.writeShellScript "nix-maintenance" ''
     set -eu
@@ -27,13 +31,93 @@ let
     "${homeDirectory}/.go/bin"
     "${homeDirectory}/.cargo/bin"
   ]
-  ++ lib.optionals pkgs.stdenv.isDarwin [
+  ++ lib.optionals isDarwin [
     "/run/current-system/sw/bin"
     "/opt/homebrew/bin"
     "/usr/local/bin"
     "${homeDirectory}/.orbstack/bin"
   ];
   sharedSessionPath = lib.concatStringsSep ":" sharedPathEntries;
+  corePackages = with pkgs; [
+    starship
+    pay-respects
+    git
+    curl
+    ripgrep
+    lazygit
+    btop
+
+    fd
+    fzf
+    jq
+    tree
+    wget
+
+    gh
+    delta
+    git-lfs
+    git-sizer
+
+    kubectl
+    kubernetes-helm
+    k9s
+    kubie
+    kustomize
+
+    bat
+    eza
+    tmux
+    mtr
+    rsync
+    nmap
+    inetutils
+
+    nixd
+    nixfmt-rfc-style
+    statix
+    deadnix
+    nix-tree
+    nix-output-monitor
+    nix-index
+  ];
+  workstationPackages = with pkgs; [
+    lazydocker
+
+    go
+    nodejs
+    pnpm
+    python311
+    rustup
+
+    bun
+    cloudflared
+    minicom
+    mosh
+    nnn
+    redis
+    wasm-pack
+    watchman
+    yq
+    zig
+
+    uv
+    caddy
+    cargo-binstall
+    ffmpeg
+    gemini-cli
+    graphicsmagick
+    imagemagick
+    lefthook
+    mprocs
+    ollama
+    yt-dlp
+
+    gcc-arm-embedded
+  ];
+  darwinPackages = with pkgs; [
+    mas
+    utm
+  ];
 in
 {
   _module.args.sharedPathEntries = sharedPathEntries;
@@ -43,12 +127,14 @@ in
     ./starship.nix
     ./btop.nix
     ./helix.nix
-    ./ghostty.nix
     ./zellij.nix
     ./k9s.nix
     ./nushell.nix
     ./ssh.nix
     ./lazygit.nix
+  ]
+  ++ lib.optionals (!isVpsProfile) [
+    ./ghostty.nix
     ./cloud.nix
     ./media-server.nix
   ];
@@ -64,98 +150,9 @@ in
 
   # Development packages
   home.packages =
-    with pkgs;
-    [
-      starship
-      pay-respects
-      git
-      curl
-      ripgrep
-      lazygit
-      lazydocker
-      btop
-
-      # CLI utilities (migrated from homebrew)
-      fd
-      fzf
-      jq
-      tree
-      wget
-
-      # Development tools (migrated from homebrew)
-      gh
-      delta
-      git-lfs
-      git-sizer
-
-      # Kubernetes tools (migrated from homebrew)
-      kubectl
-      kubernetes-helm
-
-      # Programming languages (migrated from homebrew)
-      go
-      nodejs
-      pnpm
-      python311
-      rustup
-
-      # System utilities
-      bat
-      eza
-      tmux
-      mtr
-      rsync
-      nmap
-      stress
-      inetutils
-
-      # Additional CLI tools (migrated from homebrew)
-      bun
-      cloudflared
-      k9s
-      minicom
-      mosh
-      nnn
-      redis
-      wasm-pack
-      watchman
-      yq
-      zig
-
-      # Kubernetes additional tools
-      kubie
-      kustomize
-
-      # Development tools
-      uv
-      caddy
-      cargo-binstall
-      ffmpeg
-      gemini-cli
-      graphicsmagick
-      imagemagick
-      lefthook
-      mprocs
-      ollama
-      yt-dlp
-
-      # Nix development tools
-      nixd
-      nixfmt-rfc-style
-      statix
-      deadnix
-      nix-tree
-      nix-output-monitor
-      nix-index
-
-      # Embedded development tools
-      gcc-arm-embedded
-    ]
-    ++ lib.optionals pkgs.stdenv.isDarwin [
-      # macOS-specific tools
-      mas
-      utm
-    ];
+    corePackages
+    ++ lib.optionals (!isVpsProfile) workstationPackages
+    ++ lib.optionals isDarwin darwinPackages;
 
   # Allow unfree packages (required for terraform and other BSL/commercial packages)
   nixpkgs.config.allowUnfree = true;
@@ -166,7 +163,7 @@ in
     VISUAL = "hx";
     PATH = "$PATH:${sharedSessionPath}";
   }
-  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+  // lib.optionalAttrs isDarwin {
     STM32CubeMX_PATH = "/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources";
     STM32_PRG_PATH = "/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin";
   };
@@ -220,13 +217,13 @@ in
     nix-direnv.enable = true;
   };
 
-  services.ollama = {
+  services.ollama = lib.mkIf (!isVpsProfile) {
     enable = true;
     package = pkgs.ollama;
   };
 
   # Periodic cleanup for Home Manager generations and user-reachable store data.
-  launchd.agents.nix-maintenance = {
+  launchd.agents.nix-maintenance = lib.mkIf isDarwin {
     enable = true;
     config = {
       ProgramArguments = [ "${nixMaintenanceScript}" ];
@@ -241,7 +238,7 @@ in
   };
 
   # Deduplicate identical store files periodically to keep the Nix store compact.
-  launchd.agents.nix-store-optimise = {
+  launchd.agents.nix-store-optimise = lib.mkIf isDarwin {
     enable = true;
     config = {
       ProgramArguments = [
@@ -261,7 +258,7 @@ in
 
   # Caddy proxy service for Pi devices. Disabled unless the proxy config exists
   # and the machine opts in.
-  launchd.agents.caddy-pi-proxy = lib.mkIf enablePiProxy {
+  launchd.agents.caddy-pi-proxy = lib.mkIf (isDarwin && enablePiProxy) {
     enable = true;
     config = {
       ProgramArguments = [

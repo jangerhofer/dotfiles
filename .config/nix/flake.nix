@@ -203,6 +203,11 @@
           username = "jdangerhofer";
           system = "aarch64-linux";
         };
+        "vps-aarch64" = mkHomeConfig {
+          username = "ubuntu";
+          system = "aarch64-linux";
+          homeManagerProfileName = "vps-aarch64";
+        };
       };
     };
 }

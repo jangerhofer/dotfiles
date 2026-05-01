@@ -24,7 +24,7 @@ activate_home_manager_flake() {
     out_link="$temp_dir/home-manager"
 
     nix build "${flake_ref}.activationPackage" --out-link "$out_link"
-    bash "$out_link/activate"
+    HOME_MANAGER_BACKUP_EXT="${HOME_MANAGER_BACKUP_EXT:-before-home-manager}" bash "$out_link/activate"
 }
 
 current_user() {
@@ -95,9 +95,8 @@ ensure_homebrew() {
 # Check if Nix is installed
 if ! command -v nix >/dev/null 2>&1; then
     echo "📦 Installing Nix package manager..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-    
-    # Source Nix environment
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+# Source Nix environment
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     fi
@@ -142,6 +141,10 @@ else
     
     # Create temporary flake for home-manager with current user
     TEMP_FLAKE=$(mktemp -d)
+    HOME_MANAGER_PROFILE_LINE=""
+    if [ -n "${HOME_MANAGER_PROFILE_NAME:-}" ]; then
+        HOME_MANAGER_PROFILE_LINE="homeManagerProfileName = \"${HOME_MANAGER_PROFILE_NAME}\";"
+    fi
     cat > "$TEMP_FLAKE/flake.nix" << EOF
 {
   inputs.config.url = "path:$HOME/.config/nix";
@@ -149,6 +152,7 @@ else
     homeConfigurations.default = config.lib.mkHomeConfig {
       username = "$USER";
       system = "$HM_SYSTEM";
+      $HOME_MANAGER_PROFILE_LINE
     };
   };
 }

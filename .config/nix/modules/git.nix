@@ -1,6 +1,13 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  homeManagerProfileName ? null,
+  ...
+}:
 
 let
+  isVpsProfile = homeManagerProfileName == "vps-aarch64";
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPUy3gdzKIGR7Euq21r4O8hScZBj4wg9hJp9gXcOB00n";
   allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
 
@@ -159,7 +166,7 @@ in
   programs.git = {
     enable = true;
 
-    signing = {
+    signing = lib.mkIf (!isVpsProfile) {
       key = signingKey;
       signByDefault = true;
     };
@@ -170,23 +177,12 @@ in
         email = "jd.angerhofer@gmail.com";
       };
       alias = gitAliases;
-      tag = {
-        forceSignAnnotated = true;
-        gpgSign = true;
-      };
       rebase.updateRefs = true;
       help.autocorrect = "immediate";
       push = {
         gpgSign = "if-asked";
         default = "current";
         autoSetupRemote = true;
-      };
-      gpg = {
-        format = "ssh";
-        ssh = {
-          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-          allowedSignersFile = allowedSignersFile;
-        };
       };
       core.editor = "hx";
       pull.rebase = true;
@@ -195,6 +191,19 @@ in
         required = true;
         clean = "git-lfs clean -- %f";
         smudge = "git-lfs smudge -- %f";
+      };
+    }
+    // pkgs.lib.optionalAttrs (!isVpsProfile) {
+      tag = {
+        forceSignAnnotated = true;
+        gpgSign = true;
+      };
+      gpg = {
+        format = "ssh";
+        ssh = {
+          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          allowedSignersFile = allowedSignersFile;
+        };
       };
     }
     // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
