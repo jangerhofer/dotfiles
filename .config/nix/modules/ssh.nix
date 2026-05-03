@@ -46,7 +46,7 @@
       };
 
       # Tailscale devices - shared settings
-      "vps mbp-work" = {
+      "vps oci-vps mbp-work" = {
         identitiesOnly = true;
       };
 
@@ -54,7 +54,12 @@
       "vps" = {
         # hostname = "vps.whatmay.be";
         # identityFile = "~/.ssh/id_ed25519";
-        user = "ubuntu";
+        user = "jda";
+      };
+
+      "oci-vps" = {
+        hostname = "oci-vps";
+        user = "jda";
       };
     };
 

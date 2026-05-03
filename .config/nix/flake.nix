@@ -204,7 +204,7 @@
           system = "aarch64-linux";
         };
         "vps-aarch64" = mkHomeConfig {
-          username = "ubuntu";
+          username = "jda";
           system = "aarch64-linux";
           homeManagerProfileName = "vps-aarch64";
         };
