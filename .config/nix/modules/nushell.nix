@@ -328,6 +328,12 @@ in
         }
       }
 
+      # Update Homebrew formulae and casks, then remove all old cached downloads.
+      def bup [] {
+        brew upgrade
+        brew cleanup --prune=all
+      }
+
       # Sync the live Homebrew state back into the flake-managed manifest.
       def brew_sync [] {
         ^bash $"($env.HOME)/.config/nix/scripts/sync-homebrew-to-nix.sh"
