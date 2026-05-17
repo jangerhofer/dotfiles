@@ -109,7 +109,6 @@ let
     imagemagick
     lefthook
     mprocs
-    ollama
     yt-dlp
 
     gcc-arm-embedded
