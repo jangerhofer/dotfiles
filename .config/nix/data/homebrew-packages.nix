@@ -16,6 +16,7 @@
     "anki"
     "appcleaner"
     "autodesk-fusion"
+    "bambu-studio"
     "chatgpt"
     "claude"
     "claude-code"
