@@ -22,6 +22,11 @@ in
     environmentVariables = {
       EDITOR = "hx";
       VISUAL = "hx";
+      SSL_CERT_FILE = "${config.home.sessionVariables.SSL_CERT_FILE}";
+      SSL_CERT_DIR = "${config.home.sessionVariables.SSL_CERT_DIR}";
+      NODE_EXTRA_CA_CERTS = "${config.home.sessionVariables.NODE_EXTRA_CA_CERTS}";
+      NIX_SSL_CERT_FILE = "${config.home.sessionVariables.NIX_SSL_CERT_FILE}";
+      CURL_CA_BUNDLE = "${config.home.sessionVariables.CURL_CA_BUNDLE}";
     };
 
     # Shell aliases

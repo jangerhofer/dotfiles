@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgsUnstable ? pkgs,
   lib,
   username ? "user",
   enableMediaServer ? false,
@@ -14,6 +15,8 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
   isVpsProfile = profileName == "vps-aarch64";
   homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+  tlsCaBundle = if isDarwin then "/etc/ssl/cert.pem" else "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+  tlsCaDir = if isDarwin then "/etc/ssl/certs" else "${pkgs.cacert}/etc/ssl/certs";
   nixMaintenanceScript = pkgs.writeShellScript "nix-maintenance" ''
     set -eu
 
@@ -161,6 +164,11 @@ in
     EDITOR = "hx";
     VISUAL = "hx";
     PATH = "$PATH:${sharedSessionPath}";
+    SSL_CERT_FILE = tlsCaBundle;
+    SSL_CERT_DIR = tlsCaDir;
+    NODE_EXTRA_CA_CERTS = tlsCaBundle;
+    NIX_SSL_CERT_FILE = tlsCaBundle;
+    CURL_CA_BUNDLE = tlsCaBundle;
   }
   // lib.optionalAttrs isDarwin {
     STM32CubeMX_PATH = "/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources";
@@ -260,7 +268,7 @@ in
 
   services.ollama = lib.mkIf (!isVpsProfile) {
     enable = true;
-    package = pkgs.ollama;
+    package = pkgsUnstable.ollama;
   };
 
   # Periodic cleanup for Home Manager generations and user-reachable store data.
