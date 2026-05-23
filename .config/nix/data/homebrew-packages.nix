@@ -17,6 +17,8 @@
     "appcleaner"
     "autodesk-fusion"
     "chatgpt"
+    "claude"
+    "claude-code"
     "codex"
     "codex-app"
     "cyberduck"
