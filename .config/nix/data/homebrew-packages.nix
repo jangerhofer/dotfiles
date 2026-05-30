@@ -55,6 +55,7 @@
     "tor-browser"
     "transmission"
     "transmit"
+    "unity-hub"
     "visual-studio-code"
     "vlc"
     "whatsapp"
