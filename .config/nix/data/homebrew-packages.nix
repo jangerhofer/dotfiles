@@ -24,7 +24,6 @@
     "cyberduck"
     "datagrip"
     "discord"
-    "docker-desktop"
     "dolphin"
     "firefox"
     "geekbench"
