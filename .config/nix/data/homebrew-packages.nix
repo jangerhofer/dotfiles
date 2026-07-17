@@ -52,7 +52,6 @@
     "signal"
     "steam"
     "tailscale-app"
-    "tor-browser"
     "transmission"
     "transmit"
     "unity-hub"
