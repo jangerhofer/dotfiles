@@ -231,6 +231,10 @@ in
 
       # Custom functions
 
+      def --wrapped pi [id: string, ...args: string] {
+        ^ssh $"pi@cm5-($id)" ...$args
+      }
+
       def complete-zellij-sessions [] {
         let raw = (^zellij list-sessions --short --no-formatting | complete)
         if $raw.exit_code != 0 {
