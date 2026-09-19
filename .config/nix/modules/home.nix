@@ -76,7 +76,7 @@ let
     inetutils
 
     nixd
-    nixfmt-rfc-style
+    nixfmt
     statix
     deadnix
     nix-tree
@@ -119,6 +119,8 @@ let
   darwinPackages = with pkgs; [
     mas
     utm
+    # Keep Ollama available for manual use without a background service on macOS.
+    pkgsUnstable.ollama
   ];
 in
 {
@@ -266,7 +268,7 @@ in
     nix-direnv.enable = true;
   };
 
-  services.ollama = lib.mkIf (!isVpsProfile) {
+  services.ollama = lib.mkIf (!isVpsProfile && !isDarwin) {
     enable = true;
     package = pkgsUnstable.ollama;
   };

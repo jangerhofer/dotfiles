@@ -2,14 +2,14 @@
   description = "Cross-platform development environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -131,12 +131,7 @@
                   taps = homebrewPackages.taps;
                   brews = homebrewPackages.brews;
                   casks = homebrewPackages.casks;
-                  onActivation = {
-                    # nix-darwin 25.11 emits --cleanup, which Homebrew 7 disables.
-                    # Use the supported flag to preserve automatic uninstallation.
-                    cleanup = "none";
-                    extraFlags = [ "--force-cleanup" ];
-                  };
+                  onActivation.cleanup = "uninstall";
                 };
               }
             )

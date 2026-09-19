@@ -203,7 +203,7 @@ When running `hm` (home-manager switch), you might see large downloads (100+ MB)
 
 1. **Stay on stable inputs unless you need newer packages**: The current flake already uses a stable `nixpkgs` release:
    ```nix
-   nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+   nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
    ```
    Stable releases usually have better binary cache coverage.
 
@@ -213,7 +213,7 @@ When running `hm` (home-manager switch), you might see large downloads (100+ MB)
 
 #### How Pinning Works
 
-- `flake.nix`: Points to a branch or release (e.g., `nixos-25.05`)
+- `flake.nix`: Points to a branch or release (e.g., `nixos-26.05`)
 - `flake.lock`: Pins to specific commit
 - `nup`: Updates the pin in `flake.lock`
 - `hm`: Uses the pinned commit

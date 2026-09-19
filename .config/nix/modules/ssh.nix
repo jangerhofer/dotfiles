@@ -9,57 +9,57 @@
     includes = [ "~/.orbstack/ssh/config" ];
 
     # Common SSH configurations
-    matchBlocks = {
+    settings = {
       # Default settings for all hosts
       "*" = {
-        forwardAgent = false;
-        serverAliveInterval = 60;
-        serverAliveCountMax = 3;
-        compression = true;
-        addKeysToAgent = "no";
-        hashKnownHosts = false;
-        userKnownHostsFile = "~/.ssh/known_hosts";
-        controlMaster = "no";
-        controlPath = "~/.ssh/master-%r@%n:%p";
-        controlPersist = "no";
+        ForwardAgent = false;
+        ServerAliveInterval = 60;
+        ServerAliveCountMax = 3;
+        Compression = true;
+        AddKeysToAgent = "no";
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
       };
 
       # GitHub
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identitiesOnly = false;
+        HostName = "github.com";
+        User = "git";
+        IdentitiesOnly = false;
       };
 
       # GitLab (commented out as in original)
       # "gitlab.com" = {
-      #   hostname = "gitlab.com";
-      #   user = "git";
-      #   preferredAuthentications = "publickey";
-      #   identityFile = "~/.ssh/dev";
+      #   HostName = "gitlab.com";
+      #   User = "git";
+      #   PreferredAuthentications = "publickey";
+      #   IdentityFile = "~/.ssh/dev";
       # };
 
       # Raspberry Pi
       "machine0" = {
-        hostname = "rpi.local";
-        user = "machine";
+        HostName = "rpi.local";
+        User = "machine";
       };
 
       # Tailscale devices - shared settings
       "vps oci-vps mbp-work" = {
-        identitiesOnly = true;
+        IdentitiesOnly = true;
       };
 
       # VPS server
       "vps" = {
-        # hostname = "vps.whatmay.be";
-        # identityFile = "~/.ssh/id_ed25519";
-        user = "jda";
+        # HostName = "vps.whatmay.be";
+        # IdentityFile = "~/.ssh/id_ed25519";
+        User = "jda";
       };
 
       "oci-vps" = {
-        hostname = "oci-vps";
-        user = "jda";
+        HostName = "oci-vps";
+        User = "jda";
       };
     };
 
