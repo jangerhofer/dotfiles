@@ -131,7 +131,12 @@
                   taps = homebrewPackages.taps;
                   brews = homebrewPackages.brews;
                   casks = homebrewPackages.casks;
-                  onActivation.cleanup = "uninstall";
+                  onActivation = {
+                    # nix-darwin 25.11 emits --cleanup, which Homebrew 7 disables.
+                    # Use the supported flag to preserve automatic uninstallation.
+                    cleanup = "none";
+                    extraFlags = [ "--force-cleanup" ];
+                  };
                 };
               }
             )
