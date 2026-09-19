@@ -386,10 +386,11 @@ in
         ^sudo ${bashBin} ${darwinRebuildBin} switch --flake $"($env.HOME)/.config/nix#default"
       }
 
-      # Combined nix switch (Darwin + home-manager)
+      # Combined nix switch (Darwin + home-manager), then clean up Homebrew.
       def nm [] {
         dm
         hm
+        brew cleanup --prune=all
       }
 
       # Jellyfin launchd helpers
