@@ -112,7 +112,7 @@ let
     imagemagick
     lefthook
     mprocs
-    yt-dlp
+    pkgsUnstable.yt-dlp
 
     gcc-arm-embedded
   ];
