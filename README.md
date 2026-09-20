@@ -7,23 +7,40 @@ Personal dotfiles managed with a bare Git repository.
 ### Automated Setup (Recommended)
 
 ```bash
+(
+set -euo pipefail
+
 # Clone dotfiles as bare repository
-git clone --bare https://github.com/jangerhofer/dotfiles.git $HOME/.dotfiles
+git clone --bare https://github.com/jangerhofer/dotfiles.git "$HOME/.dotfiles"
 
-# Create alias for managing dotfiles
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# Create a helper for this setup, independent of the current directory
+dotfiles() {
+    git -C "$HOME" --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+}
 
-# Backup any existing conflicting files
-mkdir -p ~/.config-backup
-dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} ~/.config-backup/{} 2>/dev/null || true
+# Back up existing files managed by this repository, preserving their paths
+backup_dir=$(mktemp -d "$HOME/.config-backup.XXXXXX")
+echo "Existing files will be backed up in $backup_dir"
+dotfiles ls-tree -r -z --name-only HEAD |
+    while IFS= read -r -d '' path; do
+        if [ -e "$HOME/$path" ] || [ -L "$HOME/$path" ]; then
+            backup_path="$backup_dir/$path"
+            mkdir -p "${backup_path%/*}"
+            mv "$HOME/$path" "$backup_path"
+        fi
+    done
 
 # Checkout dotfiles
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 
 # Run automated bootstrap (installs Nix, applies configurations, sets Nushell as default)
-./.bootstrap.sh
+"$HOME/.bootstrap.sh"
+)
 ```
+
+The setup stops if a backup or checkout fails. Each run uses a separate backup
+directory, including for nested paths, filenames with spaces, and broken symlinks.
 
 ### Manual Setup (macOS with Homebrew)
 

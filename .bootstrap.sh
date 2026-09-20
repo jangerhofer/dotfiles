@@ -14,18 +14,16 @@ backup_etc_file() {
     fi
 }
 
-activate_home_manager_flake() {
-    local flake_ref="$1"
-    local temp_dir
-    local out_link
+activate_home_manager_flake() (
+    flake_ref="$1"
 
     temp_dir=$(mktemp -d)
-    trap 'rm -rf "$temp_dir"' RETURN
+    trap 'rm -rf "$temp_dir"' EXIT
     out_link="$temp_dir/home-manager"
 
     nix build "${flake_ref}.activationPackage" --out-link "$out_link"
-    HOME_MANAGER_BACKUP_EXT="${HOME_MANAGER_BACKUP_EXT:-before-home-manager}" bash "$out_link/activate"
-}
+    HOME_MANAGER_BACKUP_EXT="${HOME_MANAGER_BACKUP_EXT:-before-home-manager}" "$out_link/activate"
+)
 
 current_user() {
     id -un
@@ -123,7 +121,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v darwin-rebuild >/dev/null 2>&1; then
         run_as_root nix run nix-darwin -- switch --flake "$DARWIN_FLAKE"
     else
-        run_as_root bash "$(command -v darwin-rebuild)" switch --flake "$DARWIN_FLAKE"
+        run_as_root "$(command -v darwin-rebuild)" switch --flake "$DARWIN_FLAKE"
     fi
     
     echo "🏠 Updating user environment..."
