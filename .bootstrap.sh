@@ -54,6 +54,22 @@ check_darwin_user() {
     fi
 }
 
+check_home_manager_user() {
+    local flake_ref="$1"
+    local configured_user
+    local configured_home
+
+    configured_user=$(nix eval --raw "${flake_ref}.config.home.username")
+    configured_home=$(nix eval --raw "${flake_ref}.config.home.homeDirectory")
+
+    if [ "$configured_user" != "$(current_user)" ] || [ "$configured_home" != "$HOME" ]; then
+        echo "❌ This Home Manager profile is configured for '${configured_user}' at '${configured_home}'."
+        echo "   You are running as '$(current_user)' with HOME='${HOME}'."
+        echo "   Update the selected profile in ~/.config/nix/flake.nix or set HOME_MANAGER_PROFILE_NAME to a matching profile."
+        exit 1
+    fi
+}
+
 resolve_homebrew() {
     if command -v brew >/dev/null 2>&1; then
         command -v brew
@@ -130,35 +146,21 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     echo "🐧 Updating Linux environment..."
 
-    # Determine system architecture for home-manager
-    if [[ $(uname -m) == "aarch64" ]]; then
-        HM_SYSTEM="aarch64-linux"
-    else
-        HM_SYSTEM="x86_64-linux"
+    # Use the same named profile that subsequent `hm` runs will rebuild.
+    case "$(uname -m)" in
+        aarch64|arm64) HM_ARCH="aarch64" ;;
+        x86_64) HM_ARCH="x86_64" ;;
+        *) echo "❌ Unsupported Linux architecture: $(uname -m)"; exit 1 ;;
+    esac
+    HM_PROFILE="${HOME_MANAGER_PROFILE_NAME:-linux-${HM_ARCH}}"
+    HM_FLAKE="$HOME/.config/nix#homeConfigurations.${HM_PROFILE}"
+    HM_PROFILE_SYSTEM=$(nix eval --raw "${HM_FLAKE}.pkgs.stdenv.hostPlatform.system")
+    if [ "$HM_PROFILE_SYSTEM" != "${HM_ARCH}-linux" ]; then
+        echo "❌ Profile '${HM_PROFILE}' targets '${HM_PROFILE_SYSTEM}', but this machine is '${HM_ARCH}-linux'."
+        exit 1
     fi
-    
-    # Create temporary flake for home-manager with current user
-    TEMP_FLAKE=$(mktemp -d)
-    HOME_MANAGER_PROFILE_LINE=""
-    if [ -n "${HOME_MANAGER_PROFILE_NAME:-}" ]; then
-        HOME_MANAGER_PROFILE_LINE="homeManagerProfileName = \"${HOME_MANAGER_PROFILE_NAME}\";"
-    fi
-    cat > "$TEMP_FLAKE/flake.nix" << EOF
-{
-  inputs.config.url = "path:$HOME/.config/nix";
-  outputs = { self, config }: {
-    homeConfigurations.default = config.lib.mkHomeConfig {
-      username = "$USER";
-      system = "$HM_SYSTEM";
-      $HOME_MANAGER_PROFILE_LINE
-    };
-  };
-}
-EOF
-
-    activate_home_manager_flake "$TEMP_FLAKE#homeConfigurations.default"
-
-    rm -rf "$TEMP_FLAKE"
+    check_home_manager_user "$HM_FLAKE"
+    activate_home_manager_flake "$HM_FLAKE"
 fi
 
 # Set Nushell as default shell

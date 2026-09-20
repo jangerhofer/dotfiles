@@ -56,6 +56,25 @@ sudo darwin-rebuild switch --flake ~/.config/nix#default
 
 *Note: Restart your terminal after bootstrap completes so your default Nushell environment is active. After bootstrap, use `dt` for dotfiles operations.*
 
+### Linux Profiles
+
+Bootstrap selects `linux-x86_64` or `linux-aarch64` for your architecture. These
+profiles currently use the username `jdangerhofer`; change the selected profile's
+`username` in `.config/nix/flake.nix` before bootstrapping a different account.
+Bootstrap checks that the profile's architecture, username, and home directory
+match your machine and account before activation. Later `hm` runs use that same
+named profile.
+
+To select the VPS profile, which currently uses the username `jda`:
+
+```bash
+HOME_MANAGER_PROFILE_NAME=vps-aarch64 "$HOME/.bootstrap.sh"
+```
+
+Linux workstation Git signing uses `ssh-keygen` and the configured SSH public key.
+Set `SSH_AUTH_SOCK` to an agent holding that key. macOS continues to use 1Password's
+signing helper.
+
 ## Usage
 
 ### Basic Operations
