@@ -56,7 +56,6 @@ in
       nr = "nix run";
       nfc = "nix flake check";
       nfu = "nix flake update";
-      nom = "nix-output-monitor";
       nt = "nix-tree";
 
       # Nix update workflow aliases
@@ -114,11 +113,11 @@ in
       }
 
       def complete-git-aliases [] {
-        complete-git-alias-map | get name
+        complete-git-alias-map | get -o name | default []
       }
 
       def resolve-git-command [subcommand: string] {
-        let alias_match = (complete-git-alias-map | where name == $subcommand | first)
+        let alias_match = (complete-git-alias-map | where name == $subcommand | get -o 0)
         if $alias_match == null {
           return $subcommand
         }
@@ -223,6 +222,19 @@ in
         }
       }
 
+      # Scope every Git query (including repository-local aliases) to dotfiles.
+      def complete-dt-subcommands-and-aliases [] {
+        with-env { GIT_DIR: $"($env.HOME)/.dotfiles", GIT_WORK_TREE: $env.HOME } {
+          complete-git-subcommands-and-aliases
+        }
+      }
+
+      def complete-dt-args [context: string, position?: int] {
+        with-env { GIT_DIR: $"($env.HOME)/.dotfiles", GIT_WORK_TREE: $env.HOME } {
+          complete-git-args $context ($position | default ($context | str length))
+        }
+      }
+
 
       # Disable nushell prompt indicators since we use starship
       $env.PROMPT_INDICATOR = ""
@@ -272,8 +284,8 @@ in
 
       # Dotfiles git commands with the same completion/flag behavior as `g`.
       def --wrapped dt [
-        command?: string@"complete-git-subcommands-and-aliases",
-        ...args: string@"complete-git-args"
+        command?: string@"complete-dt-subcommands-and-aliases",
+        ...args: string@"complete-dt-args"
       ] {
         if ($command | is-empty) {
           ^git --git-dir $"($env.HOME)/.dotfiles/" --work-tree $env.HOME ...$args
@@ -553,13 +565,23 @@ in
 
             # Load Homebrew-specific environment variables without letting Homebrew
             # reorder PATH ahead of Nix-managed tooling.
-            if ("/opt/homebrew/bin/brew" | path exists) {
-              /opt/homebrew/bin/brew shellenv
-              | lines
-              | parse "export {name}={value}"
-              | where name != "PATH"
-              | reduce -f {} {|it, acc| $acc | upsert $it.name $it.value}
-              | load-env
+            let brew_bin = (which brew | where type == external | get -o 0.path)
+            if $brew_bin != null {
+              let brew_prefix = (^$brew_bin --prefix | str trim)
+              load-env {
+                HOMEBREW_PREFIX: $brew_prefix
+                HOMEBREW_CELLAR: (^$brew_bin --cellar | str trim)
+                HOMEBREW_REPOSITORY: (^$brew_bin --repository | str trim)
+              }
+              $env.INFOPATH = (
+                [$"($brew_prefix)/share/info"]
+                | append ($env.INFOPATH? | default "" | split row ":")
+                | uniq
+                | str join ":"
+              )
+              if ($env.MANPATH? | default "" | is-not-empty) {
+                $env.MANPATH = $":($env.MANPATH | str trim --char ':')"
+              }
             }
             
             # Initialize pay-respects (thefuck replacement)
