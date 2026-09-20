@@ -206,6 +206,20 @@ For arbitrary profile combinations, define another entry in `flake.nix` by passi
 
 `hm` does not apply nix-darwin Homebrew changes. If you remove a Brew package from `homebrew-packages.nix`, it will only be uninstalled when you run `dm` or `nm`.
 
+### Checking Changes
+
+Run the workflow regressions and evaluate every Nix profile with:
+
+```bash
+"$HOME/.config/nix/scripts/check-dotfiles.sh"
+```
+
+The checks require Git, Nix, Nushell, and Python 3, which are available in the
+workstation profiles. Bootstrap, backup, shell completion, and profile-selection
+tests use temporary fixtures. Nix evaluation checks all profiles and their Git
+signing settings without activating them. Add `--offline` when the pinned inputs
+are already cached.
+
 ### Managed Applications
 
 The Nix configuration manages:
