@@ -289,7 +289,7 @@ in
       # Nix workflow functions
       def ncheck [] {
         cd $"($env.HOME)/.config/nix"
-        git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
+        git -C $env.HOME --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
       }
 
       def nup [] {
@@ -300,7 +300,7 @@ in
       def nfull [] {
         cd $"($env.HOME)/.config/nix"
         nix flake update --flake $"($env.HOME)/.config/nix"
-        git --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
+        git -C $env.HOME --git-dir $"($env.HOME)/.dotfiles" --work-tree $env.HOME diff HEAD -- .config/nix/flake.lock
         nm
       }
 
